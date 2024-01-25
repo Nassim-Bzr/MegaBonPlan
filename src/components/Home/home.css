@@ -1,0 +1,10 @@
+.home{
+    height: 100vh;
+}
+.img-home{
+    display: flex;
+    height: 450px;
+    width: 750px;
+    position: absolute;
+    left:55px;
+}

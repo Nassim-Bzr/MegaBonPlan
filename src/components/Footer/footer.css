@@ -1,0 +1,77 @@
+.footer {
+    background-color: #252a32;
+    color: #e74a12;
+    line-height:   15px;
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    justify-content: center; /* Pour centrer le contenu du footer */
+    align-items: center; /* Pour centrer verticalement le contenu du footer */
+    position:relative;
+    bottom: 0; /* Place le footer en bas de la page */
+    left: 0; /* Aligné à gauche */
+    right: 0; /* Aligné à droite */
+    height: 20em;
+    flex-direction: column;
+/*     margin: 1em; */
+    padding: 1em;
+}
+.logo1{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 5%;
+    max-width: 15%;
+margin: 8px;top: 50%;}
+
+
+.footer-margin{
+    margin: 15px ;
+}
+    .logo2{
+        display: flex;
+      
+    left: 5%;
+        position: absolute;
+        max-width: 15%;
+        margin: 8px;
+    top: 28%;}
+
+    .div-whoarewe{
+        width: 25%;
+        position: absolute;
+        top: 15%;
+        left: 23%;
+    }
+    .div-offre{
+        width: 25%;
+        position: absolute;
+        top: 15%;
+        left: 48%;
+    }
+    .div-preco{
+        width: 25%;
+        position: absolute;
+        top: 15%;
+        left: 74%;
+    }
+    .texte-offre{
+        color: white;
+        font-weight: 700;
+    }
+    .texte-preco{
+        color: white;
+        font-weight: 700;
+    }
+.texte-whoarewe{
+    color: white;
+    font-weight: 700;
+}
+.text-download{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    margin:16px;
+    left: 0%;
+    top: 15%;
+}
