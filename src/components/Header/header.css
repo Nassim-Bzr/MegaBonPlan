@@ -1,0 +1,80 @@
+.link-navbar {
+  color: white;
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: space-around;
+  margin: 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+}
+.link-connexion {
+  text-decoration: none;
+  color: white;
+}
+.link-inscription {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+button {
+  margin: 1px;
+}
+.sign-up {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 10%;
+  top:5%;
+  margin-bottom: 100em;
+}
+
+.btn-inscription {
+  background-color: #e74a12;
+  padding: 10px;
+  font-weight: bold;
+  border: 0;
+  border-radius: 5px;
+}
+.btn-connexion {
+  background-color: #252932;
+
+  padding: 10px;
+  font-weight: bold;
+  border: 0;
+  border-radius: 5px;
+}
+.link-navbar:hover {
+  color: #e74a12;
+}
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: center;
+  padding: 1em;
+  background-color: #252932;
+  margin: 3em;
+  margin-top: 5em;
+}
+.search-button{
+  background-color:#e74a12;
+  color: white;
+  font-weight: bold;
+  border: 0;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.search-form {
+  margin: 0.6em;
+}
+.search-button {
+  padding: 4px;
+  margin: 0.3em;
+}
+.search-input {
+  padding: 4px;
+}
+.link-new {
+  background-color: #e74a12;
+}
