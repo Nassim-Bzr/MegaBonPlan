@@ -1,10 +1,57 @@
-.home{
+.home {
+    position: relative;
     height: 100vh;
-}
-.img-home{
     display: flex;
-    height: 450px;
-    width: 750px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .img-home {
+    max-height: 450px;
+    max-width: 750px;
+    width: auto; /* Maintient le ratio de l'image */
+    height: auto; /* Maintient le ratio de l'image */
+  }
+  
+  .fleche-gauche, .fleche-droite {
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
     position: absolute;
-    left:55px;
-}
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .fleche-gauche {
+    left: 10px; /* ou ajustez selon votre design */
+  }
+  
+  .fleche-droite {
+    right: 10px; /* ou ajustez selon votre design */
+  }
+  
+  .pagination {
+    position: absolute;
+    bottom: 20px; /* Distance du bas */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+  
+  .dot.active, .dot:hover {
+    background-color: #717171; /* Couleur du dot actif ou au survol */
+  }
+  

@@ -8,12 +8,12 @@ export default function Header() {
     <div className='sign-up'> 
    
     <button className='btn-inscription'>
-    <Link className='link-inscription'>
+    <Link className='link-inscription' to='/inscription'>
       Inscription
     </Link>
     </button>
     <button className='btn-connexion'>
-    <Link className='link-connexion'>
+    <Link className='link-connexion' to='/connexion'>
       Connexion
     </Link>
     </button>
@@ -22,8 +22,8 @@ export default function Header() {
       <nav className='navbar'>
         {/* Ajoutez la propriété 'to' au composant Link */}
         <div className='link-new'>
-        <Link to="/chemin-destination" className='link-navbar'>
-        NEWS
+        <Link to="/" className='link-navbar'>
+        Accueil
         </Link>
         </div>
         <Link to="/chemin-destination" className='link-navbar'>

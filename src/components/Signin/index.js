@@ -1,0 +1,23 @@
+import React from 'react';
+import './signin.css'; // Assurez-vous d'importer le fichier CSS correctement
+import cadena from '../../assets/fermer-a-cle.png';
+
+export default function Login() {
+  return (
+    <div className="login-container">
+      <h2 className='title-login'>Connexion</h2>
+      <form className='form-login'>
+        <input className='input-email' type="text" placeholder="Nom d'utilisateur" />
+        <div className='input-password-container'>
+          <input className='input-password' type="password" placeholder="*********" />
+          <img className='cadena-login'src={cadena} alt="Cadena"/>
+        </div>
+        <button className='button-login' type="submit">Se connecter</button>
+        <div className='button-others'>
+        <button className='button-inscription' type="submit">Inscription</button>
+        <button className='button-forgot' type="submit">Mot de passe oublié ? </button>
+        </div>
+      </form>
+    </div>
+  );
+}

@@ -24,9 +24,10 @@ button {
   display: flex;
   flex-direction: row;
   position: absolute;
-  right: 10%;
-  top:5%;
+  left: 75%;
+  top: 0%;
   margin-bottom: 100em;
+  width: 50%;
 }
 
 .btn-inscription {

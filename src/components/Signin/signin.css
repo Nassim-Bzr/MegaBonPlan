@@ -1,0 +1,88 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+  }
+  .form-login{
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+  }
+  .cadena-login {
+    height: 16px;
+    width: 16px;
+    bottom: 40px;
+    position: relative;
+    left: 10em;
+}
+  .input-email{
+padding:8px;
+    margin: 1em;
+  }
+  .button-others{
+    display: flex;
+    flex-direction: row;
+    margin: 1em;
+    align-items: center;
+    
+  }
+  .input-password{
+    margin: 1em;
+    padding:8px;
+    width: 88%;
+  }
+  .title-login{
+    color: white;
+    margin: 20px;
+  }
+  .login-container {
+    margin: 3em;
+    width: 100%;
+    max-width: 400px;
+    right: 1em;
+    display: flex;
+    padding: 20px;
+    left: 28em;
+    display: flex;
+    
+    flex-direction: column;
+    position: relative;
+    background-color: #252932;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajoute une ombre subtile */
+}
+  
+  
+  
+  /* input[type="text"], input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  } */
+  
+/*   button {
+    width: calc(100% - 20px);
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  } */
+  
+  button:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+  

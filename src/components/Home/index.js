@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import image1 from '../../assets/slider-consoles-ps5-slim-standard-et-digital-multi.jpeg';
 import image2 from '../../assets/avatar-4k-collector-visuel-slider-v2-_1_.jpeg';
 import image3 from '../../assets/SLIDER-gta-6-ps5-visuel-provisoire-v2.jpeg';
+import image5 from '../../assets/contour-du-bouton-circulaire-fleche-droite.png';
+import image4 from '../../assets/contour-du-bouton-circulaire-fleche-arriere-gauche.png';
+
 import './home.css'
 
 export default function Home() {
@@ -32,9 +35,9 @@ export default function Home() {
 
   return (
     <div className='home'> 
-      <button onClick={goToPrevious}>Précédent</button>
+      <img className='fleche-gauche'src={image4} onClick={goToPrevious} alt='ok'/>
       <img src={productImages[currentImageIndex]} alt="Produit" className='img-home'/>
-      <button onClick={goToNext}>Suivant</button>
+      <img  className='fleche-droite' src={image5} onClick={goToNext} alt='ok'/>
     </div>
   );
 }
