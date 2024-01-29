@@ -7,6 +7,15 @@
   text-align: center;
   text-decoration: none;
   font-size: 16px;
+  font-weight: 700;
+}
+.logohome{
+  height: 164px;
+  width: 164px;
+  
+  right: 39em;
+    position: relative;
+    top: 13em;
 }
 .link-connexion {
   text-decoration: none;
@@ -20,6 +29,7 @@
 button {
   margin: 1px;
 }
+
 .sign-up {
   display: flex;
   flex-direction: row;
@@ -45,9 +55,10 @@ button {
   border: 0;
   border-radius: 5px;
 }
-.link-navbar:hover {
+/* .link-navbar:hover {
   color: #e74a12;
-}
+
+} */
 .navbar {
   display: flex;
   flex-direction: row;
@@ -55,8 +66,6 @@ button {
   text-align: center;
   padding: 1em;
   background-color: #252932;
-  margin: 3em;
-  margin-top: 5em;
 }
 .search-button{
   background-color:#e74a12;
@@ -78,4 +87,5 @@ button {
 }
 .link-new {
   background-color: #e74a12;
+  border-radius: 4px;
 }

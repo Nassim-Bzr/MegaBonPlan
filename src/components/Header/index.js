@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logohome from '../../assets/Votre texte de paragraphe.png';
 import './header.css'
 
 export default function Header() {
   return (
     <div className='header'> 
+   <img className='logohome'src={logohome}/> 
     <div className='sign-up'> 
-   
     <button className='btn-inscription'>
     <Link className='link-inscription' to='/inscription'>
       Inscription
@@ -27,26 +28,24 @@ export default function Header() {
         </Link>
         </div>
         <Link to="/chemin-destination" className='link-navbar'>
-          SOLDES
+Bon plans
         </Link>
         <Link to="/chemin-destination" className='link-navbar'>
-          PRECOMMANDES
+Catégories
         </Link>
         <Link to="/chemin-destination" className='link-navbar'>
-        PROCHAINES SORTIES
+Prochaines sorties
         </Link>
         <Link to="/chemin-destination" className='link-navbar'>
-          TEST
+          Code promos
         </Link>
         <Link to="/chemin-destination" className='link-navbar'>
-          GUIDE D'ACHAT
+Discussions
         </Link>
         <Link to="/chemin-destination" className='link-navbar'>
-          BLOG
+          Gratuit
         </Link>
-        <Link to="/chemin-destination" className='link-navbar'>
-          NOTRE APPLI
-        </Link>
+       
         <form className="search-form">
           <input type="text" className="search-input" placeholder="Rechercher..."/>
           <button type="submit" className="search-button">Rechercher</button>

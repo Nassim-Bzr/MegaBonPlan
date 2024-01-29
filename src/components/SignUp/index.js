@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./signup.css";
 import logoapple from "../../assets/logo-apple 2.png";
 import logogoogle from "../../assets/google.png";
-import Logofb from "../../assets/logo-facebook.png";
+import Logofb from "../../assets/facebook (1).png";
 import { Link } from 'react-router-dom';
 
 export default function SignUp() {
@@ -34,7 +34,7 @@ export default function SignUp() {
 
   return (
     <div className="div-globalsignup">
-      <h2 className="title-signup">S'enregistrer avec une adresse e-mail</h2>
+      <h2 className="title-signup">S'inscrire - Rejoindre la communauté</h2>
       <form className="formsignup" onSubmit={handleSubmit}>
         <div className="div-signup">
           <label className="labeluser">Pseudo </label>
