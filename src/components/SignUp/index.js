@@ -3,7 +3,8 @@ import "./signup.css";
 import logoapple from "../../assets/logo-apple 2.png";
 import logogoogle from "../../assets/google.png";
 import Logofb from "../../assets/facebook (1).png";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Checkbox } from "@material-ui/core";
 
 export default function SignUp() {
   const [user, setUser] = useState({
@@ -67,15 +68,24 @@ export default function SignUp() {
             onChange={handleChange}
           />
 
+          <p className="text-conditions">
+            <Checkbox/>
+            J'ai lu et j'accepte les Conditions Générales d'Utilisation ainsi
+            que la Politique de confidentialité
+          </p>
+          <p className="text-newsletter">
+            <Checkbox/>
+            Je souhaite m'inscrire à la newsletter quotidienne !
+          </p>
+          
           <button className="button-signin" type="submit">
             S'inscrire
           </button>
-            <Link className='link-alreadysignup'to="/connexion">
-          <button className="button-alreadysignup" type="submit">
-            
-             Déjà inscrit ? Cliquez ici pour vous connecter
-          </button>
-            </Link>
+          <Link className="link-alreadysignup" to="/connexion">
+            <button className="button-alreadysignup" type="submit">   
+              Déjà inscrit ? Cliquez ici pour vous connecter
+            </button>
+          </Link>
         </div>
         <div className="div-buttonlogin">
           <button
@@ -90,7 +100,7 @@ export default function SignUp() {
             onClick={() => handleSocialLogin("Google")}
           >
             {" "}
-            <img className="logogoogle" src={logogoogle} /> S'enregistrer  avec
+            <img className="logogoogle" src={logogoogle} /> S'enregistrer avec
             Google
           </button>
           <button
@@ -98,7 +108,8 @@ export default function SignUp() {
             onClick={() => handleSocialLogin("Apple")}
           >
             {" "}
-            <img className="logoapple" src={logoapple} /> S'enregistrer  avec Apple
+            <img className="logoapple" src={logoapple} /> S'enregistrer avec
+            Apple
           </button>
         </div>
       </form>

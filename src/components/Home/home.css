@@ -1,16 +1,70 @@
 .home {
-    position: relative;
-    height: 100vh;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.img-home.entering, .img-home.leaving {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+  
+  .img-home.entering {
+    transform: translateX(100%); /* L'image entrante commence à droite */
+  }
+  .deal-button {
+    position: absolute;
+    bottom: 26.5%; /* ou ajustez en fonction de votre mise en page */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #00B2FF; /* ou toute autre couleur qui correspond à votre thème */
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
   }
   
+  .deal-button:hover {
+    background-color: #009EDB;
+  }
+  
+  .img-home.leaving {
+    transform: translateX(-100%); /* L'image sortante se déplace vers la gauche */
+  }
   .img-home {
-    max-height: 450px;
-    max-width: 750px;
-    width: auto; /* Maintient le ratio de l'image */
-    height: auto; /* Maintient le ratio de l'image */
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-height: 80%; /* ou la hauteur de votre conteneur .home */
+    max-width: 100%; /* ou la largeur de votre conteneur .home */
+    width: 100%; /* Assurez-vous que l'image s'étend sur toute la largeur du conteneur .home */
+    height: auto; /* Gardez le ratio de l'image */
+    transition: transform 0.5s ease-in-out;
+  }
+    .img-home.left {
+      transform: translateX(100%);
+    }
+    .img-home.right {
+      transform: translateX(-100%);
+    }
+    .img-home.fade-out {
+      opacity: 0; /* Devient transparent */
+      transform: scale(0.8); /* Ajoute un effet de réduction pendant la transition */
+    }
+    
+  
+  .img-home.fade-out {
+    opacity: 0; /* Devient transparent */
   }
   
   .fleche-gauche, .fleche-droite {

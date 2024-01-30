@@ -76,4 +76,10 @@
   margin: 16px;
   left: 0%;
   top: 15%;
+  font-size: 15px;
+}
+.footer {
+  background-image: linear-gradient(45deg, rgba(255,255,255,.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.2) 50%, rgba(255,255,255,.2) 75%, transparent 75%, transparent);
+  background-size: 50px 50px; /* Ajustez selon la taille de votre motif */
+  background: linear-gradient(to right, #0f0f0f, #232323, #2e2e2e, #434343); /* Dégradé du noir vers différentes nuances de gris */
 }

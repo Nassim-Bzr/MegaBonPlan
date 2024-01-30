@@ -18,7 +18,7 @@ export default function Login() {
         <div className="input-password-container">
           <input
             className="input-password"
-            type="password"
+            type="text"
             placeholder="*********"
           />
           <img className="cadena-login" src={cadena} alt="Cadena" />
@@ -27,15 +27,15 @@ export default function Login() {
           Se connecter
         </button>
         <div className="btn-grouplogine>">        
-        <button className="button-apple">
+        <button className="button-applelogin">
           
           <img className="logoapple" src={logoapple} /> S'enregistrer avec Apple
         </button>
-        <button className="button-fb">
+        <button className="button-fblogin">
         
           <img className="logofb" src={Logofb} /> S'enregistrer avec Facebook
         </button>
-        <button className="button-google">
+        <button className="button-googlelogin">
           
           <img className="logogoogle" src={logogoogle} /> S'enregistrer avec
           Google

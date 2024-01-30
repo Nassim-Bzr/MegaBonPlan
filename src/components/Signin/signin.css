@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
+    background-color: #EFEFEF;
     margin: 0;
     padding: 0;
     display: flex;
@@ -46,16 +46,20 @@ padding:8px;
     color: white;
     margin: 20px;
   }
+  .btn-grouplogine{
+
+    display: flex;
+    justify-content: space-evenly;
+  }
   .login-container {
     margin: 3em;
-    width: 100%;
-    max-width: 400px;
+    width:842px;
     right: 1em;
     display: flex;
     padding: 20px;
-    left: 20em;
+    left: 8em;
     display: flex;
-    
+
     flex-direction: column;
     position: relative;
     background-color: #252932;
@@ -87,7 +91,6 @@ padding:8px;
   } */
   
   button:hover {
-    background-color: #0056b3;
     color: white;
   }
   

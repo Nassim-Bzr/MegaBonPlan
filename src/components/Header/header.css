@@ -9,13 +9,18 @@
   font-size: 16px;
   font-weight: 700;
 }
+.link-navbar:hover{
+  color: #FFFFFF;
+  background-color: #868789;
+  border-radius: 18px;
+}
 .logohome{
   height: 164px;
   width: 164px;
   
-  right: 39em;
+  right: 40em;
     position: relative;
-    top: 13em;
+    top: 9em;
 }
 .link-connexion {
   text-decoration: none;
@@ -26,16 +31,26 @@
   color: white;
   font-size: 14px;
 }
+.navbar{
+
+    /* Les autres propriétés du style de votre footer */
+    background: linear-gradient(to right, #000000, #434343); /* Dégradé noir vers gris foncé */
+    background-size: 50px 50px; /* Ajustez selon la taille de votre motif */
+    background: linear-gradient(to right, #0f0f0f, #232323, #2e2e2e, #434343); /* Dégradé du noir vers différentes nuances de gris */
+  
+}
 button {
   margin: 1px;
 }
-
+.header{
+  margin: 1.5em;
+}
 .sign-up {
   display: flex;
   flex-direction: row;
   position: absolute;
   left: 75%;
-  top: 0%;
+  top: 6px;
   margin-bottom: 100em;
   width: 50%;
 }
@@ -59,6 +74,60 @@ button {
   color: #e74a12;
 
 } */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  bottom: 10px;
+}
+
+.dropdown-button {
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  /* Ajoutez des propriétés pour améliorer l'intégration avec le navbar */
+  border-radius: 4px; /* Arrondi des coins pour correspondre au style général */
+  transition: background-color 0.3s ease; /* Transition pour l'interaction de la souris */
+}
+
+/* Effet au survol pour le bouton qui s'éclaircit légèrement */
+.dropdown-button:hover {
+  background: linear-gradient(to right, #1a1a1a, #2f2f2f, #3a3a3a, #4e4e4e);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #e74a12; 
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne suivante */
+  justify-content: flex-start; /* Alignement des éléments au début */
+  padding: 0; /* Ajustez le padding selon vos besoins */
+  width: auto; /* Vous pouvez spécifier une largeur ou laisser 'auto' */
+  column-count: 2; /* Créer deux colonnes */
+  column-gap: 20px; /* Espacer les colonnes */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Effet d'ombre */
+  border-radius: 10px;
+font-weight: 600;
+}
+.dropdown-content .dropdown-item {
+  color: white; /* Couleur du texte des items */
+  padding: 12px 16px;
+  text-decoration: none;
+  
+  display: block;
+  width: 50%; /* Chaque élément prendra la moitié de la largeur du .dropdown-content */
+}
+/* .dropdown-content .dropdown-item:hover {
+/*   background-color: #ddd; /* Couleur d'arrière-plan des items au survol */ 
+
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 .navbar {
   display: flex;
   flex-direction: row;
