@@ -35,9 +35,9 @@ export default function SignUp() {
 
   return (
     <div className="div-globalsignup">
-      <h2 className="title-signup">S'inscrire - Rejoindre la communauté</h2>
       <form className="formsignup" onSubmit={handleSubmit}>
         <div className="div-signup">
+      <h2 className="title-signup">Rejoindre la communauté</h2>
           <label className="labeluser">Pseudo </label>
           <input
             className="input-signupuser"
