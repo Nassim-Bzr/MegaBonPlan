@@ -8,6 +8,9 @@ import Signup from '../SignUp/index'; // Assurez-vous d'avoir un composant pour 
 import { Routes, Route } from 'react-router-dom';
 import Category from '../Category/Category';
 
+import BonPlans from '../BonsPlans/index';
+
+
 
 function App() {
   return (
@@ -19,6 +22,8 @@ function App() {
           <Route path="/inscription" element={<Signup />} />
           <Route path="/connexion" element={<Signin/>} />
           <Route path="/category" element={<Category/>} />
+          <Route path="/bonsplans" element={<BonPlans/>} /> 
+         
           {/* Ajoutez d'autres routes ici pour d'autres pages */}
         </Routes>
         <Footer/>
