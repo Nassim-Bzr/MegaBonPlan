@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import "./Category.css"; 
 
 export default function Category() {
@@ -17,7 +18,8 @@ export default function Category() {
   return (
     <div className="category-container">
       {categories.map((category, index) => (
-        <div key={index} className="category">
+        <div
+        key={index} className="category">
           <img
             src="../../assets/apple-store-badge.png"
             alt={category.nomcategorie}

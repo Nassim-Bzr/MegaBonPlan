@@ -1,0 +1,79 @@
+/* Discussions.css */
+.discussions-container {
+    max-width: 800px; /* Ajustez selon la largeur désirée */
+    margin: auto;
+    font-family: Arial, sans-serif; /* Utilisez la police de votre choix */
+  }
+  
+  .discussion {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden; /* Assurez-vous que tout reste à l'intérieur des bordures arrondies */
+  }
+  
+  .discussion-header {
+    padding: 16px;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .discussion-title {
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+  }
+  
+  .discussion-time {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .discussion-content {
+    padding: 16px;
+  }
+  
+  .discussion-footer {
+    padding: 16px;
+    background-color: #f9f9f9; /* Couleur de fond légère pour séparer le pied de page */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .discussion-user {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-avatar {
+    width: 32px; /* Taille de l'avatar */
+    height: 32px;
+    border-radius: 50%; /* Arrondi pour faire un cercle */
+    margin-right: 8px;
+    background-color: #ff4500; /* Couleur de fond en attendant de charger une image */
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+  .user-name {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .discussion-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .action-icon {
+    margin-right: 8px;
+    /* Utilisez des icônes ici, avec par exemple font-awesome ou des images/svg */
+  }
+  

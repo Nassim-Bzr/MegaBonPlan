@@ -9,6 +9,8 @@ import { Routes, Route } from 'react-router-dom';
 import Category from '../Category/Category';
 
 import BonPlans from '../BonsPlans/index';
+import CodesPromos from '../CodePromos';
+import Discussions from '../Discussions';
 
 
 
@@ -23,8 +25,8 @@ function App() {
           <Route path="/connexion" element={<Signin/>} />
           <Route path="/category" element={<Category/>} />
           <Route path="/bonsplans" element={<BonPlans/>} /> 
-         
-          {/* Ajoutez d'autres routes ici pour d'autres pages */}
+          <Route path="/codespromos" element={<CodesPromos/>} />
+          <Route path="/discussions" element={<Discussions/>} />
         </Routes>
         <Footer/>
       

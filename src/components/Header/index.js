@@ -44,13 +44,14 @@ export default function Header() {
           Prochaines sorties
         </Link>
         <div className="dropdown" onMouseLeave={() => setIsDropdownOpen(false)}>
-          <button
+          <Link
             className="link-navbar dropdown-button"
             onMouseOver={() => setIsDropdownOpen(true)}
+            to="/codespromos"
           >
             Code promos
-          </button>
-          {isDropdownOpen && (
+          </Link>
+        {/*   {isDropdownOpen && (
             <div className="dropdown-content">
               <Link to="/aliexpress" className="dropdown-item">
                 AliExpress
@@ -99,13 +100,13 @@ export default function Header() {
               </Link>
               <Link to="/amazon" className="dropdown-item">
                 Amazon
-              </Link>
+              </Link> */}
 
               {/* ...autres liens du menu déroulant... */}
-            </div>
-          )}
+          {/*   </div>
+          )} */}
         </div>
-        <Link to="/chemin-destination" className="link-navbar">
+        <Link to="/discussions" className="link-navbar">
           Discussions
         </Link>
         <Link to="/chemin-destination" className="link-navbar">
