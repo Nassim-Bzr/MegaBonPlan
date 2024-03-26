@@ -9,18 +9,18 @@
   font-size: 16px;
   font-weight: 700;
 }
-.link-navbar:hover{
-  color: #FFFFFF;
+.link-navbar:hover {
+  color: #ffffff;
   background-color: #868789;
   border-radius: 18px;
 }
-.logohome{
+.logohome {
   height: 164px;
   width: 164px;
-  
+
   right: 40em;
-    position: relative;
-    top: 9em;
+  position: relative;
+  top: 9em;
 }
 .link-connexion {
   text-decoration: none;
@@ -31,18 +31,14 @@
   color: white;
   font-size: 14px;
 }
-.navbar{
-
-    /* Les autres propriétés du style de votre footer */
-    background: linear-gradient(to right, #000000, #434343); /* Dégradé noir vers gris foncé */
-    background-size: 50px 50px; /* Ajustez selon la taille de votre motif */
-    background: linear-gradient(to right, #0f0f0f, #232323, #2e2e2e, #434343); /* Dégradé du noir vers différentes nuances de gris */
-  
+.navbar {
+  /* Les autres propriétés du style de votre footer */
+  background-color: #36373b;
 }
 button {
   margin: 1px;
 }
-.header{
+.header {
   margin: 1.5em;
 }
 .sign-up {
@@ -63,7 +59,7 @@ button {
   border-radius: 5px;
 }
 .btn-connexion {
-  background-color: #252932;
+  background-color: #36373B;
 
   padding: 10px;
   font-weight: bold;
@@ -100,8 +96,8 @@ button {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #e74a12; 
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  background-color: #e74a12;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   flex-wrap: wrap; /* Permet aux éléments de passer à la ligne suivante */
   justify-content: flex-start; /* Alignement des éléments au début */
@@ -111,19 +107,18 @@ button {
   column-gap: 20px; /* Espacer les colonnes */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Effet d'ombre */
   border-radius: 10px;
-font-weight: 600;
+  font-weight: 600;
 }
 .dropdown-content .dropdown-item {
   color: white; /* Couleur du texte des items */
   padding: 12px 16px;
   text-decoration: none;
-  
+
   display: block;
   width: 50%; /* Chaque élément prendra la moitié de la largeur du .dropdown-content */
 }
 /* .dropdown-content .dropdown-item:hover {
-/*   background-color: #ddd; /* Couleur d'arrière-plan des items au survol */ 
-
+/*   background-color: #ddd; /* Couleur d'arrière-plan des items au survol */
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -134,10 +129,9 @@ font-weight: 600;
   justify-content: space-around;
   text-align: center;
   padding: 1em;
-  background-color: #252932;
 }
-.search-button{
-  background-color:#e74a12;
+.search-button {
+  background-color: #e74a12;
   color: white;
   font-weight: bold;
   border: 0;

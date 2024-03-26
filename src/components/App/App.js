@@ -11,6 +11,7 @@ import Category from '../Category/Category';
 import BonPlans from '../BonsPlans/index';
 import CodesPromos from '../CodePromos';
 import Discussions from '../Discussions';
+import CurrentCategory from '../CurrentCategory';
 
 
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/bonsplans" element={<BonPlans/>} /> 
           <Route path="/codespromos" element={<CodesPromos/>} />
           <Route path="/discussions" element={<Discussions/>} />
+          <Route path="/current-category" element={<CurrentCategory />} />
         </Routes>
         <Footer/>
       

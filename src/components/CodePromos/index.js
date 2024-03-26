@@ -6,7 +6,7 @@ export default function CodesPromos() {
   const [codesPromos, setCodesPromos] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/codespromo")
+    fetch("http://localhost:8080/api/codepromos")
       .then((response) => response.json())
       .then((data) => setCodesPromos(data))
       .catch((error) =>
