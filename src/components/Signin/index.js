@@ -9,9 +9,9 @@ import logogoogle from "../../assets/google.png";
 import Logofb from "../../assets/facebook.png";
 
 export default function Login() {
-  const auth = getAuth(app);
+/*   const auth = getAuth(app); */
 
-  const handleGoogleSignIn = () => {
+/*   const handleGoogleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -37,7 +37,7 @@ export default function Login() {
           errorMessage
         );
       });
-  };
+  }; */
 
   return (
     <div className="login-container">
@@ -46,7 +46,7 @@ export default function Login() {
         <input
           className="input-email"
           type="text"
-          placeholder="Nom d'utilisateur"
+          placeholder="Nom d'utilisateur / e-mail"
         />
         <div className="input-password-container">
           <input
@@ -68,7 +68,7 @@ export default function Login() {
             <img className="logofb" src={Logofb} alt="Facebook Logo" />{" "}
             S'enregistrer avec Facebook
           </button>
-          <button className="button-googlelogin" onClick={handleGoogleSignIn}>
+          <button className="button-googlelogin" >
             <img className="logogoogle" src={logogoogle} alt="Google Logo" />{" "}
             S'enregistrer avec Google
           </button>

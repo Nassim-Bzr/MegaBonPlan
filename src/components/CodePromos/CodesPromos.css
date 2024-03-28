@@ -1,8 +1,10 @@
-/* CodesPromos.css */
 .codespromos-container {
   display: flex;
   flex-wrap: wrap;
+  margin-right: auto;
   justify-content: center;
+  MARGIN-LEFT: AUTO;
+  WIDTH: 80%;
   gap: 20px;
   padding: 20px;
 }

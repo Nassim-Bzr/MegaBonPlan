@@ -40,9 +40,7 @@ export default function Header() {
         <Link to="/category" className="link-navbar">
           Catégories
         </Link>
-        <Link to="/chemin-destination" className="link-navbar">
-          Prochaines sorties
-        </Link>
+
         <div className="dropdown" onMouseLeave={() => setIsDropdownOpen(false)}>
           <Link
             className="link-navbar dropdown-button"
@@ -51,67 +49,12 @@ export default function Header() {
           >
             Code promos
           </Link>
-        {/*   {isDropdownOpen && (
-            <div className="dropdown-content">
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link>
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link>
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link>
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link>
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link>
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link>
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link>
-              <Link to="/aliexpress" className="dropdown-item">
-                AliExpress
-              </Link>
-              <Link to="/amazon" className="dropdown-item">
-                Amazon
-              </Link> */}
-
-              {/* ...autres liens du menu déroulant... */}
-          {/*   </div>
-          )} */}
+        
         </div>
         <Link to="/discussions" className="link-navbar">
           Discussions
-        </Link>
-        <Link to="/chemin-destination" className="link-navbar">
-          Gratuit
-        </Link>
+       </Link>
+      
 
         <form className="search-form">
           <input

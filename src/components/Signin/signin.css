@@ -1,108 +1,108 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #EFEFEF;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    
-  }
-
-  .btn-grouplogine{
-    display: flex;
-    flex-direction: row;
-  }
-  .form-login{
-    display: flex;
-    flex-direction: column;
-    margin: 1em;
-  }
-  .cadena-login {
-    height: 16px;
-    width: 16px;
-    bottom: 40px;
-    position: relative;
-    left: 10em;
+  font-family: "Arial", sans-serif;
+  background-color: #efefef;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-  .input-email{
-    margin: 1em;
-    border-radius: 4px;
-    border: 1px solid;
-    padding: 8px;
-    display: flex;
-    position: relative;
-    left: 14.5em;
-    width: 25em;
-  }
-  .button-others{
-    display: flex;
-    flex-direction: row;
-    margin: 1em;
-    align-items: center;
-    
-  }
-  .input-signupuser {
-    margin: 1em;
-    border-radius: 4px;
-    border: 1px solid;
-    padding: 8px;
-    display: flex;
-    position: relative;
-    left: 14.5em;
-    width: 25em;
-}
-  .input-password{
-    margin: 1em;
-    border-radius: 4px;
-    border: 1px solid;
-    padding: 8px;
-    display: flex;
-    position: relative;
-    left: 14.5em;
-    width: 25em;
-  }
-  .title-login{
-    color: white;
-    margin: 20px;
-    font-size: 45px;
-  }
-  .btn-grouplogine{
 
-    display: flex;
-    justify-content: space-evenly;
-  }
-  .login-container {
-    margin: 3em;
-    width:842px;
-    right: 1em;
-    display: flex;
-    padding: 20px;
-    left: 8em;
-    display: flex;
-
-    flex-direction: column;
-    position: relative;
-    background: linear-gradient(to right, #000000, #434343); /* Dégradé noir vers gris foncé */
-    background-size: 50px 50px; /* Ajustez selon la taille de votre motif */
-    background: linear-gradient(to right, #0f0f0f, #232323, #2e2e2e, #434343); /* Dégradé du noir vers différentes nuances de gris */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajoute une ombre subtile */
+.btn-grouplogine {
+  display: flex;
+  flex-direction: row;
 }
-  
-  
-  
-  /* input[type="text"], input[type="password"] {
+.form-login {
+  display: flex;
+  flex-direction: column;
+  /* margin: 1em; */
+  margin-left: auto;
+  margin-right: auto;
+}
+.cadena-login {
+  height: 16px;
+  width: 16px;
+  bottom: 40px;
+  position: relative;
+  left: 10em;
+}
+.input-email {
+  margin: 1em;
+  border-radius: 4px;
+  border: 1px solid;
+  padding: 8px;
+  display: flex;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25em;
+}
+.button-others {
+  display: flex;
+  flex-direction: row;
+  margin: 1em;
+  align-items: center;
+  justify-content: center;
+}
+.input-signupuser {
+  margin: 1em;
+  border-radius: 4px;
+  border: 1px solid;
+  padding: 8px;
+  display: flex;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25em;
+}
+.input-password {
+  margin: 1em;
+  border-radius: 4px;
+  border: 1px solid;
+  padding: 8px;
+  display: flex;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25em;
+}
+.title-login {
+  color: white;
+  margin: 20px;
+  font-size: 45px;
+}
+.btn-grouplogine {
+  display: flex;
+  justify-content: space-evenly;
+}
+.login-container {
+  margin: 3em;
+  width: 842px;
+  right: 1em;
+  display: flex;
+  padding: 20px;
+  left: 8em;
+  display: flex;
+
+  flex-direction: column;
+
+
+  background-size: 50px 50px; /* Ajustez selon la taille de votre motif */
+  background-color: #36373b;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajoute une ombre subtile */
+}
+
+/* input[type="text"], input[type="password"] {
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
   } */
-  
+
 /*   button {
     width: calc(100% - 20px);
     padding: 10px;
@@ -113,8 +113,7 @@ body {
     cursor: pointer;
     font-size: 16px;
   } */
-  
-  button:hover {
-    color: white;
-  }
-  
+
+button:hover {
+  color: white;
+}

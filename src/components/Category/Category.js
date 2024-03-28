@@ -17,6 +17,7 @@ export default function Category() {
   console.log(categories);
   return (
     <div className="category-container">
+      
       {categories.map((category, index) => (
         <div key={index} className="category">
           <img src={category.imglink} alt={category.nomcategorie} className="category-icon" />

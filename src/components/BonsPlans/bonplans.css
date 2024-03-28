@@ -1,13 +1,12 @@
 /* BonPlans.css */
 .bonplans-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Espace entre les cartes de bon plan */
+
   justify-content: center;
+  flex-direction: column;
 }
 
 .div-bonplans {
-  width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -15,7 +14,7 @@
   border: 1px solid #ddd; /* Bordure légère autour des cartes */
   border-radius: 8px; /* Bordures arrondies pour les cartes */
   padding: 20px; /* Espace à l'intérieur des cartes */
-  width: 300px; /* Largeur fixe pour chaque carte de bon plan */
+
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre subtile pour un effet de profondeur */
   background-color: #fff; /* Arrière-plan blanc pour chaque carte */
   margin: 1em;
