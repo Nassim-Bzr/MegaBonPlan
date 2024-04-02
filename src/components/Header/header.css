@@ -39,7 +39,6 @@ button {
   margin: 1px;
 }
 .header {
-  margin: 1.5em;
 }
 .sign-up {
   display: flex;
@@ -59,7 +58,7 @@ button {
   border-radius: 5px;
 }
 .btn-connexion {
-  background-color: #36373B;
+  background-color: #36373b;
 
   padding: 10px;
   font-weight: bold;
@@ -125,10 +124,12 @@ button {
 }
 .navbar {
   display: flex;
+  bottom: 6.5em;
   flex-direction: row;
   justify-content: space-around;
   text-align: center;
   padding: 1em;
+  position: relative;
 }
 .search-button {
   background-color: #e74a12;
@@ -144,7 +145,7 @@ button {
 .search-button {
   padding: 4px;
   margin: 0.3em;
-  border-radius:12px;
+  border-radius: 12px;
 }
 .search-input {
   padding: 4px;

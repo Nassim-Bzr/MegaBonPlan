@@ -1,76 +1,55 @@
 import React, { useState } from 'react';
+import { Transition } from '@headlessui/react';
 import image1 from '../../assets/slider-consoles-ps5-slim-standard-et-digital-multi.jpeg';
 import image2 from '../../assets/avatar-4k-collector-visuel-slider-v2-_1_.jpeg';
 import image3 from '../../assets/SLIDER-gta-6-ps5-visuel-provisoire-v2.jpeg';
-import image5 from '../../assets/fleche.png';
-import image4 from '../../assets/fleche (1).png';
-
-import './home.css'
+import imagePrev from '../../assets/fleche (1).png'; // image de la flèche gauche
+import imageNext from '../../assets/fleche.png'; // image de la flèche droite
 
 export default function Home() {
-  // Images de vos produits (remplacez par les chemins de vos propres images)
-  const productImages = [
-    image1,
-    image2,
-    image3
-    // Ajoutez autant d'images que nécessaire
-  ];
-  const [slideDirection, setSlideDirection] = useState('');
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [image1, image2, image3];
 
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  // État pour suivre l'image actuellement affichée
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Fonction pour aller à l'image précédente
-  const goToPrevious = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setSlideDirection('left');
-    const isFirstImage = currentImageIndex === 0;
-    const newIndex = isFirstImage ? productImages.length - 1 : currentImageIndex - 1;
-    setCurrentImageIndex(newIndex);
-    setTimeout(() => {
-      setIsAnimating(false);
-      setSlideDirection('');
-    }, 500); // Durée de votre animation
+  const nextSlide = () => {
+    setCurrentImage((current) => (current + 1) % images.length);
   };
-  
 
-  // Fonction pour aller à l'image suivante
-  const goToNext = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setSlideDirection('right');
-    const isLastImage = currentImageIndex === productImages.length - 1;
-    const newIndex = isLastImage ? 0 : currentImageIndex + 1;
-    setCurrentImageIndex(newIndex);
-    setTimeout(() => {
-      setIsAnimating(false);
-      setSlideDirection('');
-    }, 500); // Durée de votre animation
+  const prevSlide = () => {
+    setCurrentImage((current) => (current - 1 + images.length) % images.length);
   };
 
   return (
-    <div className='home'> 
-      {productImages.map((image, index) => {
-        let className = 'img-home';
-        if (index === currentImageIndex) {
-          className += ' entering';
-        } else if (index === currentImageIndex - 1 || (currentImageIndex === 0 && index === productImages.length - 1)) {
-          className += ' leaving';
-        }
-  
-        return (
-          <div key={image} className="image-container">
-            <img src={image} alt={`Produit ${index}`} className={className} />
-            {/* Assurez-vous que le lien ci-dessous pointe vers l'URL de votre deal */}
-            <a href="/lien-vers-le-deal" className="deal-button">Voir le deal 🔗</a>
-          </div>
-        );
-      })}
-      <img className='fleche-gauche' src={image4} onClick={goToPrevious} alt='Précédent'/>
-      <img className='fleche-droite' src={image5} onClick={goToNext} alt='Suivant'/>
+    <div className="relative w-full select-none h-screen overflow-hidden">
+      <div className="aspect-w-16 aspect-h-9">
+        {images.map((img, index) => (
+          <Transition
+            key={index}
+            as="img"
+            src={img}
+            alt={`Slide ${index}`}
+            enter="ease-out duration-700"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-700"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+            show={index === currentImage}
+            className="w-full h-full object-cover absolute inset-0"
+          />
+        ))}
+      </div>
+      <button
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 rounded-full p-1"
+        onClick={prevSlide}
+      >
+        <img src={imagePrev} alt="Previous" className="h-8 w-8" />
+      </button>
+      <button
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 rounded-full p-1"
+        onClick={nextSlide}
+      >
+        <img src={imageNext} alt="Next" className="h-8 w-8" />
+      </button>
     </div>
   );
-    }  
+}
