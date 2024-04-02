@@ -30,6 +30,7 @@ export default function Discussions() {
 
   return (
     <div className="discussions-container">
+      cc
       {discussions.map((discussion, index) => (
         <div key={index} className="discussion">
           <div className="discussion-header">
@@ -50,13 +51,23 @@ export default function Discussions() {
               <span className="user-name">{discussion.username}</span>
             </div>
             <div className="discussion-actions">
-    <button className="action-icon" onClick={() => {/* fonction de réponse ici */}}>
-      <i className="fas fa-reply"></i> {/* Icône de réponse */}
-    </button>
-    <button className="action-icon" onClick={() => {/* fonction de favori ici */}}>
-      <i className="fas fa-star"></i> {/* Icône de favori */}
-    </button>
-  </div>
+              <button
+                className="action-icon"
+                onClick={() => {
+                  /* fonction de réponse ici */
+                }}
+              >
+                <i className="fas fa-reply"></i> {/* Icône de réponse */}
+              </button>
+              <button
+                className="action-icon"
+                onClick={() => {
+                  /* fonction de favori ici */
+                }}
+              >
+                <i className="fas fa-star"></i> {/* Icône de favori */}
+              </button>
+            </div>
           </div>
         </div>
       ))}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Logo from "../../assets/Votre texte de paragraphe.png";
-
+import Promo from "../../assets/promo.png";
 export default function CodesPromos() {
   const [codesPromos, setCodesPromos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +28,10 @@ export default function CodesPromos() {
   return (
     <div className="">
       <div className="py-14 ">
+        <h1 className="text-5xl font-bold text-gray-800 mb-4">
+          {" "}
+          Les codes promos
+        </h1>
         <h1 className="text-center text-4xl m-2 p-8 font-bold mb-4">
           En partenariat avec les meilleurs fournisseurs :
         </h1>
@@ -227,11 +231,6 @@ export default function CodesPromos() {
       </div>
 
       <div className="bg-gray-100 p-4 h-screen mb-32 md:mb-0">
-        <h1 className="text-3xl font-bold text-gray-600 mb-4">
-          {" "}
-          Les codes promos :
-        </h1>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {codesPromos.map((code, index) => (
             <div

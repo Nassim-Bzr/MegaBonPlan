@@ -54,6 +54,8 @@ export default function Header() {
     { title: "Bon plans", path: "/bonsplans" },
     { title: "Catégories", path: "/category" },
     { title: "Code Promos", path: "/codespromos" },
+    { title: "Discussions", path: "/discussions" },
+    { title: "Contact", path: "/contact" },
     // Ajouter d'autres liens de navigation selon vos besoins
   ];
 
