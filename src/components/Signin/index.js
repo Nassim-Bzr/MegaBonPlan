@@ -7,6 +7,7 @@ import cadena from "../../assets/fermer-a-cle.png";
 import logoapple from "../../assets/logo-apple 2.png";
 import logogoogle from "../../assets/google.png";
 import Logofb from "../../assets/facebook.png";
+import AvatarComponent from "../Avatar";
 
 export default function Login() {
   /*   const auth = getAuth(app); */
@@ -41,7 +42,7 @@ export default function Login() {
 
   return (
     <div className="login-container">
-      <main className="w-full h-screen flex flex-col items-center justify-center px-4 relative ">
+      <main className="w-full flex flex-col items-center justify-center px-4 relative ">
         <div className="max-w-sm w-full text-white-600 space-y-8 ">
           <div className="text-center ">
             <div className=" space-y-2">
@@ -53,9 +54,10 @@ export default function Login() {
                 <Link
                   to="/inscription"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
+                  >
                   Inscription
                 </Link>
+                 
               </p>
             </div>
           </div>
@@ -80,7 +82,7 @@ export default function Login() {
               />
             </div>
             <button className="w-full mt-4 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-              Sign in
+              Connexion
             </button>
             <div className="relative">
               <span className="block w-full h-px bg-gray-300"></span>
@@ -190,10 +192,10 @@ export default function Login() {
             </div>
             <div className="text-center">
               <Link
-                to="javascript:void(0)"
-                className="text-indigo-600 hover:text-indigo-500"
+                to="/forgot-password"
+                className="text-indigo-600 hover:text-indigo-500 m-2"
               >
-                Forgot password?
+Mot de passe oublié ?
               </Link>
             </div>
           </form>

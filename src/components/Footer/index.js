@@ -64,7 +64,7 @@ export default function Footer() {
           <div className="flex-1 mt-6 md:mt-0">
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex items-center gap-x-3 md:justify-end"
+              className="flex justify-center items-center gap-x-3 md:justify-end"
             >
               <div className="relative">
                 <svg
@@ -117,7 +117,7 @@ export default function Footer() {
           <p className="text-gray-300">
             © 2022 MegaBonPlan. All rights reserved.
           </p>
-          <div className="flex items-center gap-x-6 text-gray-400 mt-6">
+          <div className="flex justify-center gap-x-6 text-gray-400 mt-6">
             <a href="javascript:void()">
               <svg
                 className="w-6 h-6 hover:text-gray-500 duration-150"

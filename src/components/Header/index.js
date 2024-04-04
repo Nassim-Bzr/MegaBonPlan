@@ -1,111 +1,91 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/Votre texte de paragraphe.png";
+const Header = () => {
+  const [state, setState] = useState(false);
 
-// Remplacer les 'href' par des 'to' pour le routing interne avec React Router
-// Adapter ProfileDropDown pour qu'il s'intègre bien avec la structure existante
-
-const ProfileDropDown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  // Adapter la navigation selon vos besoins
-  const profileOptions = [
-    { title: "Dashboard", path: "/dashboard" },
-    { title: "Settings", path: "/settings" },
-    { title: "Log out", path: "/logout" },
-  ];
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-10 h-10 rounded-full focus:outline-none"
-      >
-        {/* Remplacer par l'avatar ou l'image de profil si disponible */}
-        <img
-          src="https://randomuser.me/api/portraits/men/46.jpg"
-          alt="Profile"
-          className="w-full h-full rounded-full"
-        />
-      </button>
-      {isOpen && (
-        <ul className="absolute right-0 w-48 mt-2 bg-white shadow-md rounded-md py-1">
-          {profileOptions.map((option, index) => (
-            <li key={index}>
-              <Link
-                to={option.path}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                {option.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-export default function Header() {
-  // Votre state et logique existante peuvent rester inchangés
-  const [menuState, setMenuState] = useState(false);
-
+  // Replace javascript:void(0) paths with your paths
   const navigation = [
-    { title: "Accueil", path: "/" },
-    { title: "Bon plans", path: "/bonsplans" },
     { title: "Catégories", path: "/category" },
-    { title: "Code Promos", path: "/codespromos" },
+    { title: "Codes Promos", path: "/codespromos" },
     { title: "Discussions", path: "/discussions" },
     { title: "Contact", path: "/contact" },
-    // Ajouter d'autres liens de navigation selon vos besoins
+    { title: "Bon Plans", path: "/bonsplans" },
   ];
 
+  useEffect(() => {
+    document.onclick = (e) => {
+      const target = e.target;
+      if (!target.closest(".menu-btn")) setState(false);
+    };
+  }, []);
+
   return (
-    <nav className="bg-white shadow">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="-ml-2 mr-2 flex items-center md:hidden">
-              {/* Bouton pour menu mobile */}
-              <button
-                onClick={() => setMenuState(!menuState)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition"
-              >
+    <nav
+      className={`bg-white  md:text-sm ${
+        state
+          ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0"
+          : ""
+      }`}
+    >
+      <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
+        <div className="flex items-center justify-between py-5 md:block">
+          <Link to="/">
+            <img src={Logo} width={120} height={50} alt="Float UI logo" />
+          </Link>
+          <div className="md:hidden">
+            <button
+              className="menu-btn text-gray-500 hover:text-gray-800"
+              onClick={() => setState(!state)}
+            >
+              {state ? (
                 <svg
+                  xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
-                  stroke="currentColor"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
-              </button>
-            </div>
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <img
-                className="block lg:hidden h-8 w-auto"
-                src={Logo}
-                alt="Float UI"
-              />
-              <img className="block  h-16 w-auto" src={Logo} alt="Float UI" />
-            </Link>
-            <div className="hidden md:ml-6 md:flex md:space-x-8">
-              {/* Items de navigation */}
-              {navigation.map((item, idx) => (
-                <Link
-                  key={idx}
-                  to={item.path}
-                  className="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </div>
+              )}
+            </button>
           </div>
+        </div>
+        <div
+          className={`flex-1 items-center mt-8 md:mt-0 md:flex ${
+            state ? "block" : "hidden"
+          } `}
+        >
+          <ul className="justify-center items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
+            {navigation.map((item, idx) => {
+              return (
+                <li key={idx} className="text-gray-700 hover:text-gray-900">
+                  <Link to={item.path} className="block">
+                    {item.title}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
           <div className="flex-1 gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
             <Link
               to="/connexion"
@@ -134,21 +114,8 @@ export default function Header() {
           </div>
         </div>
       </div>
-
-      {/* Contenu du menu mobile */}
-      <div className={`${menuState ? "block" : "hidden"} md:hidden`}>
-        <div className="px-2 pt-2 pb-3 space-y-1">
-          {navigation.map((item, idx) => (
-            <Link
-              key={idx}
-              to={item.path}
-              className="text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-            >
-              {item.title}
-            </Link>
-          ))}
-        </div>
-      </div>
     </nav>
   );
-}
+};
+
+export default Header;

@@ -67,6 +67,7 @@ console.log(bonPlans)
   return (
     <div className="bg-gray-100 py-8 px-4">
       <h2 className="text-4xl font-bold text-center text-gray-800 mb-10">Découvrez les Bons Plans</h2>
+      
       <div className="max-w-screen-xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {bonPlans.map((bonPlan, index) => (
           <div key={index} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -80,7 +81,9 @@ console.log(bonPlans)
             </a>
           </div>
         ))}
+        
       </div>
+      
     </div>
   );
 }

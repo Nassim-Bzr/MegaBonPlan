@@ -4,17 +4,19 @@ import logogoogle from "../../assets/google.png";
 import Logofb from "../../assets/facebook (1).png";
 import { Link } from "react-router-dom";
 import JoinUser from "../JoinUser/index";
+import AvatarComponent from "../Avatar";
 
 export default function SignUp() {
   return (
     <div className="div-globalsignup">
-      <main className="w-full h-screen relative bottom-2 flex flex-col items-center justify-center bg-gray-50 sm:px-4">
+      <main className="w-full relative bottom-2 flex flex-col items-center justify-center bg-gray-50 sm:px-4">
         <div className="w-full space-y-6 text-gray-600 sm:max-w-md ">
           <div className="text-center">
             <div className=" space-y-2">
-              <h3 className="text-gray-600 text-2xl font-bold sm:text-4xl">
+              <h3 className="text-gray-600 text-2xl pt-8 font-bold sm:text-4xl">
                 Crée votre compte
               </h3>
+              <AvatarComponent />
               <p className="">
                 Vous avez déjà un compte ?{" "}
                 <Link

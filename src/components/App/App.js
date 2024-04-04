@@ -13,6 +13,10 @@ import CodesPromos from "../CodePromos";
 import Discussions from "../Discussions";
 import CurrentCategory from "../CurrentCategory";
 import Contact from "../Contact";
+import ForgotPassword from "../ForgotPassword";
+import Profil from "../Profil";
+import Faq from "../Faq";
+
 function App() {
   return (
     <div className="App">
@@ -20,7 +24,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/inscription" element={<Signup />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
         <Route path="/connexion" element={<Signin />} />
+        <Route path="/profil" element={<Profil />} />
         <Route path="/category" element={<Category />} />
         <Route path="/bonsplans" element={<BonPlans />} />
         <Route path="/codespromos" element={<CodesPromos />} />
