@@ -13,7 +13,7 @@ export default function SignUp() {
         <div className="w-full space-y-6 text-white sm:max-w-md ">
           <div className="text-center">
             <div className=" space-y-2">
-              <h3 className="text-white text-2xl pt-8 font-bold sm:text-4xl">
+              <h3 className="text-white text-2xl pt-8 font-semibold sm:text-4xl">
                 Crée votre compte
               </h3>
               <AvatarComponent />
@@ -31,15 +31,15 @@ export default function SignUp() {
           <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
             <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
               <div>
-                <label className="font-medium text-black">Name</label>
+                <label className="font-medium text-gray-600">Name</label>
                 <input
                   type="text"
                   required
-                  className="w-full mt-2 px-3 py-2 text-black bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  className="w-full mt-2 px-3 py-2 text-gray-800 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
               </div>
               <div>
-                <label className="font-medium text-black">Email</label>
+                <label className="font-medium text-gray-600">Email</label>
                 <input
                   type="email"
                   required
@@ -47,7 +47,7 @@ export default function SignUp() {
                 />
               </div>
               <div>
-                <label className="text-black font-medium">Password</label>
+                <label className="text-gray-600 font-medium">Password</label>
                 <input
                   type="password"
                   required
@@ -58,9 +58,9 @@ export default function SignUp() {
                 Créer un compte
               </button>
             </form>
-            <div className="relative text-dark font-medium">
+            <div className=" text-dark font-medium">
               <span className="block w-full h-px bg-gray-300"></span>
-              <p className="inline-block w-fit text-sm bg-white px-2 m-4 -top-2 inset-x-0 mx-auto">
+              <p className="inline-block w-fit text-sm text-dark px-2 m-4 -top-2 inset-x-0 mx-auto">
                 Or continue with
               </p>
             </div>
@@ -167,6 +167,13 @@ export default function SignUp() {
           </div>
         </div>
       </main>
+      <div
+        className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-3xl sm:h-[400px]"
+        style={{
+          background:
+            "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
+        }}
+      ></div>
     </div>
   );
 }

@@ -46,7 +46,7 @@ export default function Login() {
         <div className="max-w-sm w-full text-white-600 space-y-8 ">
           <div className="text-center ">
             <div className=" space-y-2">
-              <h3 className="text-white text-2xl font-bold sm:text-4xl">
+              <h3 className="text-white text-2xl font-semibold sm:text-4xl">
                 Connectez-vous à votre compte
               </h3>
               <p className="text-white">
@@ -200,6 +200,13 @@ export default function Login() {
           </form>
         </div>
       </main>
+      <div
+        className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-3xl sm:h-[400px]"
+        style={{
+          background:
+            "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
+        }}
+      ></div>
     </div>
   );
 }
