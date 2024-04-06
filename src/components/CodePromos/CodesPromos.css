@@ -9,6 +9,23 @@
   padding: 20px;
 }
 
+@keyframes animatedBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animatedBackground {
+  background: linear-gradient(to bottom, #2c3e50, #1f2937);
+  animation: animatedBackground 15s ease infinite;
+  background-size: 400% 400%;
+}
 .codepromo {
   border: 1px solid #ddd;
   border-radius: 8px;

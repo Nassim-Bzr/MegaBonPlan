@@ -4,6 +4,24 @@ display: flex;
   justify-content: space-between;
   height: 100%;
 }
+
+@keyframes animatedBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animatedBackground {
+  background: linear-gradient(to bottom, #2c3e50, #1f2937);
+  animation: animatedBackground 15s ease infinite;
+  background-size: 400% 400%;
+}
 .category {
   flex: 0 0 calc(25% - 20px); /* 4 catégories par rangée avec marges */
   text-align: center;

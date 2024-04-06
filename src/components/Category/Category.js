@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import "./Category.css";
 export default function Category() {
   const [categories, setCategories] = useState([]);
 
@@ -13,8 +13,8 @@ export default function Category() {
       );
   }, []);
   return (
-    <div className="bg-gray-100 min-h-screen p-8">
-      <h1 className="text-4xl font-semibold text-gray-800 text-center mb-10">
+    <div className="bg-gray-100 min-h-screen  animatedBackground p-8">
+      <h1 className="text-4xl font-semibold text-white text-center mb-10">
         Découvrez nos Catégories
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

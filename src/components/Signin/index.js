@@ -41,23 +41,22 @@ export default function Login() {
   }; */
 
   return (
-    <div className="login-container">
+    <div className=" animatedBackground  p-8 ">
       <main className="w-full flex flex-col items-center justify-center px-4 relative ">
         <div className="max-w-sm w-full text-white-600 space-y-8 ">
           <div className="text-center ">
             <div className=" space-y-2">
-              <h3 className="text-gray-600 text-2xl font-bold sm:text-4xl">
+              <h3 className="text-white text-2xl font-bold sm:text-4xl">
                 Connectez-vous à votre compte
               </h3>
-              <p className="text-gray-600">
+              <p className="text-white">
                 Vous n'avez pas de compte?{" "}
                 <Link
                   to="/inscription"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
+                >
                   Inscription
                 </Link>
-                 
               </p>
             </div>
           </div>
@@ -84,13 +83,13 @@ export default function Login() {
             <button className="w-full mt-4 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
               Connexion
             </button>
-            <div className="relative">
+            <div className="relative font-medium">
               <span className="block w-full h-px bg-gray-300"></span>
               <p className="inline-block w-fit text-sm bg-white px-2 m-4 -top-2 inset-x-0 mx-auto">
                 Or continue with
               </p>
             </div>
-            <div className="space-y-4 text-sm font-medium">
+            <div className="space-y-4 text-sm font-semibold">
               <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
                 <svg
                   className="w-5 h-5"
@@ -195,7 +194,7 @@ export default function Login() {
                 to="/forgot-password"
                 className="text-indigo-600 hover:text-indigo-500 m-2"
               >
-Mot de passe oublié ?
+                Mot de passe oublié ?
               </Link>
             </div>
           </form>

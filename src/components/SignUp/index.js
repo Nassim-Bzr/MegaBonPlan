@@ -8,12 +8,12 @@ import AvatarComponent from "../Avatar";
 
 export default function SignUp() {
   return (
-    <div className="div-globalsignup">
-      <main className="w-full relative bottom-2 flex flex-col items-center justify-center bg-gray-50 sm:px-4">
-        <div className="w-full space-y-6 text-gray-600 sm:max-w-md ">
+    <div className="div-globalsignup animatedBackground p-3">
+      <main className="w-full relative bottom-2 animatedBackground flex flex-col items-center justify-center bg-gray-50 sm:px-4">
+        <div className="w-full space-y-6 text-white sm:max-w-md ">
           <div className="text-center">
             <div className=" space-y-2">
-              <h3 className="text-gray-600 text-2xl pt-8 font-bold sm:text-4xl">
+              <h3 className="text-white text-2xl pt-8 font-bold sm:text-4xl">
                 Crée votre compte
               </h3>
               <AvatarComponent />
@@ -31,15 +31,15 @@ export default function SignUp() {
           <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
             <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
               <div>
-                <label className="font-medium">Name</label>
+                <label className="font-medium text-black">Name</label>
                 <input
                   type="text"
                   required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  className="w-full mt-2 px-3 py-2 text-black bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                 />
               </div>
               <div>
-                <label className="font-medium">Email</label>
+                <label className="font-medium text-black">Email</label>
                 <input
                   type="email"
                   required
@@ -47,7 +47,7 @@ export default function SignUp() {
                 />
               </div>
               <div>
-                <label className="font-medium">Password</label>
+                <label className="text-black font-medium">Password</label>
                 <input
                   type="password"
                   required
@@ -58,7 +58,13 @@ export default function SignUp() {
                 Créer un compte
               </button>
             </form>
-            <div className="space-y-4 mt-8 text-sm font-medium">
+            <div className="relative text-dark font-medium">
+              <span className="block w-full h-px bg-gray-300"></span>
+              <p className="inline-block w-fit text-sm bg-white px-2 m-4 -top-2 inset-x-0 mx-auto">
+                Or continue with
+              </p>
+            </div>
+            <div className="space-y-4 mt-8 text-sm text-black font-semibold">
               <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
                 <svg
                   className="w-5 h-5"

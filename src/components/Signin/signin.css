@@ -16,6 +16,24 @@
   position: relative;
   left: 10em;
 }
+
+@keyframes animatedBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animatedBackground {
+  background:#1E2334;
+
+  background-size: 400% 400%;
+}
 .input-email {
   margin: 1em;
   border-radius: 4px;
