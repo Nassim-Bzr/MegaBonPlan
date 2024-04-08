@@ -1,14 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthContext"; // Assurez-vous que le chemin est correct
 
 export default function Profile() {
-  // Données utilisateur fictives
-  const userData = {
-    nom: "John Doe",
-    email: "john.doe@example.com",
-    dateInscription: "01/01/2020",
-    // Ajoutez d'autres données que vous souhaitez afficher
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  // Remplacez cette logique par les données réelles de votre utilisateur
+  const userData = user ? {
+    nom: user.name, // Ici, 'name' devrait correspondre à la propriété de votre objet utilisateur
+    email: "exemple@domaine.com", // Cette valeur est juste un placeholder
+    dateInscription: "01/01/2020", // Cette valeur est juste un placeholder
+  } : {};
+
+  const handleLogout = () => {
+    logout(); // Utilisez la fonction de déconnexion de votre contexte d'authentification
+    navigate('/'); // Redirige l'utilisateur vers la page d'accueil
   };
 
   return (
@@ -17,7 +24,7 @@ export default function Profile() {
         <div className="flex flex-col md:flex-row items-center">
           <img
             src=""
-            alt="Profile"
+            alt="Profil"
             className="h-32 w-32 rounded-full mx-auto md:mx-0 md:mr-8"
           />
           <div className="text-center md:text-left">
@@ -32,7 +39,6 @@ export default function Profile() {
             <li>Nom : {userData.nom}</li>
             <li>Email : {userData.email}</li>
             <li>Date d'inscription : {userData.dateInscription}</li>
-            {/* Ajoutez d'autres informations si nécessaire */}
           </ul>
         </div>
         <div className="mt-8">
@@ -50,6 +56,7 @@ export default function Profile() {
           >
             Changer de mot de passe
           </Link>
+          <button onClick={handleLogout} className="ml-4 text-red-600 hover:text-red-800 font-medium">Déconnexion</button>
         </div>
       </main>
     </div>

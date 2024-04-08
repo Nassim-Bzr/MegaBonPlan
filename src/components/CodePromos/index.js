@@ -32,7 +32,7 @@ export default function CodesPromos() {
         Les codes promos
       </h1>
 
-      <div className="animatedBackground p-4 h-screen mb-32 md:mb-0">
+      <div className="animatedBackground p-4 mb-32 md:mb-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {codesPromos.map((code, index) => (
             <div
@@ -94,7 +94,7 @@ export default function CodesPromos() {
             </div>
           </div>
         )}
-        <div className=" w-1/2 mr-auto ml-auto pb-3  m-3 border-32 bg-white rounded-xl ">
+        <div className="  mr-auto ml-auto pb-3  m-3 border-32 bg-white rounded-xl ">
           <h1 className="text-center text-4xl m-2 p-8 font-semibold mb-4">
             En partenariat avec les meilleurs fournisseurs :
           </h1>
@@ -293,7 +293,7 @@ export default function CodesPromos() {
           </div>
         </div>
         <div
-          className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-3xl sm:h-[400px]"
+          className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[220px] mx-auto sm:max-w-3xl sm:h-[200px]"
           style={{
             background:
               "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
@@ -303,3 +303,4 @@ export default function CodesPromos() {
     </div>
   );
 }
+

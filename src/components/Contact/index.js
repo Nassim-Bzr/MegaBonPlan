@@ -21,10 +21,10 @@ export default function Contact() {
 
     emailjs
       .sendForm(
-        "service_72acn3v", // Remplacez par votre service ID
-        "template_yr0uonj", // Remplacez par votre template ID
+        "service_72acn3v", 
+        "template_yr0uonj", 
         e.target,
-        "R2PkxWVMmSHoyhnCr" // Remplacez par votre user ID (API Key)
+        "R2PkxWVMmSHoyhnCr"
       )
       .then(
         (result) => {
@@ -44,7 +44,7 @@ export default function Contact() {
         }
       );
 
-    setFormData({ from_name: "", from_email: "", message: "" }); // Réinitialiser les champs du formulaire
+    setFormData({ from_name: "", from_email: "", message: "" });
   };
 
   return (

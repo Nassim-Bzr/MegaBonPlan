@@ -1,12 +1,50 @@
 import "./signup.css";
-import logoapple from "../../assets/logo-apple 2.png";
-import logogoogle from "../../assets/google.png";
-import Logofb from "../../assets/facebook (1).png";
-import { Link } from "react-router-dom";
-import JoinUser from "../JoinUser/index";
+
+import Swal from "sweetalert2";
+import React, { useState } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
 import AvatarComponent from "../Avatar";
 
 export default function SignUp() {
+  const [nom, setNom] = useState('');
+  const [email, setEmail] = useState('');
+  const [motdepasse, setMotDePasse] = useState('');
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const utilisateur = { nom, email, motdepasse };
+
+    try {
+      const response = await fetch('http://localhost:8080/api/utilisateurs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(utilisateur),
+      });
+
+      if (!response.ok) {
+        throw new Error('Quelque chose s\'est mal passé lors de la création de l\'utilisateur');
+      }
+
+      const data = await response.json();
+      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "Compte crée avec succès!",
+        text: "Vous pouvez dès à présent vous connecter.",
+      });
+
+      navigate('/connexion');
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="div-globalsignup animatedBackground p-3">
       <main className="w-full relative bottom-2 animatedBackground flex flex-col items-center justify-center bg-gray-50 sm:px-4">
@@ -29,35 +67,42 @@ export default function SignUp() {
             </div>
           </div>
           <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-              <div>
-                <label className="font-medium text-gray-600">Name</label>
-                <input
-                  type="text"
-                  required
-                  className="w-full mt-2 px-3 py-2 text-gray-800 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                />
-              </div>
-              <div>
-                <label className="font-medium text-gray-600">Email</label>
-                <input
-                  type="email"
-                  required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                />
-              </div>
-              <div>
-                <label className="text-gray-600 font-medium">Password</label>
-                <input
-                  type="password"
-                  required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                />
-              </div>
-              <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-                Créer un compte
-              </button>
-            </form>
+          <form onSubmit={handleSubmit} className="space-y-5">
+  <div>
+    <label className="font-medium text-gray-600">Name</label>
+    <input
+      type="text"
+      value={nom}
+      onChange={(e) => setNom(e.target.value)}
+      required
+      className="w-full mt-2 px-3 py-2 text-gray-800 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+    />
+  </div>
+  <div>
+    <label className="font-medium text-gray-600">Email</label>
+    <input
+      type="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      required
+      className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+    />
+  </div>
+  <div>
+    <label className="text-gray-600 font-medium">Password</label>
+    <input
+      type="password"
+      value={motdepasse}
+      onChange={(e) => setMotDePasse(e.target.value)}
+      required
+      className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+    />
+  </div>
+  <button type="submit" className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
+    Créer un compte
+  </button>
+</form>
+
             <div className=" text-dark font-medium">
               <span className="block w-full h-px bg-gray-300"></span>
               <p className="inline-block w-fit text-sm text-dark px-2 m-4 -top-2 inset-x-0 mx-auto">
@@ -168,7 +213,7 @@ export default function SignUp() {
         </div>
       </main>
       <div
-        className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-3xl sm:h-[400px]"
+        className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[220px] mx-auto sm:max-w-3xl sm:h-[200px]"
         style={{
           background:
             "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
@@ -177,3 +222,5 @@ export default function SignUp() {
     </div>
   );
 }
+
+

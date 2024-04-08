@@ -16,13 +16,18 @@ import Contact from "../Contact";
 import ForgotPassword from "../ForgotPassword";
 import Profil from "../Profil";
 import Faq from "../Faq";
+import LoginSuccess from "../LoginSuccess";
 
 function App() {
+
+
+  
   return (
     <div className="App">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login-success" element={<LoginSuccess />} />
         <Route path="/inscription" element={<Signup />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/forgot-password" element={<ForgotPassword/>} />
