@@ -16,6 +16,11 @@
   position: relative;
   left: 10em;
 }
+.img-3d{
+  display: flex;
+  position: relative;
+  right: 28em;
+}
 
 @keyframes animatedBackground {
   0% {

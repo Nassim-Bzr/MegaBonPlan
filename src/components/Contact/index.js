@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
+import Img from "../../assets/Message sent - 640x479 (1).png";
 export default function Contact() {
   const [formData, setFormData] = useState({
     from_name: "",
@@ -21,8 +22,8 @@ export default function Contact() {
 
     emailjs
       .sendForm(
-        "service_72acn3v", 
-        "template_yr0uonj", 
+        "service_72acn3v",
+        "template_yr0uonj",
         e.target,
         "R2PkxWVMmSHoyhnCr"
       )
@@ -50,7 +51,8 @@ export default function Contact() {
   return (
     <div>
       <main className="relative py-12 bg-gray-900">
-        <div className="relative z-10 max-w-screen-xl mx-auto text-gray-600 sm:px-4 md:px-8">
+        <img className="relative sm:right-28" src={Img} />
+        <div className="relative z-10 max-w-screen-xl mx-auto text-gray-600 sm:px-4 md:px-8 sm:bottom-[450px]">
           <div className="max-w-lg space-y-3  sm:mx-auto sm:text-center sm:px-0">
             <h3 className="text-4xl font-semibold text-white text-center mb-6">
               Contact

@@ -2,35 +2,30 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./signin.css";
-
+import img from "../../assets/Marketing - 480x576.png";
 
 export default function Login() {
-
-  const [email, setEmail] = useState('');
-  const [motdepasse, setMotDePasse] = useState('');
+  const [email, setEmail] = useState("");
+  const [motdepasse, setMotDePasse] = useState("");
   const navigate = useNavigate();
   const googleAuth = () => {
-		window.open(
-			`${process.env.REACT_APP_API_URL}/auth/google`,
-			"_self"
-		);
-	};
-
+    window.open(`${process.env.REACT_APP_API_URL}/auth/google`, "_self");
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, motdepasse }),
       });
 
       if (!response.ok) {
-        throw new Error('Erreur d\'authentification');
+        throw new Error("Erreur d'authentification");
       }
 
       const data = await response.json();
@@ -38,7 +33,7 @@ export default function Login() {
 
       // Gérer la connexion ici (sauvegarde du token, etc.)
       // Rediriger vers la page de profil ou d'accueil
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error(error.message);
     }
@@ -52,6 +47,7 @@ export default function Login() {
               <h3 className="text-white text-2xl font-semibold sm:text-4xl">
                 Connectez-vous à votre compte
               </h3>
+              <img src={img} className="img-3d" />
               <p className="text-white">
                 Vous n'avez pas de compte?{" "}
                 <Link
@@ -64,27 +60,27 @@ export default function Login() {
             </div>
           </div>
           <form
-            className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg"
+            className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg relative bottom-[504px]"
             onSubmit={handleLogin}
           >
             <div>
               <label className=" text-gray-600 font-medium">Email</label>
-             <input
-            type="email"
-            required
-            value={email} // Utiliser l'état email
-            onChange={(e) => setEmail(e.target.value)} // Mettre à jour l'état lors de la modification de l'input
-            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-          />
+              <input
+                type="email"
+                required
+                value={email} // Utiliser l'état email
+                onChange={(e) => setEmail(e.target.value)} // Mettre à jour l'état lors de la modification de l'input
+                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
             </div>
             <div>
               <label className=" text-gray-600 font-medium">Mot de passe</label>
 
-          <input
-            type="password"
-            required
-            value={motdepasse} // Utiliser l'état motdepasse
-            onChange={(e) => setMotDePasse(e.target.value)}
+              <input
+                type="password"
+                required
+                value={motdepasse} // Utiliser l'état motdepasse
+                onChange={(e) => setMotDePasse(e.target.value)}
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
             </div>
@@ -98,7 +94,10 @@ export default function Login() {
               </p>
             </div>
             <div className="space-y-4 text-sm font-semibold">
-              <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100" onClick={googleAuth}>
+              <button
+                className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100"
+                onClick={googleAuth}
+              >
                 <svg
                   className="w-5 h-5"
                   viewBox="0 0 48 48"

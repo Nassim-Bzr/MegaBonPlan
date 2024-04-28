@@ -19,7 +19,7 @@ export default function SignUp() {
     const utilisateur = { nom, email, motdepasse };
 
     try {
-      const response = await fetch('http://localhost:8080/api/utilisateurs', {
+      const response = await fetch('http://localhost:8080/api/utilisateur', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
