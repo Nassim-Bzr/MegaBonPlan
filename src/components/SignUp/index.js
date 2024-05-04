@@ -15,9 +15,8 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const utilisateur = { nom, email, motdepasse };
-
+  
     try {
       const response = await fetch('http://localhost:8080/api/utilisateur', {
         method: 'POST',
@@ -26,24 +25,25 @@ export default function SignUp() {
         },
         body: JSON.stringify(utilisateur),
       });
-
+  
       if (!response.ok) {
         throw new Error('Quelque chose s\'est mal passé lors de la création de l\'utilisateur');
       }
-
+  
       const data = await response.json();
       console.log(data);
       Swal.fire({
         icon: "success",
-        title: "Compte crée avec succès!",
-        text: "Vous pouvez dès à présent vous connecter.",
+        title: "Compte créé avec succès!",
+        text: "Veuillez vérifier votre e-mail pour activer votre compte.",
       });
-
-      navigate('/connexion');
+  
+      navigate('/verify');
     } catch (error) {
       console.error(error.message);
     }
   };
+  
 
   return (
     <div className="div-globalsignup animatedBackground p-3">

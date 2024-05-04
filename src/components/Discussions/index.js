@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-
-// Importez ou définissez le composant Modal si nécessaire
+import { useSelector } from 'react-redux'; // Import useSelector
 import Modal from "../Modal/index";
 import "./Discussions.css";
+
 export default function Discussions() {
   const [discussions] = useState([
     {
@@ -21,6 +21,8 @@ export default function Discussions() {
   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // Utilisez le state approprié selon votre store Redux
+
   const handleOpenModal = (discussion) => {
     setSelectedDiscussion(discussion);
     setShowModal(true);
@@ -36,6 +38,14 @@ export default function Discussions() {
       <h1 className="text-4xl font-semibold text-white text-center mb-10">
         Discussions
       </h1>
+      {isLoggedIn && (
+        <button
+          className="mb-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => console.log('Ouvrir modal pour créer une nouvelle discussion')}
+        >
+          Nouvelle discussion
+        </button>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {discussions.map((discussion) => (
           <div

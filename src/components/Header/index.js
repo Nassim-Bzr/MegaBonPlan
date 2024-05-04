@@ -1,50 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Votre texte de paragraphe.png";
-import { useAuth } from "../../AuthContext"; // Assurez-vous d'ajuster le chemin selon votre structure de dossier
+import Logo from "../../assets/Votre texte de paragraphe.png";  // Assurez-vous que le chemin vers le logo est correct
+import { useAuth } from "../../AuthContext"; // Assurez-vous que le chemin d'accès à AuthContext est correct
 
 const Header = () => {
-  const [state, setState] = useState(false);
-  const { user } = useAuth(); // Utilisation du hook useAuth pour accéder à l'état de connexion
+  const { user, logout } = useAuth();
 
-  // Écoutez les clics en dehors des éléments du menu pour fermer le menu sur mobile
-  useEffect(() => {
-    const handleDocumentClick = (e) => {
-      if (!e.target.closest(".menu-btn") && !e.target.closest(".menu")) {
-        setState(false);
-      }
-    };
-
-    document.addEventListener("click", handleDocumentClick);
-
-    return () => {
-      document.removeEventListener("click", handleDocumentClick);
-    };
-  }, []);
-
-  const navigation = [
-    { title: "Catégories", path: "/category" },
-    { title: "Bon Plans", path: "/bonsplans" },
-    { title: "Codes Promos", path: "/codespromos" },
-    { title: "Discussions", path: "/discussions" },
-    { title: "Contact", path: "/contact" },
-    { title: "FAQ", path: "/faq" },
-  ];
+  console.log(user)
+  const handleLogout = () => {
+    logout();  // Déconnexion de l'utilisateur via AuthContext
+  };
 
   return (
-    <nav className={`bg-white md:text-sm ${state ? "shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0" : ""}`}>
+    <nav className="bg-white md:text-sm shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0">
       <div className="max-w-screen-xl mx-auto px-4 md:flex md:px-8">
         <div className="flex justify-between items-center py-3 md:py-5">
           <Link to="/">
             <img src={Logo} alt="Logo" width={120} height={50} />
           </Link>
-          <button className="menu-btn md:hidden" onClick={() => setState(!state)}>
-            {/* Icône du menu ici */}
+          <button className="md:hidden">
+            {/* Icône du menu ici si nécessaire */}
           </button>
         </div>
-        <div className={`flex-1 ${state ? "block" : "hidden"} md:flex md:items-center md:justify-between`}>
+        <div className="flex-1 md:flex md:items-center md:justify-between">
           <ul className="space-y-4 md:flex md:space-x-8 md:space-y-0">
-            {navigation.map((item, index) => (
+            {[
+              { title: "Catégories", path: "/category" },
+              { title: "Bon Plans", path: "/bonsplans" },
+              { title: "Codes Promos", path: "/codespromos" },
+              { title: "Discussions", path: "/discussions" },
+              { title: "Contact", path: "/contact" },
+              { title: "FAQ", path: "/faq" },
+            ].map((item, index) => (
               <li key={index}>
                 <Link to={item.path} className="text-gray-700 hover:text-gray-900">
                   {item.title}
@@ -54,10 +41,13 @@ const Header = () => {
           </ul>
           {user ? (
             <div className="flex items-center space-x-4">
-              <span>Bonjour, {user.name}</span>
+              <span>Bonjour, {user.nom}</span> {/* Affiche le nom de l'utilisateur */}
               <Link to="/profil" className="py-2 px-4 text-white bg-blue-500 hover:bg-blue-700 rounded">
                 Profil
               </Link>
+              <button onClick={handleLogout} className="py-2 px-4 text-white bg-red-500 hover:bg-red-700 rounded">
+                Déconnexion
+              </button>
             </div>
           ) : (
             <div className="mt-4 md:mt-0">

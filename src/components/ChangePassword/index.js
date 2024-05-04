@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../AuthContext'; // Importe le hook personnalisé
 
 export default function ChangePassword() {
+  const { user } = useAuth(); // Accès aux informations de l'utilisateur via le contexte
   const [passwords, setPasswords] = useState({
     oldPassword: '',
     newPassword: '',
@@ -22,18 +24,20 @@ export default function ChangePassword() {
       return;
     }
 
-    // Supposons que vous devez envoyer l'ID de l'utilisateur et les mots de passe à l'API
-    const userId = 'votre_id_utilisateur'; // Assurez-vous de remplacer cela par l'ID réel de l'utilisateur connecté
+    if (!user || !user.id) {
+      alert('ID utilisateur non trouvé ou non défini');
+      return;
+    }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/utilisateurs/${userId}`, {
+      const response = await fetch(`http://localhost:8080/api/utilisateur/${user.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           oldPassword: passwords.oldPassword,
-          motdepasse: passwords.newPassword // Assurez-vous que le nom du champ correspond à celui attendu par votre API
+          newPassword: passwords.newPassword // Assurez-vous que le champ dans la DB correspond
         })
       });
 
@@ -48,6 +52,7 @@ export default function ChangePassword() {
       alert(error.message);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">

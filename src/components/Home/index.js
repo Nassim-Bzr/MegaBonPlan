@@ -1,5 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 // Importez Autoplay avec les autres modules
+import { useAuth } from "../../AuthContext"; // Assurez-vous que le chemin d'accès à AuthContext est correct
+
 import { EffectCube, Pagination, Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-cube";
@@ -13,6 +15,9 @@ import image3 from "../../assets/SLIDER-gta-6-ps5-visuel-provisoire-v2.jpeg";
 
 export default function Home() {
   const images = [image1, image2, image3];
+  const { user, logout } = useAuth();
+
+  console.log(user)
 
   return (
     <div className="w-full h-screen p-10 items-center animatedBackground">

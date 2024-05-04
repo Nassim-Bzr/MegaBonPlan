@@ -6,17 +6,23 @@ export default function Profile() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  // Remplacez cette logique par les données réelles de votre utilisateur
-  const userData = user ? {
-    nom: user.name || "Nom d'utilisateur",
+  const handleLogout = () => {
+    logout();
+    navigate('/connexion'); // Rediriger vers la page de connexion après déconnexion
+  };
+
+  // Si aucun utilisateur n'est connecté, redirigez ailleurs ou affichez un message
+  if (!user) {
+    navigate('/connexion');
+    return <div>Loading...</div>;
+  }
+
+  // Utilisez les données réelles de votre utilisateur provenant du Context
+  const userData = {
+    nom: user.nom || "Nom d'utilisateur",
     email: user.email || "email@exemple.com",
     dateInscription: user.dateInscription || "Date d'inscription",
     imageUrl: user.imageUrl || "https://via.placeholder.com/150"
-  } : {};
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
   };
 
   return (

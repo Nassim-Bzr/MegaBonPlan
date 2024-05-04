@@ -9,21 +9,23 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Simule le chargement du statut de connexion et des données utilisateur
   useEffect(() => {
-    const userName = localStorage.getItem('userName');
-    if (userName) {
-      setUser({ name: userName });
+    const userData = localStorage.getItem('userData');
+    const token = localStorage.getItem('token');  // Ajoutez ceci si vous stockez le token séparément
+    if (userData && token) {
+      setUser(JSON.parse(userData));  // Assurez-vous que l'utilisateur est mis à jour avec les données stockées
     }
   }, []);
 
-  const login = (userName) => {
-    localStorage.setItem('userName', userName);
-    setUser({ name: userName });
+  const login = (userData, token) => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+    localStorage.setItem('token', token);  // Stockez le token dans localStorage
+    setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem('userName');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('token');  // Assurez-vous de retirer le token
     setUser(null);
   };
 

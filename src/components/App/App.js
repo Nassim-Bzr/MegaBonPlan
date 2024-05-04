@@ -1,4 +1,5 @@
 import "./App.css";
+import CurrentCategory from "../CurrentCategory/index";
 import Footer from "../Footer/index";
 import Header from "../Header/index";
 import Home from "../Home/index";
@@ -7,11 +8,11 @@ import Signup from "../SignUp/index"; // Assurez-vous d'avoir un composant pour 
 // Autres imports de pages si nécessaire
 import { Routes, Route } from "react-router-dom";
 import Category from "../Category/Category";
-
+import VerifyAccount from "../VerifyAccount/index";
+import VerificationSuccess from "../VerificationSuccess/index";
 import BonPlans from "../BonsPlans/index";
 import CodesPromos from "../CodePromos";
 import Discussions from "../Discussions";
-import CurrentCategory from "../CurrentCategory";
 import Contact from "../Contact";
 import ForgotPassword from "../ForgotPassword";
 import Profil from "../Profil";
@@ -35,11 +36,12 @@ function App() {
         <Route path="/connexion" element={<Signin />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/category" element={<Category />} />
+        <Route path="/verify" element={<VerifyAccount />} />
         <Route path="/bonsplans" element={<BonPlans />} />
         <Route path="/codespromos" element={<CodesPromos />} />
         <Route path="/discussions" element={<Discussions />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/current-category" element={<CurrentCategory />} />
+        <Route path="/category/:categoryId" element={<CurrentCategory />} />
         <Route path="/forgot-password" element={<ForgotPassword/>} />
         <Route path="/connexion" element={<Signin />} />
         <Route path="/profil" element={<Profil />} />
@@ -48,7 +50,7 @@ function App() {
         <Route path="/codespromos" element={<CodesPromos />} />
         <Route path="/discussions" element={<Discussions />} />{" "}
         <Route path="/contact" element={<Contact />} />
-        <Route path="/current-category" element={<CurrentCategory />} />
+        <Route path="/somewhere-after-success" element={<VerificationSuccess/>} />
       </Routes>
       <Footer />
     </div>
