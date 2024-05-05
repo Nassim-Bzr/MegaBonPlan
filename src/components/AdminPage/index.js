@@ -7,23 +7,24 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (user && user.isadmin) {
-      fetch('http://localhost:8080/api/bonplans/pending') // Utiliser le nouvel endpoint
+      fetch('http://localhost:8080/api/bonplans/pending')
       .then(response => response.json())
       .then(data => {
-          console.log(data);  // Vérifier la structure de la donnée reçue
-          if (Array.isArray(data)) {  // Assurer que la donnée est un tableau
+          console.log("Données reçues pour les bons plans en attente :", data);
+          if (Array.isArray(data)) {
               setPendingBonPlans(data);
           } else {
-              setPendingBonPlans([]);  // S'assurer que pendingBonPlans est toujours un tableau
+              console.error("La réponse n'est pas un tableau :", data);
+              setPendingBonPlans([]);
           }
       })
       .catch(error => {
           console.error('Erreur lors de la récupération des bons plans:', error);
-          setPendingBonPlans([]);  // Gérer les erreurs en initialisant avec un tableau vide
+          setPendingBonPlans([]);
       });
-      
     }
   }, [user]);
+  
 
   const handleApprove = (bonPlanId) => {
     fetch(`http://localhost:8080/api/bonplans/${bonPlanId}`, {

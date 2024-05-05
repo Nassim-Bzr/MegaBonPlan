@@ -50,21 +50,14 @@ export default function Login() {
       <main className="w-full flex flex-col items-center justify-center px-4 relative ">
         <div className="max-w-sm w-full text-white-600 space-y-8 ">
           <div className="text-center ">
-            <div className=" space-y-2">
+            <div className=" space-y-8">
               <h3 className="text-white text-2xl font-semibold sm:text-4xl">
                 Connectez-vous à votre compte
               </h3>
               <img src={img} className="img-3d" />
-              <p className="text-white">
-                Vous n'avez pas de compte?{" "}
-                <Link
-                  to="/inscription"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Inscription
-                </Link>
-              </p>
+             
             </div>
+            
           </div>
           <form
             className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg relative bottom-[504px]"
@@ -210,6 +203,15 @@ export default function Login() {
               >
                 Mot de passe oublié ?
               </Link>
+              <p className="text-bold">
+                Vous n'avez pas de compte?{" "}
+                <Link
+                  to="/inscription"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Inscription
+                </Link>
+              </p>
             </div>
           </form>
         </div>
