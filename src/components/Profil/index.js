@@ -60,7 +60,14 @@ export default function Profile() {
             className="text-red-600 hover:text-red-800 font-medium"
           >
             Changer de mot de passe
-          </Link>
+          </Link>  {user.isadmin && ( 
+            <Link
+              to="/admin"
+              className="text-green-600 hover:text-green-800 font-medium"
+            >
+              Admin Page
+            </Link>
+          )}
           <button
             onClick={handleLogout}
             className="text-red-600 hover:text-red-800 font-medium"

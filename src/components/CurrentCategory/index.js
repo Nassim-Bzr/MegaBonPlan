@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'; // Pour accéder à l'état global
 import { useAuth } from "../../AuthContext"; // Assurez-vous que le chemin est correct
+
 export default function CurrentCategory() {
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const [bonPlans, setBonPlans] = useState([]);
   const [categoryName, setCategoryName] = useState('');
   const [newBonPlan, setNewBonPlan] = useState({ Titre: '', Description: '', LienAffiliation: '' });
-  const { user} = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/categories/${categoryId}`)
@@ -20,7 +20,10 @@ export default function CurrentCategory() {
 
     fetch(`http://localhost:8080/api/bonplans/category/${categoryId}`)
       .then(response => response.json())
-      .then(data => setBonPlans(data))
+      .then(data => {
+        const filteredPlans = data.filter(bonPlan => bonPlan.ApprouveParAdmin); // Filtrer pour ne garder que les bons plans approuvés
+        setBonPlans(filteredPlans);
+      })
       .catch(error => console.error('Erreur lors de la récupération des bons plans pour la catégorie:', error));
   }, [categoryId]);
 
@@ -31,7 +34,6 @@ export default function CurrentCategory() {
 
   const submitNewBonPlan = (event) => {
     event.preventDefault();
-    // Ajouter des vérifications ou des transformations si nécessaire
     fetch('http://localhost:8080/api/bonplans', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -39,7 +41,6 @@ export default function CurrentCategory() {
     })
     .then(response => response.json())
     .then(() => {
-      // Recharger les bons plans ou naviguer à un autre écran
       navigate(0); // Rafraîchir la page pour voir le nouveau bon plan
     })
     .catch(error => console.error('Erreur lors de l\'ajout du bon plan:', error));

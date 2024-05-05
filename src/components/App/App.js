@@ -18,6 +18,8 @@ import ForgotPassword from "../ForgotPassword";
 import Profil from "../Profil";
 import Faq from "../Faq";
 import LoginSuccess from "../LoginSuccess";
+import AdminPage from "../AdminPage";
+
 import ChangePassword from "../ChangePassword";
 function App() {
 
@@ -51,6 +53,7 @@ function App() {
         <Route path="/discussions" element={<Discussions />} />{" "}
         <Route path="/contact" element={<Contact />} />
         <Route path="/somewhere-after-success" element={<VerificationSuccess/>} />
+        <Route path="/admin" element={<AdminPage/>} />
       </Routes>
       <Footer />
     </div>
