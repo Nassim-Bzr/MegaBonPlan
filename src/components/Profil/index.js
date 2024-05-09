@@ -5,7 +5,7 @@ import { useAuth } from '../../AuthContext' // Assurez-vous que le chemin est co
 export default function Profile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-
+ console.log("test",user)
   const handleLogout = () => {
     logout()
     navigate('/connexion') // Rediriger vers la page de connexion après déconnexion
@@ -21,10 +21,9 @@ export default function Profile() {
   const userData = {
     nom: user.nom || "Nom d'utilisateur",
     email: user.email || 'email@exemple.com',
-    dateInscription: user.dateInscription || "Date d'inscription",
+    dateinscription: user.token.dateinscription || "Date d'inscription",
     imageUrl: user.imageUrl || 'https://via.placeholder.com/150',
   }
-
   return (
     <div className="bg-gray-100 min-h-screen animatedBackground flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 md:p-12">
@@ -38,7 +37,7 @@ export default function Profile() {
             <h1 className="text-2xl font-bold text-gray-700">{userData.nom}</h1>
             <p className="text-gray-600">{userData.email}</p>
             <p className="text-gray-500">
-              Membre depuis: {userData.dateInscription}
+              Membre depuis: {userData.dateinscription}
             </p>
           </div>
         </div>
@@ -46,10 +45,10 @@ export default function Profile() {
           <h2 className="text-xl font-semibold text-gray-700">
             Informations du Profil
           </h2>
-          <ul className="list-disc space-y-2 pl-5 mt-4 text-gray-600">
+          <ul className="list-disc list-none space-y-2 pl-5 mt-4 text-gray-600">
             <li>Nom : {userData.nom}</li>
             <li>Email : {userData.email}</li>
-            <li>Date d'inscription : {userData.dateInscription}</li>
+            <li>Date d'inscription : {userData.dateinscription}</li>
           </ul>
         </div>
         <div className="mt-8 flex space-x-4">

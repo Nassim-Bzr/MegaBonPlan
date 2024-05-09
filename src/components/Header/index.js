@@ -35,7 +35,7 @@ const Header = () => {
             <img src={Logo} alt="Logo" width={120} height={50} />
           </Link>
           <button className="md:hidden">
-            {/* Icône du menu ici si nécessaire */}
+
           </button>
         </div>
         <div className="flex-1 md:flex md:items-center md:justify-between">
@@ -60,12 +60,7 @@ const Header = () => {
               >
                 Profil
               </Link>
-              <button
-                onClick={handleLogout}
-                className="py-2 px-4 text-white bg-red-500 hover:bg-red-700 rounded"
-              >
-                Déconnexion
-              </button>
+         
             </div>
           ) : (
             <div className="mt-4 md:mt-0">
