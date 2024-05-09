@@ -1,55 +1,55 @@
-import React from "react";
-import "./footer.css";
-import logo1 from "../../assets/apple-store-badge.png";
-import logo2 from "../../assets/google-play-badge.png";
+import React from 'react'
+import './footer.css'
+import logo1 from '../../assets/apple-store-badge.png'
+import logo2 from '../../assets/google-play-badge.png'
 
 export default function Footer() {
   const footerNavs = [
     {
-      label: "Resources",
+      label: 'Resources',
       items: [
         {
-          href: "javascript:void()",
-          name: "contact",
+          href: 'javascript:void()',
+          name: 'contact',
         },
         {
-          href: "javascript:void()",
-          name: "Support",
+          href: 'javascript:void()',
+          name: 'Support',
         },
       ],
     },
     {
-      label: "About",
+      label: 'About',
       items: [
         {
-          href: "javascript:void()",
-          name: "Terms",
+          href: 'javascript:void()',
+          name: 'Terms',
         },
       ],
     },
     {
-      label: "Explore",
+      label: 'Explore',
       items: [
         {
-          href: "javascript:void()",
-          name: "Languages",
+          href: 'javascript:void()',
+          name: 'Languages',
         },
         {
-          href: "javascript:void()",
-          name: "Blog",
+          href: 'javascript:void()',
+          name: 'Blog',
         },
       ],
     },
     {
-      label: "Company",
+      label: 'Company',
       items: [
         {
-          href: "javascript:void()",
-          name: "Partners",
+          href: 'javascript:void()',
+          name: 'Partners',
         },
       ],
     },
-  ];
+  ]
 
   return (
     <footer className="pt-10 bg-gray-800">
@@ -198,5 +198,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

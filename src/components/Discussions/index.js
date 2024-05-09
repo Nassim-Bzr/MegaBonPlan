@@ -1,103 +1,63 @@
-import React, { useState } from "react";
-import { useSelector } from 'react-redux'; // Import useSelector
-import Modal from "../Modal/index";
-import "./Discussions.css";
+import React from 'react';
+import { TbClockHour4 } from "react-icons/tb";
 
-export default function Discussions() {
-  const [discussions] = useState([
-    {
-      id: 1,
-      titre: "Discussion sur React",
-      username: "JeanDev",
-      date: new Date("2023-04-04T14:00:00Z").toLocaleString(),
-      resume: "Quels sont vos composants préférés ?",
-      messages: [
-        { id: 1, username: "Alice", content: "J'aime bien les hooks !" },
-        { id: 2, username: "Bob", content: "Les contextes sont super utiles." },
-      ],
-    },
-    // Autres discussions...
-  ]);
-  const [selectedDiscussion, setSelectedDiscussion] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+const discussions = [
+  {
+    id: 1,
+    category: 'Culture & Divertissement',
+    title: 'Bon plan pour le Cinépass Pathé-Gaumont',
+    author: 'Florian-kun',
+    timeAgo: '53 min',
+    comments: 1
+  },
+  {
+    id: 2,
+    category: 'High-tech & informatique',
+    title: 'Upgrade setup haut parleur',
+    content: "Bonjour,  J'aurai besoin de souscrire un abonnement mensuel pour prendre le TER jusqu'à Paris. J'ai bien trouvé la page pour l'abonnement :  https://www.sncf-connect.com/app/catalogue/descri...",
+    author: 'tneciv_sam',
+    timeAgo: '2 h et 20 min',
+    comments: 4
+  },
+  {
+    id: 3,
+    category: 'Gaming',
+    title: 'Achat store turc',
+    author: 'Elhadi_Elghamart',
+    timeAgo: '3 h et 42 min',
+    comments: 0
+  }
+];
 
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn); // Utilisez le state approprié selon votre store Redux
-
-  const handleOpenModal = (discussion) => {
-    setSelectedDiscussion(discussion);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedDiscussion(null);
-  };
-
+function Discussions() {
   return (
-    <div className="bg-gray-100 min-h-screen p-8 animatedBackground">
-      <h1 className="text-4xl font-semibold text-white text-center mb-10">
-        Discussions
-      </h1>
-      {isLoggedIn && (
-        <button
-          className="mb-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => console.log('Ouvrir modal pour créer une nouvelle discussion')}
-        >
-          Nouvelle discussion
-        </button>
-      )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {discussions.map((discussion) => (
-          <div
-            key={discussion.id}
-            className="group relative rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 bg-white cursor-pointer"
-            onClick={() => handleOpenModal(discussion)}
-          >
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                {discussion.titre}
-              </h3>
-              <p className="text-gray-600 mb-4">{discussion.resume}</p>
-              <div className="absolute bottom-0 left-0 p-6 w-full flex justify-between items-center text-sm">
-                <span className="text-gray-600">{discussion.username}</span>
-                <span className="text-gray-400">{discussion.date}</span>
+    <div className="bg-gray-50 animatedBackground min-h-screen">
+      <div className="max-w-4xl mx-auto p-4">
+        <h1 className="text-3xl text-white font-bold mb-4">Discussions</h1>
+        <div className="space-y-4">
+          {discussions.map((discussion) => (
+            <div key={discussion.id} className="bg-white p-4 rounded-lg shadow">
+              <h2 className="text-gray-600 font-semibold">{discussion.category}</h2>
+              <h3 className="text-gray-800 font-semibold mt-2 text-xl">{discussion.title}</h3>
+              {discussion.content && (
+                <p className="mt-2 text-sm text-gray-700">{discussion.content}</p>
+              )}
+              <div className="flex justify-between items-center text-gray-500 text-sm mt-2">
+                <span>{discussion.author}</span>
+                <span><TbClockHour4 /> il y a {discussion.timeAgo}</span>
+              </div>
+              <div className="flex items-center mt-2">
+                <span className="text-gray-600 mr-2">{discussion.comments} commentaires</span>
+                <button className="text-blue-500 hover:text-blue-700 transition">
+                  Commenter
+                </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      {showModal && (
-        <Modal onClose={handleCloseModal} title={selectedDiscussion.titre}>
-          <div className="space-y-4">
-            {selectedDiscussion.messages.map((message) => (
-              <div key={message.id} className="p-4 bg-white rounded shadow">
-                <div className="font-semibold">{message.username}</div>
-                <p>{message.content}</p>
-              </div>
-            ))}
-            {/* Formulaire pour ajouter un message */}
-            <form onSubmit={(e) => e.preventDefault()} className="pt-4">
-              <textarea
-                className="w-full p-2 border rounded"
-                placeholder="Votre message"
-              ></textarea>
-              <button
-                type="submit"
-                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-200"
-              >
-                Envoyer
-              </button>
-            </form>
-          </div>
-        </Modal>
-      )}
-      <div
-        className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[220px] mx-auto sm:max-w-3xl sm:h-[200px]"
-        style={{
-          background:
-            "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
-        }}
-      ></div>
     </div>
   );
 }
+
+export default Discussions;

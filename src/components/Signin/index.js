@@ -1,50 +1,52 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext"; // Assurez-vous que le chemin d'accès à AuthContext est correct
-import { Link } from "react-router-dom";
-import "./signin.css";
-import img from "../../assets/Marketing - 480x576.png";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../AuthContext' // Assurez-vous que le chemin d'accès à AuthContext est correct
+import { Link } from 'react-router-dom'
+import './signin.css'
+import img from '../../assets/Marketing - 480x576.png'
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [motdepasse, setMotDePasse] = useState("");
-  const navigate = useNavigate();
-  const { login } = useAuth(); // Utilisez login depuis AuthContext
+  const [email, setEmail] = useState('')
+  const [motdepasse, setMotDePasse] = useState('')
+  const navigate = useNavigate()
+  const { login } = useAuth() // Utilisez login depuis AuthContext
   const googleAuth = () => {
-    window.open(`${process.env.REACT_APP_API_URL}/auth/google`, "_self");
-  };
+    window.open(`${process.env.REACT_APP_API_URL}/auth/google`, '_self')
+  }
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      const response = await fetch('http://localhost:8080/api/utilisateur/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, motdepasse }),
-      });
-  
-      const data = await response.json();
+      const response = await fetch(
+        'http://localhost:8080/api/utilisateur/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, motdepasse }),
+        }
+      )
+
+      const data = await response.json()
       if (response.ok) {
         // Connexion réussie et compte vérifié
-        login(data.user, data.token); // Utilisez la fonction login du contexte
-        navigate('/'); // Navigation vers la page d'accueil ou tableau de bord
-      } else if (data.message === "Compte non vérifié. Veuillez vérifier votre compte.") {
+        login(data.user, data.token) // Utilisez la fonction login du contexte
+        navigate('/') // Navigation vers la page d'accueil ou tableau de bord
+      } else if (
+        data.message === 'Compte non vérifié. Veuillez vérifier votre compte.'
+      ) {
         // Si le compte n'est pas vérifié, enregistrez l'email et redirigez vers la page de vérification
-        localStorage.setItem('emailForVerification', email);
-        navigate('/verify');
+        localStorage.setItem('emailForVerification', email)
+        navigate('/verify')
       } else {
-        throw new Error(data.message); // Autres erreurs (par exemple, mauvais mot de passe ou email)
+        throw new Error(data.message) // Autres erreurs (par exemple, mauvais mot de passe ou email)
       }
     } catch (error) {
-      console.error('Login Error:', error);
+      console.error('Login Error:', error)
       // Afficher un message d'erreur (si votre UI le permet)
     }
-  };
-  
+  }
 
-
-      
   return (
     <div className=" animatedBackground  p-8 ">
       <main className="w-full flex flex-col items-center justify-center px-4 relative ">
@@ -55,9 +57,7 @@ export default function Login() {
                 Connectez-vous à votre compte
               </h3>
               <img src={img} className="img-3d" />
-             
             </div>
-            
           </div>
           <form
             className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg relative bottom-[504px]"
@@ -204,7 +204,7 @@ export default function Login() {
                 Mot de passe oublié ?
               </Link>
               <p className="text-bold">
-                Vous n'avez pas de compte?{" "}
+                Vous n'avez pas de compte?{' '}
                 <Link
                   to="/inscription"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -220,9 +220,9 @@ export default function Login() {
         className="absolute top-[518px] inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-3xl sm:h-[400px]"
         style={{
           background:
-            "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
+            'linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)',
         }}
       ></div>
     </div>
-  );
+  )
 }

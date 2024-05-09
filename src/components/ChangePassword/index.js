@@ -1,70 +1,80 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../AuthContext'; // Importe le hook personnalisé
+import React, { useState } from 'react'
+import { useAuth } from '../../AuthContext' // Importe le hook personnalisé
 
 export default function ChangePassword() {
-  const { user } = useAuth(); // Accès aux informations de l'utilisateur via le contexte
+  const { user } = useAuth() // Accès aux informations de l'utilisateur via le contexte
   const [passwords, setPasswords] = useState({
     oldPassword: '',
     newPassword: '',
-    confirmPassword: ''
-  });
+    confirmPassword: '',
+  })
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPasswords(prevState => ({
+    const { name, value } = e.target
+    setPasswords((prevState) => ({
       ...prevState,
-      [name]: value
-    }));
-  };
+      [name]: value,
+    }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (passwords.newPassword !== passwords.confirmPassword) {
-      alert("Les mots de passe ne correspondent pas!");
-      return;
+      alert('Les mots de passe ne correspondent pas!')
+      return
     }
 
     if (!user || !user.id) {
-      alert('ID utilisateur non trouvé ou non défini');
-      return;
+      alert('ID utilisateur non trouvé ou non défini')
+      return
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/utilisateur/${user.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          oldPassword: passwords.oldPassword,
-          newPassword: passwords.newPassword // Assurez-vous que le champ dans la DB correspond
-        })
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/utilisateur/${user.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            oldPassword: passwords.oldPassword,
+            newPassword: passwords.newPassword, // Assurez-vous que le champ dans la DB correspond
+          }),
+        }
+      )
 
-      const data = await response.json();
+      const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || "Erreur lors du changement du mot de passe.");
+        throw new Error(
+          data.message || 'Erreur lors du changement du mot de passe.'
+        )
       }
 
-      alert("Mot de passe changé avec succès!");
+      alert('Mot de passe changé avec succès!')
     } catch (error) {
-      alert(error.message);
+      alert(error.message)
     }
-  };
-
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen animatedBackground bg-gray-100 flex items-center justify-center">
       <div className="max-w-md w-full bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">Changer de mot de passe</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">
+          Changer de mot de passe
+        </h2>
 
-          {/* Les champs de formulaire restent inchangés */}
-          
+        {/* Les champs de formulaire restent inchangés */}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700">Ancien mot de passe</label>
+            <label
+              htmlFor="oldPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Ancien mot de passe
+            </label>
             <input
               type="password"
               name="oldPassword"
@@ -76,7 +86,12 @@ export default function ChangePassword() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
+            <label
+              htmlFor="newPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Nouveau mot de passe
+            </label>
             <input
               type="password"
               name="newPassword"
@@ -88,7 +103,12 @@ export default function ChangePassword() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirmer le nouveau mot de passe</label>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Confirmer le nouveau mot de passe
+            </label>
             <input
               type="password"
               name="confirmPassword"
@@ -108,5 +128,5 @@ export default function ChangePassword() {
         </form>
       </div>
     </div>
-  );
+  )
 }

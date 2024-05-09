@@ -1,52 +1,52 @@
-import React, { useState } from "react";
-import emailjs from "emailjs-com";
-import Swal from "sweetalert2";
-import Img from "../../assets/Message sent - 640x479 (1).png";
+import React, { useState } from 'react'
+import emailjs from 'emailjs-com'
+import Swal from 'sweetalert2'
+import Img from '../../assets/Message sent - 640x479 (1).png'
 export default function Contact() {
   const [formData, setFormData] = useState({
-    from_name: "",
-    from_email: "",
-    message: "",
-  });
+    from_name: '',
+    from_email: '',
+    message: '',
+  })
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
+    })
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     emailjs
       .sendForm(
-        "service_72acn3v",
-        "template_yr0uonj",
+        'service_72acn3v',
+        'template_yr0uonj',
         e.target,
-        "R2PkxWVMmSHoyhnCr"
+        'R2PkxWVMmSHoyhnCr'
       )
       .then(
         (result) => {
           Swal.fire({
-            icon: "success",
-            title: "Message envoyé avec succès!",
-            text: "Nous vous contacterons bientôt.",
-          });
+            icon: 'success',
+            title: 'Message envoyé avec succès!',
+            text: 'Nous vous contacterons bientôt.',
+          })
         },
         (error) => {
-          console.log(error.text);
+          console.log(error.text)
           Swal.fire({
-            icon: "error",
+            icon: 'error',
             title: "Erreur lors de l'envoi du message.",
             text: error.text,
-          });
+          })
         }
-      );
+      )
 
-    setFormData({ from_name: "", from_email: "", message: "" });
-  };
+    setFormData({ from_name: '', from_email: '', message: '' })
+  }
 
   return (
     <div>
@@ -109,10 +109,10 @@ export default function Contact() {
           className="absolute inset-0 blur-[118px] max-w-lg h-[800px] mx-auto sm:max-w-3xl sm:h-[400px]"
           style={{
             background:
-              "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
+              'linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)',
           }}
         ></div>
       </main>
     </div>
-  );
+  )
 }

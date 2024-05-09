@@ -1,22 +1,22 @@
-import "./signup.css";
+import './signup.css'
 
-import Swal from "sweetalert2";
-import React, { useState } from "react";
+import Swal from 'sweetalert2'
+import React, { useState } from 'react'
 
-import { Link, useNavigate } from "react-router-dom";
-import AvatarComponent from "../Avatar";
+import { Link, useNavigate } from 'react-router-dom'
+import AvatarComponent from '../Avatar'
 
 export default function SignUp() {
-  const [nom, setNom] = useState('');
-  const [email, setEmail] = useState('');
-  const [motdepasse, setMotDePasse] = useState('');
+  const [nom, setNom] = useState('')
+  const [email, setEmail] = useState('')
+  const [motdepasse, setMotDePasse] = useState('')
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const utilisateur = { nom, email, motdepasse };
-  
+    e.preventDefault()
+    const utilisateur = { nom, email, motdepasse }
+
     try {
       const response = await fetch('http://localhost:8080/api/utilisateur', {
         method: 'POST',
@@ -24,26 +24,27 @@ export default function SignUp() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(utilisateur),
-      });
-  
+      })
+
       if (!response.ok) {
-        throw new Error('Quelque chose s\'est mal passé lors de la création de l\'utilisateur');
+        throw new Error(
+          "Quelque chose s'est mal passé lors de la création de l'utilisateur"
+        )
       }
-  
-      const data = await response.json();
-      console.log(data);
+
+      const data = await response.json()
+      console.log(data)
       Swal.fire({
-        icon: "success",
-        title: "Compte créé avec succès!",
-        text: "Veuillez vérifier votre e-mail pour activer votre compte.",
-      });
-  
-      navigate('/verify');
+        icon: 'success',
+        title: 'Compte créé avec succès!',
+        text: 'Veuillez vérifier votre e-mail pour activer votre compte.',
+      })
+
+      navigate('/verify')
     } catch (error) {
-      console.error(error.message);
+      console.error(error.message)
     }
-  };
-  
+  }
 
   return (
     <div className="div-globalsignup animatedBackground p-3">
@@ -56,7 +57,7 @@ export default function SignUp() {
               </h3>
               <AvatarComponent />
               <p className="">
-                Vous avez déjà un compte ?{" "}
+                Vous avez déjà un compte ?{' '}
                 <Link
                   to="/connexion"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -67,41 +68,44 @@ export default function SignUp() {
             </div>
           </div>
           <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
-          <form onSubmit={handleSubmit} className="space-y-5">
-  <div>
-    <label className="font-medium text-gray-600">Name</label>
-    <input
-      type="text"
-      value={nom}
-      onChange={(e) => setNom(e.target.value)}
-      required
-      className="w-full mt-2 px-3 py-2 text-gray-800 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-    />
-  </div>
-  <div>
-    <label className="font-medium text-gray-600">Email</label>
-    <input
-      type="email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      required
-      className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-    />
-  </div>
-  <div>
-    <label className="text-gray-600 font-medium">Password</label>
-    <input
-      type="password"
-      value={motdepasse}
-      onChange={(e) => setMotDePasse(e.target.value)}
-      required
-      className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-    />
-  </div>
-  <button type="submit" className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-    Créer un compte
-  </button>
-</form>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="font-medium text-gray-600">Name</label>
+                <input
+                  type="text"
+                  value={nom}
+                  onChange={(e) => setNom(e.target.value)}
+                  required
+                  className="w-full mt-2 px-3 py-2 text-gray-800 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="font-medium text-gray-600">Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="text-gray-600 font-medium">Password</label>
+                <input
+                  type="password"
+                  value={motdepasse}
+                  onChange={(e) => setMotDePasse(e.target.value)}
+                  required
+                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+              >
+                Créer un compte
+              </button>
+            </form>
 
             <div className=" text-dark font-medium">
               <span className="block w-full h-px bg-gray-300"></span>
@@ -216,11 +220,9 @@ export default function SignUp() {
         className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[130px] mx-auto sm:max-w-3xl sm:h-[160px]"
         style={{
           background:
-            "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
+            'linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)',
         }}
       ></div>
     </div>
-  );
+  )
 }
-
-

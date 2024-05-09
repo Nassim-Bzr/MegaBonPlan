@@ -1,21 +1,21 @@
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react'
 // Importez Autoplay avec les autres modules
-import { useAuth } from "../../AuthContext"; // Assurez-vous que le chemin d'accès à AuthContext est correct
+import { useAuth } from '../../AuthContext' // Assurez-vous que le chemin d'accès à AuthContext est correct
 
-import { EffectCube, Pagination, Navigation, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-cube";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/autoplay"; // Assurez-vous d'importer le CSS pour autoplay
-import "./home.css";
-import image1 from "../../assets/slider-consoles-ps5-slim-standard-et-digital-multi.jpeg";
-import image2 from "../../assets/avatar-4k-collector-visuel-slider-v2-_1_.jpeg";
-import image3 from "../../assets/SLIDER-gta-6-ps5-visuel-provisoire-v2.jpeg";
+import { EffectCube, Pagination, Navigation, Autoplay } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/effect-cube'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+import 'swiper/css/autoplay' // Assurez-vous d'importer le CSS pour autoplay
+import './home.css'
+import image1 from '../../assets/slider-consoles-ps5-slim-standard-et-digital-multi.jpeg'
+import image2 from '../../assets/avatar-4k-collector-visuel-slider-v2-_1_.jpeg'
+import image3 from '../../assets/SLIDER-gta-6-ps5-visuel-provisoire-v2.jpeg'
 
 export default function Home() {
-  const images = [image1, image2, image3];
-  const { user, logout } = useAuth();
+  const images = [image1, image2, image3]
+  const { user, logout } = useAuth()
 
   console.log(user)
 
@@ -26,7 +26,7 @@ export default function Home() {
         l’année
       </h1>
       <Swiper
-        effect={"cube"}
+        effect={'cube'}
         grabCursor={true}
         cubeEffect={{
           shadow: true,
@@ -59,9 +59,9 @@ export default function Home() {
         className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[220px] mx-auto sm:max-w-3xl sm:h-[200px]"
         style={{
           background:
-            "linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)",
+            'linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)',
         }}
       ></div>
     </div>
-  );
+  )
 }

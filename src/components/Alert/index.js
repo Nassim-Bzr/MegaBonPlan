@@ -1,9 +1,8 @@
-import React from "react";
+import React from 'react'
 
 export default function index() {
   return (
     <div>
-
       <div className="mt-12 mx-4 px-4 rounded-md border-l-4 border-green-500 bg-green-50 md:max-w-2xl md:mx-auto md:px-8">
         <div className="flex justify-between py-3">
           <div className="flex">
@@ -24,7 +23,7 @@ export default function index() {
             <div className="self-center ml-3">
               <span className="text-green-600 font-semibold ">Success</span>
               <p className="text-green-600 mt-1">
-               Le bon plan à bien été ajouté au favoris.
+                Le bon plan à bien été ajouté au favoris.
               </p>
             </div>
           </div>
@@ -45,5 +44,5 @@ export default function index() {
         </div>
       </div>
     </div>
-  );
+  )
 }
