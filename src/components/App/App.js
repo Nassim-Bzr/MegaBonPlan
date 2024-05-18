@@ -22,6 +22,7 @@ import AdminPage from '../AdminPage'
 import BonPlanDetails from '../BonPlanDetails'
 import Favoris from '../FavorisPage'
 import ChangePassword from '../ChangePassword'
+import DetailsDiscussion from '../DetailsDiscussion'
 function App() {
   return (
     <div className="App">
@@ -50,7 +51,8 @@ function App() {
         <Route path="/category" element={<Category />} />
         <Route path="/bonsplans" element={<BonPlans />} />
         <Route path="/codespromos" element={<CodesPromos />} />
-        <Route path="/discussions" element={<Discussions />} />{' '}
+        <Route path="/discussions" element={<Discussions />} />
+        <Route path="/discussions/:idk" element={<DetailsDiscussion />} />
         <Route path="/contact" element={<Contact />} />
         <Route
           path="/somewhere-after-success"

@@ -53,7 +53,7 @@ export default function SignUp() {
           <div className="text-center">
             <div className=" space-y-2">
               <h3 className="text-white text-2xl pt-8 font-semibold sm:text-4xl">
-                Crée votre compte
+                Créez votre compte
               </h3>
               <AvatarComponent />
               <p className="">

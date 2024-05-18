@@ -13,7 +13,7 @@ export default function BonPlans() {
     fetch('http://localhost:8080/api/bonplans')
       .then((response) => response.json())
       .then((data) => {
-        const filteredPlans = data.filter((bonPlan) => bonPlan.ApprouveParAdmin)
+        const filteredPlans = data.filter((bonPlan) => bonPlan.approuvéparadmin)
         setBonPlans(filteredPlans)
       })
       .catch((error) => {
@@ -29,7 +29,7 @@ export default function BonPlans() {
       <div className="max-w-screen-xl mx-auto bg-white animatedBackground grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {bonPlans.map((bonPlan, index) => (
           <BonPlanCard key={index} bonPlan={bonPlan}  user={user} />
-        ))}
+          ))}
       </div>
     </div>
   )

@@ -1,15 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Logo from '../../assets/Votre texte de paragraphe.png'
-import { useAuth } from '../../AuthContext'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/Votre texte de paragraphe.png';
+import { useAuth } from '../../AuthContext';
 
 const Header = () => {
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  console.log(user)
-  const handleLogout = () => {
-    logout()
-  }
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleLinkClick = () => {
+    setMenuOpen(false);
+  };
 
   // Liste des éléments de navigation
   const navItems = [
@@ -19,32 +23,59 @@ const Header = () => {
     { title: 'Discussions', path: '/discussions' },
     { title: 'Contact', path: '/contact' },
     { title: 'FAQ', path: '/faq' },
-  ]
+  ];
 
   // Insertion de "Favoris" avant "FAQ" si l'utilisateur est connecté
   if (user) {
-    const faqIndex = navItems.findIndex((item) => item.title === 'FAQ')
-    navItems.splice(faqIndex, 0, { title: 'Favoris', path: '/favoris' })
+    const faqIndex = navItems.findIndex((item) => item.title === 'FAQ');
+    navItems.splice(faqIndex, 0, { title: 'Favoris', path: '/favoris' });
   }
 
   return (
-    <nav className="bg-white md:text-sm shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0">
+    <nav className="bg-white shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-2 md:mt-0">
       <div className="max-w-screen-xl mx-auto px-4 md:flex md:px-8">
         <div className="flex justify-between items-center py-3 md:py-5">
           <Link to="/">
             <img src={Logo} alt="Logo" width={120} height={50} />
           </Link>
-          <button className="md:hidden">
-
+          <button className="md:hidden" onClick={handleMenuToggle}>
+            <svg
+              className="w-6 h-6 text-gray-700"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {menuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              )}
+            </svg>
           </button>
         </div>
-        <div className="flex-1 md:flex md:items-center md:justify-between">
+        <div
+          className={`${
+            menuOpen ? 'block' : 'hidden'
+          } md:flex md:items-center md:justify-between w-full md:w-auto`}
+        >
           <ul className="space-y-4 md:flex md:space-x-8 md:space-y-0">
             {navItems.map((item, index) => (
               <li key={index}>
                 <Link
                   to={item.path}
                   className="text-gray-700 hover:text-gray-900"
+                  onClick={handleLinkClick}
                 >
                   {item.title}
                 </Link>
@@ -52,24 +83,25 @@ const Header = () => {
             ))}
           </ul>
           {user ? (
-            <div className="flex items-center space-x-4">
-              <span>Bonjour, {user.nom}</span>
+            <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center md:space-x-4">
+              <span>Bonjour, <span className="font-bold">{user.nom}</span></span>
               <Link
                 to="/profil"
-                className="py-2 px-4 text-white bg-blue-500 hover:bg-blue-700 rounded"
+                className="py-2 px-4 text-white w-1/2 ml-auto mr-auto m-2 bg-blue-500 hover:bg-blue-700 rounded mt-2 md:mt-0"
+                onClick={handleLinkClick}
               >
                 Profil
               </Link>
-         
             </div>
           ) : (
-            <div className="mt-4 md:mt-0">
-              <Link to="/connexion" className="mr-4">
+            <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center md:mt-0">
+              <Link to="/connexion" className="mr-0 md:mr-4 py-2 md:py-0" onClick={handleLinkClick}>
                 Connexion
               </Link>
               <Link
                 to="/inscription"
-                className="py-2 px-4 text-white bg-blue-500 hover:bg-blue-700 rounded"
+                className="py-2 px-4 text-white bg-blue-500 hover:bg-blue-700 rounded mt-2 md:mt-0"
+                onClick={handleLinkClick}
               >
                 Inscription
               </Link>
@@ -78,7 +110,7 @@ const Header = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
