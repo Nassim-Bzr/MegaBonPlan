@@ -7,9 +7,11 @@ export default function VerifyAccount() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    // Récupérer l'email du localStorage
     const storedEmail = localStorage.getItem('emailForVerification')
     if (!storedEmail) {
-      navigate('/connexion')
+      // Rediriger l'utilisateur si l'email n'est pas trouvé
+      navigate('/connexion') // Assurez-vous que cette route est correcte
     }
   }, [navigate])
 
@@ -19,17 +21,20 @@ export default function VerifyAccount() {
     const payload = { email, code }
 
     try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
+      const response = await fetch(
+        'http://localhost:8080/api/utilisateur/verify',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }
+      )
 
       const data = await response.json()
 
       if (response.ok) {
         localStorage.removeItem('emailForVerification')
-        navigate('/somewhere-after-success')
+        navigate('/somewhere-after-success') // Assurez-vous de rediriger l'utilisateur après succès
       } else {
         throw new Error(data.message)
       }

@@ -1,5 +1,8 @@
+import './signup.css'
+
 import Swal from 'sweetalert2'
 import React, { useState } from 'react'
+
 import { Link, useNavigate } from 'react-router-dom'
 import AvatarComponent from '../Avatar'
 
@@ -15,7 +18,7 @@ export default function SignUp() {
     const utilisateur = { nom, email, motdepasse }
 
     try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur', {
+      const response = await fetch('http://localhost:8080/api/utilisateur', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +27,9 @@ export default function SignUp() {
       })
 
       if (!response.ok) {
-        throw new Error("Quelque chose s'est mal passé lors de la création de l'utilisateur")
+        throw new Error(
+          "Quelque chose s'est mal passé lors de la création de l'utilisateur"
+        )
       }
 
       const data = await response.json()
@@ -48,7 +53,7 @@ export default function SignUp() {
           <div className="text-center">
             <div className=" space-y-2">
               <h3 className="text-white text-2xl pt-8 font-semibold sm:text-4xl">
-                Créez votre comptee
+                Crée votre compte
               </h3>
               <AvatarComponent />
               <p className="">
