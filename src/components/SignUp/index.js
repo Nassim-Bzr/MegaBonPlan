@@ -1,8 +1,5 @@
-import './signup.css'
-
 import Swal from 'sweetalert2'
 import React, { useState } from 'react'
-
 import { Link, useNavigate } from 'react-router-dom'
 import AvatarComponent from '../Avatar'
 
@@ -27,9 +24,7 @@ export default function SignUp() {
       })
 
       if (!response.ok) {
-        throw new Error(
-          "Quelque chose s'est mal passé lors de la création de l'utilisateur"
-        )
+        throw new Error("Quelque chose s'est mal passé lors de la création de l'utilisateur")
       }
 
       const data = await response.json()
