@@ -6,7 +6,7 @@ export default function Category() {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:8080/Api/categories')
+    fetch('https://megabonplan-f8522b195111.herokuapp.com/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) =>

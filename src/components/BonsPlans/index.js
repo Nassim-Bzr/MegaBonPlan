@@ -10,7 +10,7 @@ export default function BonPlans() {
   const [bonPlans, setBonPlans] = useState([])
   const { user } = useAuth()
   useEffect(() => {
-    fetch('http://localhost:8080/api/bonplans')
+    fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans')
       .then((response) => response.json())
       .then((data) => {
         const filteredPlans = data.filter((bonPlan) => bonPlan.approuvéparadmin)
