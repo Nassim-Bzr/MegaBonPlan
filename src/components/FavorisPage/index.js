@@ -5,14 +5,14 @@ export default function FavoritesPage() {
   const [favoris, setFavoris] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/favoris')
+    fetch('https://megabonplan-f8522b195111.herokuapp.com/api/favoris')
       .then((response) => response.json())
       .then(setFavoris)
       .catch(console.error);
   }, []);
 
   const removeFavori = (idFavori) => {
-    fetch(`http://localhost:8080/api/favoris/${idFavori}`, {
+    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/favoris/${idFavori}`, {
       method: 'DELETE',
     })
     .then(response => {

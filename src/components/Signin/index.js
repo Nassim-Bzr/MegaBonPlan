@@ -17,7 +17,7 @@ export default function Login() {
     event.preventDefault()
     try {
       const response = await fetch(
-        'http://localhost:8080/api/utilisateur/login',
+        'https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/login',
         {
           method: 'POST',
           headers: {

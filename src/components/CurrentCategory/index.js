@@ -21,7 +21,7 @@ export default function CurrentCategory() {
   const closeModal = () => setShowModal(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/categories/${categoryId}`)
+    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/categories/${categoryId}`)
       .then((response) => response.json())
       .then((data) => {
         setCategoryName(data.nomcategorie);
@@ -29,7 +29,7 @@ export default function CurrentCategory() {
       .catch((error) =>
         console.error('Erreur lors de la récupération du nom de la catégorie:', error)
       );
-    fetch(`http://localhost:8080/api/bonplans/category/${categoryId}`)
+    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/category/${categoryId}`)
       .then((response) => response.json())
       .then((data) => {
         const filteredPlans = data.filter((bonPlan) => bonPlan.approuvéparadmin);
@@ -60,7 +60,7 @@ console.log(bonPlans)
     console.log('Data before sending:', bonPlanData);
 
     try {
-      const response = await fetch('http://localhost:8080/api/bonplans', {
+      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

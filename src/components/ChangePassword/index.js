@@ -31,7 +31,7 @@ export default function ChangePassword() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/utilisateur/${user.id}`,
+        `https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${user.id}`,
         {
           method: 'PUT',
           headers: {

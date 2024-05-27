@@ -7,7 +7,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (user && user.isadmin) {
-      fetch('http://localhost:8080/api/bonplans/pending')
+      fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/pending')
         .then((response) => response.json())
         .then((data) => {
           console.log('Données reçues pour les bons plans en attente :', data)
@@ -26,7 +26,7 @@ export default function AdminPage() {
   }, [user])
 
   const handleApprove = (id) => {
-    fetch(`http://localhost:8080/api/bonplans/${id}`, {
+    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ approuvéparadmin: true }),

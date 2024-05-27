@@ -10,7 +10,7 @@ const BonPlanDetails = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/bonplans/${id}`)
+    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // Afficher les données récupérées pour débogage
@@ -23,7 +23,7 @@ const BonPlanDetails = () => {
 
   const handleDeleteComment = (commentId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
-      fetch(`http://localhost:8080/api/commentary/${commentId}`, {
+      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/${commentId}`, {
         method: 'DELETE',
       })
         .then((response) => {
@@ -59,7 +59,7 @@ const BonPlanDetails = () => {
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/api/commentary`, {
+        const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

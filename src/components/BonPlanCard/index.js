@@ -21,7 +21,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
     id_bonplan: bonPlanId,
   };
 
-  fetch('http://localhost:8080/api/favoris', {
+  fetch('https://megabonplan-f8522b195111.herokuapp.com/api/favoris', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
