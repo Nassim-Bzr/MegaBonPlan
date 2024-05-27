@@ -20,7 +20,7 @@ export default function CodesPromos() {
   const { user } = useAuth();
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/codepromos")
+    fetch("https://megabonplan-f8522b195111.herokuapp.com/api/codepromos")
       .then((response) => response.json())
       .then((data) => setCodesPromos(data))
       .catch((error) =>
@@ -36,7 +36,7 @@ export default function CodesPromos() {
   const submitNewCodePromo = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/codepromos', {
+      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/codepromos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export default function CodesPromos() {
   };
 
   return (
-    <div className="animatedBackground p-8">
+    <div className="animatedBackground bg-[url('../../assets/apple-store-badge.png')] p-8">
       <h1 className="text-4xl font-semibold text-white text-center mb-10">Les codes promos</h1>
       {user && user.isadmin && (
         <>
@@ -92,7 +92,7 @@ export default function CodesPromos() {
             Ajouter un code promo
           </button>
           {isAddModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="fixed  inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
               <div className="bg-white p-6 rounded z-50">
                 <form onSubmit={submitNewCodePromo} className="space-y-4">
                   <input

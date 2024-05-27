@@ -32,14 +32,14 @@ export default function CurrentCategory() {
     fetch(`http://localhost:8080/api/bonplans/category/${categoryId}`)
       .then((response) => response.json())
       .then((data) => {
-        const filteredPlans = data.filter((bonPlan) => bonPlan.ApprouveParAdmin);
+        const filteredPlans = data.filter((bonPlan) => bonPlan.approuvéparadmin);
         setBonPlans(filteredPlans);
       })
       .catch((error) =>
         console.error('Erreur lors de la récupération des bons plans pour la catégorie:', error)
       );
   }, [categoryId]);
-
+console.log(bonPlans)
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     console.log('Input change - Field:', name, 'Value:', value); // Vérifier les valeurs saisies

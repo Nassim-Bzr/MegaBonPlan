@@ -25,6 +25,7 @@
   background: linear-gradient(to bottom, #2c3e50, #1f2937);
   animation: animatedBackground 15s ease infinite;
   background-size: 400% 400%;
+  background-image: url("");
 }
 .codepromo {
   border: 1px solid #ddd;

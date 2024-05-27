@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
+import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaPen } from 'react-icons/fa';
 
 const BonPlanDetails = () => {
   const { id } = useParams();
@@ -83,15 +84,16 @@ const BonPlanDetails = () => {
     }
   };
 
+  console.log(bonPlan)
   if (!bonPlan) return <div className="text-center">Chargement...</div>;
 
   return (
     <div className="animatedBackground mx-auto p-4">
-      <div className="max-w-4xl mr-auto ml-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="max-w-4xl mr-auto ml-auto bg-white rounded-2xl shadow-lg overflow-hidden">
         <img
           src={bonPlan.imglink}
           alt={bonPlan.titre}
-          className="w-full h-64 object-cover m-4"
+          className="w-full h-64 m-2 rounded-2xl object-cover "
         />
         <div className="p-4">
           <h1 className="text-3xl font-bold mb-2">{bonPlan.titre}</h1>
@@ -115,7 +117,7 @@ const BonPlanDetails = () => {
                 className="bg-gray-100 p-2 rounded-lg mt-2"
               >
                 <p>{comment.contenu}</p>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600">:
                   Posté le: {new Date(comment.datecommentaire).toLocaleDateString()}
                 </div>
                 {user?.isadmin && (
@@ -129,6 +131,27 @@ const BonPlanDetails = () => {
               </div>
             ))}
 
+{bonPlan.commentaires.length > 0 ? (
+            bonPlan.commentaires.map((comment) => (
+              <div key={comment.id} className="bg-white p-4 rounded-lg shadow mt-4">
+                <p className="text-gray-800">{comment.content}</p>
+                <p className="text-gray-500 text-sm mt-1">Posté par <strong>{comment.author}</strong></p>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8">
+              <div className="flex justify-center items-center mb-4">
+                <FaCommentDots className="text-5xl text-blue-500" />
+              </div>
+              <p className="text-gray-600 text-lg">Une question, un avis ou une suggestion ?</p>
+              <button
+                onClick={() => document.getElementById('comment-form').scrollIntoView()}
+                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+              >
+                <FaPen className="mx-auto w-12" /> Postez le premier commentaire
+              </button>
+            </div>
+          )}
           {user && (
             <form onSubmit={submitComment} className="mt-4">
               <textarea

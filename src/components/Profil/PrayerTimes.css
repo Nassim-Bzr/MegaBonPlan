@@ -1,0 +1,22 @@
+/* PrayerTimes.css */
+body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .bg-gray-800 {
+    background-image: url(''); /* Ajoutez votre propre image de fond */
+    background-size: cover;
+  }
+  
+  .bg-green-500 {
+    background-color: #38a169;
+  }
+  
+  .bg-purple-600 {
+    background-color: #6b46c1;
+  }
+  
+  .bg-gray-900 {
+    background-color: #1a202c;
+  }
+  

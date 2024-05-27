@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaPen } from 'react-icons/fa';
+import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaPen, FaTimes } from 'react-icons/fa';
 
 const mockDiscussion = {
   id: 1,
@@ -17,6 +17,7 @@ function DetailsDiscussion() {
   const { id } = useParams();
   const [discussion, setDiscussion] = useState(null);
   const [newComment, setNewComment] = useState('');
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   useEffect(() => {
     // Fetch discussion details from an API or use mock data
@@ -49,6 +50,19 @@ function DetailsDiscussion() {
     setNewComment('');
   };
 
+  const handleShare = () => {
+    setShareModalOpen(true);
+  };
+
+  const handleCloseShareModal = () => {
+    setShareModalOpen(false);
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Lien copié dans le presse-papier');
+  };
+
   if (!discussion) return <div>Loading...</div>;
 
   return (
@@ -61,7 +75,7 @@ function DetailsDiscussion() {
           <p className="text-gray-700 mt-4">{discussion.content}</p>
           <div className="flex items-center justify-between text-gray-500 text-sm mt-4">
             <div className="flex space-x-4">
-              <button className="flex items-center text-gray-500 hover:text-gray-700 transition">
+              <button onClick={handleShare} className="flex items-center text-gray-500 hover:text-gray-700 transition">
                 <FaShareAlt className="mr-1" /> Partager
               </button>
               <button className="flex items-center text-gray-500 hover:text-gray-700 transition">
@@ -124,6 +138,57 @@ function DetailsDiscussion() {
           </form>
         </div>
       </div>
+
+      {shareModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-lg w-full relative">
+            <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700" onClick={handleCloseShareModal}>
+              <FaTimes />
+            </button>
+            <h2 className="text-2xl font-semibold mb-4">Partager</h2>
+            <div className="flex space-x-4 mb-4">
+              {/* Ajoutez les boutons de partage ici */}
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition">
+                <FaShareAlt className="text-xl" /> <span>Intégrer</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition">
+                <img src="https://img.icons8.com/color/48/000000/kakao-talk.png" alt="KakaoTalk" className="w-6 h-6" />
+                <span>KakaoTalk</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition">
+                <img src="https://img.icons8.com/color/48/000000/whatsapp.png" alt="WhatsApp" className="w-6 h-6" />
+                <span>WhatsApp</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition">
+                <img src="https://img.icons8.com/color/48/000000/facebook-new.png" alt="Facebook" className="w-6 h-6" />
+                <span>Facebook</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition">
+                <img src="https://img.icons8.com/color/48/000000/x--v2.png" alt="Twitter" className="w-6 h-6" />
+                <span>X</span>
+              </button>
+              <button className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition">
+                <img src="https://img.icons8.com/color/48/000000/apple-mail.png" alt="Email" className="w-6 h-6" />
+                <span>E-mail</span>
+              </button>
+            </div>
+            <div className="flex items-center space-x-4">
+              <input
+                type="text"
+                value={window.location.href}
+                readOnly
+                className="w-full p-2 border rounded-lg"
+              />
+              <button
+                onClick={handleCopyLink}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+              >
+                Copier
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

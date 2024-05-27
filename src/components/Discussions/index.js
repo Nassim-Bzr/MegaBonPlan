@@ -72,7 +72,7 @@ function Discussions() {
         <div className="space-y-4">
           {discussions.map((discussion) => (
             <Link to={`/discussions/${discussion.id}`} key={discussion.id}>
-              <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
+              <div className="bg-white m-4 p-4 rounded-lg shadow hover:shadow-lg transition">
                 <h2 className="text-gray-600 font-semibold">{discussion.category}</h2>
                 <h3 className="text-gray-800 font-semibold mt-2 text-xl">{discussion.title}</h3>
                 {discussion.content && (

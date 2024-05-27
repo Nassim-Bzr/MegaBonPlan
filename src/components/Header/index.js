@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Votre texte de paragraphe.png';
 import { useAuth } from '../../AuthContext';
-
+import SearchBar from '../SearchBar';
 const Header = () => {
   const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -82,20 +82,21 @@ const Header = () => {
               </li>
             ))}
           </ul>
+          <SearchBar />
           {user ? (
-            <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center md:space-x-4">
-              <span>Bonjour, <span className="font-bold">{user.nom}</span></span>
+            <div className="mt-4 ml-4 flex flex-col md:flex-row md:items-center md:space-x-4">
+              <span className="mr-4">Bonjour, <span className="font-bold">{user.nom}</span></span>
               <Link
                 to="/profil"
-                className="py-2 px-4 text-white w-1/2 ml-auto mr-auto m-2 bg-blue-500 hover:bg-blue-700 rounded mt-2 md:mt-0"
+                className="py-2 px-4 text-white bg-blue-500 hover:bg-blue-700 rounded mt-2 md:mt-0 md:ml-4"
                 onClick={handleLinkClick}
               >
                 Profil
               </Link>
             </div>
           ) : (
-            <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center md:mt-0">
-              <Link to="/connexion" className="mr-0 md:mr-4 py-2 md:py-0" onClick={handleLinkClick}>
+            <div className="mt-4 ml-32 md:mt-0 flex flex-col md:flex-row md:items-center md:space-x-4">
+              <Link to="/connexion" className="py-2 md:py-0 md:mr-4" onClick={handleLinkClick}>
                 Connexion
               </Link>
               <Link

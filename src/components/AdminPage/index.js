@@ -25,16 +25,16 @@ export default function AdminPage() {
     }
   }, [user])
 
-  const handleApprove = (bonPlanId) => {
-    fetch(`http://localhost:8080/api/bonplans/${bonPlanId}`, {
+  const handleApprove = (id) => {
+    fetch(`http://localhost:8080/api/bonplans/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ApprouveParAdmin: true }),
+      body: JSON.stringify({ approuvéparadmin: true }),
     })
       .then((response) => response.json())
       .then(() => {
         setPendingBonPlans(
-          pendingBonPlans.filter((bonPlan) => bonPlan.ID_BonPlan !== bonPlanId)
+          pendingBonPlans.filter((bonPlan) => bonPlan.id_bonplan !== id)
         )
       })
       .catch((error) =>
@@ -54,11 +54,11 @@ export default function AdminPage() {
             className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out"
           >
             <h2 className="text-2xl font-semibold text-blue-900 mb-2">
-              {bonPlan.Titre}
+              {bonPlan.titre}
             </h2>
-            <p className="text-white mb-4">{bonPlan.Description}</p>
+            <p className="text-white mb-4">{bonPlan.description}</p>
             <button
-              onClick={() => handleApprove(bonPlan.ID_BonPlan)}
+              onClick={() => handleApprove(bonPlan.id_bonplan)}
               className="mt-auto bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Approuver
