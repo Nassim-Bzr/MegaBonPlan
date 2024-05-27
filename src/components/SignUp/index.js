@@ -18,7 +18,7 @@ export default function SignUp() {
     const utilisateur = { nom, email, motdepasse }
 
     try {
-      const response = await fetch('http://localhost:8080/api/utilisateur', {
+      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function SignUp() {
           <div className="text-center">
             <div className=" space-y-2">
               <h3 className="text-white text-2xl pt-8 font-semibold sm:text-4xl">
-                Créez votre compte
+                Créez votre comptee
               </h3>
               <AvatarComponent />
               <p className="">
