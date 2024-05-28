@@ -22,7 +22,7 @@ export default function VerifyAccount() {
 
     try {
       const response = await fetch(
-        'http://localhost:8080/api/utilisateur/verify',
+        'https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/verify',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

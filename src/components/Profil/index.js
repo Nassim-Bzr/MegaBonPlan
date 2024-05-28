@@ -21,7 +21,7 @@ export default function Profile() {
   const userData = {
     nom: user.nom || "Nom d'utilisateur",
     email: user.email || 'email@exemple.com',
-    dateinscription: user.token.dateinscription || "Date d'inscription",
+    dateinscription: user.dateinscription || "Date d'inscription",
     imageUrl: user.imageUrl || 'https://via.placeholder.com/150',
   }
   return (
