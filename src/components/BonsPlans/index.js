@@ -21,6 +21,7 @@ export default function BonPlans() {
       })
   }, [])
 
+  console.log(bonPlans)
   return (
     <div className="py-8 px-4 animatedBackground">
       <h2 className="text-4xl font-bold text-center text-white mb-10">

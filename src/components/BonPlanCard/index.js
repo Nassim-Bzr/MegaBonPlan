@@ -7,17 +7,17 @@ import { MdFavorite } from "react-icons/md";
 const BonPlanCard = ({ bonPlan, user }) => {
   // Fonction pour ajouter aux favoris
  console.log(user)
- console.log("User ID:", user?.token.id_utilisateur); // Ceci vous permettra de voir si l'ID est récupéré correctement
+ console.log("User ID:", user?.id); // Ceci vous permettra de voir si l'ID est récupéré correctement
 
  const addToFavorites = (bonPlanId) => {
   // Assurez-vous que l'utilisateur est connecté et que l'ID est disponible
-  if (!user || !user.token.id_utilisateur) {
+  if (!user || !user.id) {
     alert('Vous devez être connecté pour ajouter des favoris.');
     return;
   }
 
   const requestBody = {
-    id_utilisateur: user.token.id_utilisateur, // Vérifiez que cet ID est bien présent et correct
+    id_utilisateur: user.id, // Vérifiez que cet ID est bien présent et correct
     id_bonplan: bonPlanId,
   };
 
