@@ -83,7 +83,7 @@ export default function CodesPromos() {
   return (
     <div className="animatedBackground bg-[url('../../assets/apple-store-badge.png')] p-8">
       <h1 className="text-4xl font-semibold text-white text-center mb-10">Les codes promos</h1>
-      {user && user.isadmin && (
+      {user  && (
         <>
           <button
             onClick={handleOpenAddModal}
