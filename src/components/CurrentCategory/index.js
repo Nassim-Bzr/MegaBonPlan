@@ -49,12 +49,12 @@ console.log(bonPlans)
   const submitNewBonPlan = async (event) => {
     event.preventDefault();
     const bonPlanData = {
-      Titre: newBonPlan.Titre,
-      Description: newBonPlan.Description,
-      LienAffiliation: newBonPlan.LienAffiliation,
+      titre: newBonPlan.Titre,
+      description: newBonPlan.Description,
+      lienAffiliation: newBonPlan.LienAffiliation,
       imglink: newBonPlan.imglink,
-      ID_Categorie: categoryId,
-      ApprouveParAdmin: false,
+      id_categorie: categoryId,
+      approuveparadmin: false,
     };
 
     console.log('Data before sending:', bonPlanData);
