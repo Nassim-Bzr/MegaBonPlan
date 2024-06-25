@@ -1,69 +1,87 @@
+// BonPlanCard.js
+
 import React from 'react';
-import { Link } from 'react-router-dom'; // Importer Link pour le routing
+import { Link } from 'react-router-dom';
 import './bonplancard.css';
-import { useAuth } from '../../AuthContext'
-import { MdFavorite } from "react-icons/md";
+import { useAuth } from '../../AuthContext';
 
 const BonPlanCard = ({ bonPlan, user }) => {
-  // Fonction pour ajouter aux favoris
- console.log(user)
- console.log("User ID:", user?.id); // Ceci vous permettra de voir si l'ID est récupéré correctement
-
- const addToFavorites = (bonPlanId) => {
-  // Assurez-vous que l'utilisateur est connecté et que l'ID est disponible
-  if (!user || !user.id) {
-    alert('Vous devez être connecté pour ajouter des favoris.');
-    return;
-  }
-
-  const requestBody = {
-    id_utilisateur: user.id, // Vérifiez que cet ID est bien présent et correct
-    id_bonplan: bonPlanId,
+  const calculateDiscount = (initialPrice, reducedPrice) => {
+    return ((initialPrice - reducedPrice) / initialPrice) * 100;
   };
 
-  fetch('https://megabonplan-f8522b195111.herokuapp.com/api/favoris', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Failed to add favorite');
-    }
-    return response.json();
-  })
-  .then(data => {
-    alert('Bon plan ajouté aux favoris!');
-  })
-  .catch(error => {
-    console.error('Erreur lors de l\'ajout aux favoris:', error);
-    alert('Erreur lors de l\'ajout aux favoris.');
-  });
-};
+  const timeSince = (date) => {
+    const now = new Date();
+    const postDate = new Date(date);
+    const seconds = Math.floor((now - postDate) / 1000);
+    let interval = Math.floor(seconds / 31536000);
 
-  console.log(bonPlan)
-  
+    if (interval > 1) return `${interval} ans`;
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) return `${interval} mois`;
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) return `${interval} jours`;
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) return `${interval} heures`;
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) return `${interval} minutes`;
+    return `${Math.floor(seconds)} secondes`;
+  };
+
+  const handleLike = async () => {
+    if (!user) {
+      alert('Vous devez être connecté pour liker un bon plan.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id_bonplan: bonPlan.id_bonplan, id_utilisateur: user.id }),
+      });
+
+      if (response.ok) {
+        alert('Bon plan liké avec succès!');
+        // Vous pouvez mettre à jour l'état des bon plans ici pour refléter le like
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Erreur lors du like du bon plan.');
+      }
+    } catch (error) {
+      console.error('Erreur lors du like du bon plan:', error);
+      alert('Erreur lors du like du bon plan.');
+    }
+  };
 
   return (
     <div className="rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 relative">
       <Link to={`/bonplans/details/${bonPlan.id_bonplan}`} className="block">
         <div className="p-4">
-          <h3 className="text-xl font-semibold text-gray-800">{bonPlan.Titre}</h3>
+          <h3 className="text-xl font-semibold text-gray-800">{bonPlan.titre}</h3>
           <img src={bonPlan.imglink} alt={bonPlan.titre} className="w-full h-40 object-cover mb-4 rounded-md" />
           <p className="text-gray-700">{bonPlan.description}</p>
           <p className="text-gray-400 text-sm">
-            Posté le: {new Date(bonPlan.datepost).toLocaleDateString()}
+            Posté il y a: {timeSince(bonPlan.datepost)}
+          </p>
+          <p className="text-gray-700 font-bold">
+            Prix initial: {bonPlan.prix_initial}€
+          </p>
+          <p className="text-red-500 font-bold">
+            Prix réduit: {bonPlan.prix_reduit}€
+          </p>
+          <p className="text-green-500 font-bold">
+            Réduction: {calculateDiscount(bonPlan.prix_initial, bonPlan.prix_reduit).toFixed(2)}%
+          </p>
+          <p className="text-gray-700 font-bold">
+            Likes: {bonPlan.likes}
           </p>
         </div>
       </Link>
-      <button
-        onClick={() => addToFavorites(bonPlan.id_bonplan)}
-        className="flex relative center"
-        aria-label="Ajouter aux favoris"
-      >
-     
+      <button onClick={handleLike} className="flex relative center" aria-label="Liker le bon plan">
+        Liker
       </button>
     </div>
   );
