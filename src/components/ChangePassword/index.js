@@ -1,72 +1,68 @@
-import React, { useState } from 'react'
-import { useAuth } from '../../AuthContext' // Importe le hook personnalisé
+import React, { useState } from 'react';
+import { useAuth } from '../../AuthContext'; // Importe le hook personnalisé
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+
 
 export default function ChangePassword() {
-  const { user } = useAuth() // Accès aux informations de l'utilisateur via le contexte
+  const { user } = useAuth(); // Accès aux informations de l'utilisateur via le contexte
   const [passwords, setPasswords] = useState({
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
-  })
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setPasswords((prevState) => ({
       ...prevState,
       [name]: value,
-    }))
-  }
-
+    }));
+  };
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (passwords.newPassword !== passwords.confirmPassword) {
-      alert('Les mots de passe ne correspondent pas!')
-      return
+      alert('Les mots de passe ne correspondent pas!');
+      return;
     }
-
+  
     if (!user || !user.id) {
-      alert('ID utilisateur non trouvé ou non défini')
-      return
+      alert('ID utilisateur non trouvé ou non défini');
+      return;
     }
-
+  
+    console.log(`ID Utilisateur: ${user.id}`); // Ajout de console.log
+  
     try {
-      const response = await fetch(
-        `https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${user.id}`,
+      const response = await axios.put(
+         `https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/password/${user.id}`,
+        
         {
-          method: 'PUT',
+          oldPassword: passwords.oldPassword,
+          newPassword: passwords.newPassword,
+        },
+        {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            oldPassword: passwords.oldPassword,
-            newPassword: passwords.newPassword, // Assurez-vous que le champ dans la DB correspond
-          }),
         }
-      )
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(
-          data.message || 'Erreur lors du changement du mot de passe.'
-        )
-      }
-
-      alert('Mot de passe changé avec succès!')
+      );
+      toast.succes("Mot de passe changé avec succes!")
+      alert('Mot de passe changé avec succès!');
     } catch (error) {
-      alert(error.message)
+      toast.error("Mot de passe  pas changé avec succes!")
+      alert(error.response?.data?.message || error.message);
     }
-  }
-
+  };
+  
   return (
     <div className="min-h-screen animatedBackground bg-gray-100 flex items-center justify-center">
       <div className="max-w-md w-full bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">
           Changer de mot de passe
         </h2>
-
-        {/* Les champs de formulaire restent inchangés */}
-
+      
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -125,8 +121,9 @@ export default function ChangePassword() {
           >
             Changer le mot de passe
           </button>
+          <ToastContainer />
         </form>
       </div>
     </div>
-  )
+  );
 }

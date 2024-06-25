@@ -6,6 +6,23 @@ export default function Profile() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
  console.log("test",user)
+
+  const DeleteAccount = () => {
+    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${user.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Compte supprimé avec succès:', data)
+        logout()
+        navigate('/connexion')
+      })
+      .catch((error) => console.error('Erreur lors de la suppression du compte:', error))
+  }
+
   const handleLogout = () => {
     logout()
     navigate('/connexion') // Rediriger vers la page de connexion après déconnexion
@@ -77,6 +94,12 @@ export default function Profile() {
             className="text-red-600 hover:text-red-800 font-medium"
           >
             Déconnexion
+          </button>
+          <button
+            onClick={DeleteAccount}
+            className="text-red-600 hover:text-red-800 font-medium"
+          >
+            Supprimer le compte
           </button>
         </div>
       </div>

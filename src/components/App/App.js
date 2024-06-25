@@ -52,7 +52,7 @@ function App() {
         <Route path="/bonsplans" element={<BonPlans />} />
         <Route path="/codespromos" element={<CodesPromos />} />
         <Route path="/discussions" element={<Discussions />} />
-        <Route path="/discussions/:idk" element={<DetailsDiscussion />} />
+        <Route path="/discussions/:id" element={<DetailsDiscussion />} />
         <Route path="/contact" element={<Contact />} />
         <Route
           path="/somewhere-after-success"
