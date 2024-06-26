@@ -1,47 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import { useAuth } from '../../AuthContext';
-import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaPen } from 'react-icons/fa';
+import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaPen, FaTimes } from 'react-icons/fa';
 
 const BonPlanDetails = () => {
   const { id } = useParams();
   const [bonPlan, setBonPlan] = useState(null);
+  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('');
   const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data); // Afficher les données récupérées pour débogage
-        setBonPlan(data);
-      })
-      .catch((error) =>
-        console.error('Erreur lors de la récupération du bon plan:', error)
-      );
+    if (id) {
+      axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`)
+        .then(response => {
+          setBonPlan(response.data);
+          return axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/bonplan/${id}`);
+        })
+        .then(response => {
+          setComments(response.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error("Erreur lors du chargement du bon plan ou des commentaires:", error);
+          setError("Impossible de charger le bon plan ou les commentaires.");
+          setLoading(false);
+        });
+    } else {
+      setError("ID du bon plan non fourni ou incorrect.");
+      setLoading(false);
+    }
   }, [id]);
 
   const handleDeleteComment = (commentId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
-      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/${commentId}`, {
-        method: 'DELETE',
-      })
-        .then((response) => {
-          if (response.ok) {
-            setBonPlan((prevState) => ({
-              ...prevState,
-              commentaires: prevState.commentaires.filter(
-                (comment) => comment.id_commentaire !== commentId
-              ),
-            }));
+      axios.delete(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/${commentId}`)
+        .then(response => {
+          if (response.status === 200) {
+            setComments(prevComments => prevComments.filter(comment => comment.id_commentaire !== commentId));
             alert('Commentaire supprimé avec succès');
           } else {
             alert('Erreur lors de la suppression du commentaire');
           }
         })
-        .catch((error) =>
-          console.error('Erreur lors de la suppression:', error)
-        );
+        .catch(error => console.error('Erreur lors de la suppression:', error));
     }
   };
 
@@ -59,24 +64,12 @@ const BonPlanDetails = () => {
       };
 
       try {
-        const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          setBonPlan((prev) => ({
-            ...prev,
-            commentaires: [...prev.commentaires, data],
-          }));
+        const response = await axios.post(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary`, requestBody);
+        if (response.status === 201) {
+          setComments(prev => [...prev, response.data]);
           setComment(''); // Réinitialiser le commentaire
         } else {
-          throw new Error(data.message || 'Error posting comment');
+          throw new Error(response.data.message || 'Erreur lors de la publication du commentaire');
         }
       } catch (error) {
         console.error("Erreur lors de l'ajout du commentaire:", error);
@@ -84,41 +77,41 @@ const BonPlanDetails = () => {
     }
   };
 
-  console.log(bonPlan)
-  if (!bonPlan) return <div className="text-center">Chargement...</div>;
+  if (loading) return <div className="text-center">Chargement...</div>;
+  if (error) return <div className="text-center">Erreur : {error}</div>;
 
   return (
     <div className="animatedBackground mx-auto p-4">
       <div className="max-w-4xl mr-auto ml-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        <img
-          src={bonPlan.imglink}
-          alt={bonPlan.titre}
-          className="w-full h-64 m-2 rounded-2xl object-cover "
-        />
+        {bonPlan.imglink && (
+          <img
+            src={bonPlan.imglink}
+            alt={bonPlan.titre}
+            className="w-full h-64 m-2 rounded-2xl object-cover"
+          />
+        )}
         <div className="p-4">
           <h1 className="text-3xl font-bold mb-2">{bonPlan.titre}</h1>
           <p className="text-gray-700 mb-4">{bonPlan.description}</p>
-          <a
-            href={bonPlan.lienaffiliation}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Visitez le lien
-          </a>
+          {bonPlan.lienaffiliation && (
+            <a
+              href={bonPlan.lienaffiliation}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Visitez le lien
+            </a>
+          )}
         </div>
         <div className="p-4">
           <h2 className="text-xl font-semibold">Commentaires</h2>
-
-          {bonPlan.commentaires &&
-            bonPlan.commentaires.map((comment) => (
-              <div
-                key={comment.id_commentaire}
-                className="bg-gray-100 p-2 rounded-lg mt-2"
-              >
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <div key={comment.id_commentaire} className="bg-gray-100 p-2 rounded-lg mt-2">
                 <p>{comment.contenu}</p>
-                <div className="text-sm text-gray-600">:
-                  Posté le: {new Date(comment.datecommentaire).toLocaleDateString()}
+                <div className="text-sm text-gray-600">
+                  Posté le: {new Date(comment.datecommentaire).toLocaleDateString()} par <strong>{comment.utilisateur?.nom}</strong>
                 </div>
                 {user?.isadmin && (
                   <button
@@ -128,14 +121,6 @@ const BonPlanDetails = () => {
                     Supprimer
                   </button>
                 )}
-              </div>
-            ))}
-
-{bonPlan.commentaires.length > 0 ? (
-            bonPlan.commentaires.map((comment) => (
-              <div key={comment.id} className="bg-white p-4 rounded-lg shadow mt-4">
-                <p className="text-gray-800">{comment.content}</p>
-                <p className="text-gray-500 text-sm mt-1">Posté par <strong>{comment.author}</strong></p>
               </div>
             ))
           ) : (

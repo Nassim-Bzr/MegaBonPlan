@@ -1,11 +1,26 @@
-// BonPlanCard.js
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './bonplancard.css';
 import { useAuth } from '../../AuthContext';
+import { FaHeart, FaComment } from 'react-icons/fa';
 
 const BonPlanCard = ({ bonPlan, user }) => {
+  const [likes, setLikes] = useState(bonPlan.likes);
+  const [liked, setLiked] = useState(false);
+  
+  useEffect(() => {
+    // Vérifier si l'utilisateur a déjà liké le bon plan
+    if (user && bonPlan.likes) {
+      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/liked/${bonPlan.id_bonplan}/${user.id}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.liked) {
+            setLiked(true);
+          }
+        })
+        .catch(error => console.error('Erreur lors de la vérification du like:', error));
+    }
+  }, [user, bonPlan]);
+
   const calculateDiscount = (initialPrice, reducedPrice) => {
     return ((initialPrice - reducedPrice) / initialPrice) * 100;
   };
@@ -28,7 +43,9 @@ const BonPlanCard = ({ bonPlan, user }) => {
     return `${Math.floor(seconds)} secondes`;
   };
 
-  const handleLike = async () => {
+  const handleLike = async (e) => {
+    e.preventDefault(); // Empêcher la redirection vers les détails du bon plan
+
     if (!user) {
       alert('Vous devez être connecté pour liker un bon plan.');
       return;
@@ -44,8 +61,9 @@ const BonPlanCard = ({ bonPlan, user }) => {
       });
 
       if (response.ok) {
+        setLiked(true);
+        setLikes(likes + 1);
         alert('Bon plan liké avec succès!');
-        // Vous pouvez mettre à jour l'état des bon plans ici pour refléter le like
       } else {
         const data = await response.json();
         alert(data.message || 'Erreur lors du like du bon plan.');
@@ -61,32 +79,36 @@ const BonPlanCard = ({ bonPlan, user }) => {
       <Link to={`/bonplans/details/${bonPlan.id_bonplan}`} className="block">
         <div className="p-4">
           <h3 className="text-xl font-semibold text-gray-800">{bonPlan.titre}</h3>
-          <img src={bonPlan.imglink} alt={bonPlan.titre} className="w-full h-40 object-cover mb-4 rounded-md" />
+          <img src={bonPlan.imglink} alt={bonPlan.titre} className="w-2/3 h-40 object-cover mt-4 mb-4 mx-auto rounded-md" />
           <p className="text-gray-700">{bonPlan.description}</p>
           <p className="text-gray-400 text-sm">
             Posté il y a: {timeSince(bonPlan.datepost)}
           </p>
-          <p className="text-gray-700 font-bold">
-            Prix initiafl: {bonPlan.prix_initial}€
+          <p className="text-gray-500 line-through font-bold">
+            Prix initial: {bonPlan.prix_initial}€
           </p>
           <p className="text-red-500 font-bold">
             Prix réduit: {bonPlan.prix_reduit}€
           </p>
           <p className="text-green-500 font-bold">
-            Réduction: {calculateDiscount(bonPlan.prix_initial, bonPlan.prix_reduit).toFixed(2)}%
+           - {calculateDiscount(bonPlan.prix_initial, bonPlan.prix_reduit).toFixed(2)}%
           </p>
-          <p className="text-gray-700 font-bold">
-            Likes: {bonPlan.likes}
-          </p>
+          <div className="flex items-center text-gray-700 font-bold mx-auto justify-center mt-4">
+            <button 
+              onClick={handleLike} 
+              className={`flex items-center ${liked ? 'text-red-500' : 'text-gray-500'} hover:text-red-500 transition-colors duration-200`}
+              disabled={liked}
+            >
+              <FaHeart className="mr-2" />
+              {likes}
+            </button>
+            <FaComment className="text-gray-500 ml-4 mr-2" />
+            {bonPlan.commentaires ? bonPlan.commentaires.length : 0}
+          </div>
         </div>
       </Link>
-      <button onClick={handleLike} className="flex relative center" aria-label="Liker le bon plan">
-        Liker
-      </button>
     </div>
   );
 };
 
 export default BonPlanCard;
-
-
