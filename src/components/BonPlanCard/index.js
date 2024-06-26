@@ -67,7 +67,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
             Posté il y a: {timeSince(bonPlan.datepost)}
           </p>
           <p className="text-gray-700 font-bold">
-            Prix initial: {bonPlan.prix_initial}€
+            Prix initiafl: {bonPlan.prix_initial}€
           </p>
           <p className="text-red-500 font-bold">
             Prix réduit: {bonPlan.prix_reduit}€
@@ -88,3 +88,5 @@ const BonPlanCard = ({ bonPlan, user }) => {
 };
 
 export default BonPlanCard;
+
+
