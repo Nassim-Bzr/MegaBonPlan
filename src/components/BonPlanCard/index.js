@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../AuthContext';
 import { FaHeart, FaComment } from 'react-icons/fa';
 
 const BonPlanCard = ({ bonPlan, user }) => {
   const [likes, setLikes] = useState(bonPlan.likes);
   const [liked, setLiked] = useState(false);
   const [authorName, setAuthorName] = useState('');
+
   useEffect(() => {
-    // Vérifier si l'utilisateur a déjà liké le bon plan
     if (user && bonPlan.likes) {
       fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/liked/${bonPlan.id_bonplan}/${user.id}`)
         .then(response => response.json())
@@ -22,11 +21,10 @@ const BonPlanCard = ({ bonPlan, user }) => {
   }, [user, bonPlan]);
 
   useEffect(() => {
-    // Récupérer le nom de l'auteur
     fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${bonPlan.id_utilisateur}`)
       .then(response => response.json())
       .then(data => {
-        setAuthorName(data.nom);  // Supposons que la réponse contient le champ `nom`
+        setAuthorName(data.nom);
       })
       .catch(error => console.error('Erreur lors de la récupération de l\'auteur:', error));
   }, [bonPlan.id_utilisateur]);
@@ -54,7 +52,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
   };
 
   const handleLike = async (e) => {
-    e.preventDefault(); // Empêcher la redirection vers les détails du bon plan
+    e.preventDefault();
 
     if (!user) {
       alert('Vous devez être connecté pour liker un bon plan.');
@@ -93,7 +91,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
           <p className="text-gray-700">{bonPlan.description}</p>
           <p className="text-gray-400 text-sm">
             Posté il y a: {timeSince(bonPlan.datepost)}
-            <br></br>
+            <br />
             Par: {authorName || 'Utilisateur inconnu'}
           </p>
           <p className="text-gray-500 line-through font-bold">

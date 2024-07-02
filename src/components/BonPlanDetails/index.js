@@ -21,7 +21,19 @@ const BonPlanDetails = () => {
           return axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/bonplan/${id}`);
         })
         .then(response => {
-          setComments(response.data);
+          const commentsWithUsernames = response.data.map(comment => {
+            return axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${comment.id_utilisateur}`)
+              .then(userResponse => {
+                comment.username = userResponse.data.nom;
+                return comment;
+              });
+          });
+
+          // Attendre que toutes les requêtes utilisateur soient terminées
+          return Promise.all(commentsWithUsernames);
+        })
+        .then(commentsWithUsernames => {
+          setComments(commentsWithUsernames);
           setLoading(false);
         })
         .catch(error => {
@@ -65,15 +77,27 @@ const BonPlanDetails = () => {
 
       try {
         const response = await axios.post(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary`, requestBody);
-        if (response.status === 201) {
-          setComments(prev => [...prev, response.data]);
+        console.log('Response status:', response.status);
+        console.log('Response data:', response.data);
+        const userResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${user.id}`);
+          const newComment = { ...response.data, username: userResponse.data.nom };
+          setComments(prev => [...prev, newComment]);
+        if (response.status === 201 || response.status === 200) {
+
           setComment(''); // Réinitialiser le commentaire
         } else {
+          console.error('Unexpected response status:', response.status);
+          console.error('Response message:', response.data.message);
           throw new Error(response.data.message || 'Erreur lors de la publication du commentaire');
         }
       } catch (error) {
         console.error("Erreur lors de l'ajout du commentaire:", error);
       }
+    }
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      submitComment(event);
     }
   };
 
@@ -111,7 +135,7 @@ const BonPlanDetails = () => {
               <div key={comment.id_commentaire} className="bg-gray-100 p-2 rounded-lg mt-2">
                 <p>{comment.contenu}</p>
                 <div className="text-sm text-gray-600">
-                  Posté le: {new Date(comment.datecommentaire).toLocaleDateString()} par <strong>{comment.utilisateur?.nom}</strong>
+                  Posté le: {new Date(comment.datecommentaire).toLocaleDateString()} par <strong>{comment.username || 'Utilisateur inconnu'}</strong>
                 </div>
                 {user?.isadmin && (
                   <button
@@ -145,6 +169,7 @@ const BonPlanDetails = () => {
                 placeholder="Ajoutez un commentaire..."
                 value={comment}
                 onChange={handleCommentChange}
+                onKeyDown={handleKeyPress}
               ></textarea>
               <button
                 type="submit"

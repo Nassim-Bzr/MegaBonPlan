@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import BonPlanCard from '../BonPlanCard/index';
-import { useAuth } from '../../AuthContext'; // Assurez-vous que le chemin est correct
+import { useAuth } from '../../AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,9 +14,9 @@ export default function CurrentCategory() {
     Titre: '',
     Description: '',
     LienAffiliation: '',
-    imglink: '', // Initialisation de imglink
-    prix_initial: '', // Ajout de prix_initial
-    prix_reduit: '' // Ajout de prix_reduit
+    imglink: '',
+    prix_initial: '',
+    prix_reduit: ''
   });
   const { user } = useAuth();
 
@@ -30,25 +30,27 @@ export default function CurrentCategory() {
       .then((data) => {
         setCategoryName(data.nomcategorie);
       })
-      .catch((error) =>
-        console.error('Erreur lors de la récupération du nom de la catégorie:', error)
-      );
+      .catch((error) => console.error('Erreur lors de la récupération du nom de la catégorie:', error));
+
     fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/category/${categoryId}`)
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         const filteredPlans = data.filter((bonPlan) => bonPlan.approuvéparadmin);
-        setBonPlans(filteredPlans);
-      })
-      .catch((error) =>
-        console.error('Erreur lors de la récupération des bons plans pour la catégorie:', error)
-      );
-  }, [categoryId]);
+        
+        // Fetch comments for each bon plan
+        const bonPlansWithComments = await Promise.all(filteredPlans.map(async (bonPlan) => {
+          const commentsResponse = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/bonplan/${bonPlan.id_bonplan}`);
+          const comments = await commentsResponse.json();
+          return { ...bonPlan, commentaires: comments };
+        }));
 
-  console.log(bonPlans);
+        setBonPlans(bonPlansWithComments);
+      })
+      .catch((error) => console.error('Erreur lors de la récupération des bons plans pour la catégorie:', error));
+  }, [categoryId]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log('Input change - Field:', name, 'Value:', value); // Vérifier les valeurs saisies
     setNewBonPlan((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -65,14 +67,12 @@ export default function CurrentCategory() {
       description: newBonPlan.Description,
       lienAffiliation: newBonPlan.LienAffiliation,
       imglink: newBonPlan.imglink,
-      prix_initial: parseFloat(newBonPlan.prix_initial), // Convertir en nombre
-      prix_reduit: parseFloat(newBonPlan.prix_reduit), // Convertir en nombre
+      prix_initial: parseFloat(newBonPlan.prix_initial),
+      prix_reduit: parseFloat(newBonPlan.prix_reduit),
       id_categorie: categoryId,
-      id_utilisateur: user.id, // Ajout de l'utilisateur
+      id_utilisateur: user.id,
       approuveparadmin: false,
     };
-
-    console.log('Data before sending:', bonPlanData);
 
     try {
       const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans', {
@@ -84,13 +84,11 @@ export default function CurrentCategory() {
       });
 
       const responseData = await response.json();
-      console.log('Server response:', responseData);
 
       if (response.ok) {
         toast.success("Bon plan ajouté!");
-        navigate(0); // Rafraîchir la page pour voir le nouveau bon plan
+        navigate(0);
       } else {
-        console.error('Failed to upload the bon plan:', responseData.message);
         throw new Error(responseData.message || 'Failed to upload the bon plan.');
       }
     } catch (error) {
@@ -108,7 +106,7 @@ export default function CurrentCategory() {
       {user && (
         <>
           <button
-            onClick={() => setShowModal(true)}
+            onClick={openModal}
             className="bg-blue-500 mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Ajouter un bon plan
@@ -177,7 +175,7 @@ export default function CurrentCategory() {
                       Soumettre
                     </button>
                     <button
-                      onClick={() => setShowModal(false)}
+                      onClick={closeModal}
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded"
                     >
                       Fermer
