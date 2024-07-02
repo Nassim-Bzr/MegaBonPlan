@@ -6,7 +6,7 @@ import { FaHeart, FaComment } from 'react-icons/fa';
 const BonPlanCard = ({ bonPlan, user }) => {
   const [likes, setLikes] = useState(bonPlan.likes);
   const [liked, setLiked] = useState(false);
-  
+  const [authorName, setAuthorName] = useState('');
   useEffect(() => {
     // Vérifier si l'utilisateur a déjà liké le bon plan
     if (user && bonPlan.likes) {
@@ -20,6 +20,16 @@ const BonPlanCard = ({ bonPlan, user }) => {
         .catch(error => console.error('Erreur lors de la vérification du like:', error));
     }
   }, [user, bonPlan]);
+
+  useEffect(() => {
+    // Récupérer le nom de l'auteur
+    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${bonPlan.id_utilisateur}`)
+      .then(response => response.json())
+      .then(data => {
+        setAuthorName(data.nom);  // Supposons que la réponse contient le champ `nom`
+      })
+      .catch(error => console.error('Erreur lors de la récupération de l\'auteur:', error));
+  }, [bonPlan.id_utilisateur]);
 
   const calculateDiscount = (initialPrice, reducedPrice) => {
     return ((initialPrice - reducedPrice) / initialPrice) * 100;
@@ -83,6 +93,8 @@ const BonPlanCard = ({ bonPlan, user }) => {
           <p className="text-gray-700">{bonPlan.description}</p>
           <p className="text-gray-400 text-sm">
             Posté il y a: {timeSince(bonPlan.datepost)}
+            <br></br>
+            Par: {authorName || 'Utilisateur inconnu'}
           </p>
           <p className="text-gray-500 line-through font-bold">
             Prix initial: {bonPlan.prix_initial}€

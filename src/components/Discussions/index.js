@@ -6,6 +6,7 @@ import axios from 'axios';
 function Discussions() {
   const [discussions, setDiscussions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [user, setUser] = useState(null);  // État pour stocker les détails de l'utilisateur
   const [newDiscussion, setNewDiscussion] = useState({
     titre: '',
     content: '',
