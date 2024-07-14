@@ -82,7 +82,18 @@ export default function CodesPromos() {
 
   return (
     <div className="animatedBackground bg-[url('../../assets/apple-store-badge.png')] p-8">
-      <h1 className="text-4xl font-semibold text-white text-center mb-10">Les codes promos</h1>
+      <h1 className="text-4xl font-semibold text-white text-center mb-6">Les codes promos</h1>
+
+      {!user && (
+        
+        <p className="text-center text-2xl text-gray-600 mb-8">
+          Vous devez vous connecter pour ajouter un code promo.
+        </p>
+      )
+      
+      
+      }
+
       {user  && (
         <>
           <button

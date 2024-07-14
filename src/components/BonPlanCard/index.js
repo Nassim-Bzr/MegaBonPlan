@@ -89,11 +89,14 @@ const BonPlanCard = ({ bonPlan, user }) => {
           <h3 className="text-xl font-semibold text-gray-800">{bonPlan.titre}</h3>
           <img src={bonPlan.imglink} alt={bonPlan.titre} className="w-2/3 h-40 object-cover mt-4 mb-4 mx-auto rounded-md" />
           <p className="text-gray-700">{bonPlan.description}</p>
-          <p className="text-gray-400 text-sm">
-            Posté il y a: {timeSince(bonPlan.datepost)}
-            <br />
-            Par: {authorName || 'Utilisateur inconnu'}
-          </p>
+          <div className="flex items-center space-x-6 justify-center m-2">
+  <p className="text-gray-400 text-sm">
+    Posté il y a : {timeSince(bonPlan.datepost)}
+  </p>
+  <p className="text-gray-400 text-sm">
+    Par: {authorName || 'Utilisateur inconnu'}
+  </p>
+</div>
           <p className="text-gray-500 line-through font-bold">
             Prix initial: {bonPlan.prix_initial}€
           </p>

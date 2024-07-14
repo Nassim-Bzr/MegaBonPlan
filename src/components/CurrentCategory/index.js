@@ -100,7 +100,18 @@ export default function CurrentCategory() {
     <div className="min-h-screen animatedBackground bg-gray-100 p-8">
       <h1 className="text-3xl font-bold text-center text-white mb-6">
         Bons plans pour la catégorie {categoryName || categoryId}
+        {!user && (
+        
+        <p className="text-center text-gray-600">
+          Vous devez vous connecter pour ajouter un bon plan.
+        </p>
+      )
+      
+      
+      }
+     
       </h1>
+  
 
       <ToastContainer />
       {user && (

@@ -12,40 +12,45 @@ const BonPlanDetails = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [authorName, setAuthorName] = useState('');
 
   useEffect(() => {
+    const fetchBonPlanDetails = async () => {
+      try {
+        const bonPlanResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`);
+        console.log('Bon Plan Response:', bonPlanResponse.data);
+        setBonPlan(bonPlanResponse.data);
+  
+        const commentsResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/bonplan/${id}`);
+        console.log('Comments Response:', commentsResponse.data);
+  
+        const commentsWithUsernames = await Promise.all(commentsResponse.data.map(async comment => {
+          const userResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${comment.id_utilisateur}`);
+          console.log('User Response for Comment:', userResponse.data);
+          return { ...comment, username: userResponse.data.nom };
+        }));
+        setComments(commentsWithUsernames);
+  
+        const authorResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${bonPlanResponse.data.id_utilisateur}`);
+        console.log('Author Response:', authorResponse.data);
+        setAuthorName(authorResponse.data.nom);
+  
+        setLoading(false);
+      } catch (error) {
+        console.error("Erreur lors du chargement du bon plan ou des commentaires:", error);
+        setError("Impossible de charger le bon plan ou les commentaires.");
+        setLoading(false);
+      }
+    };
+  
     if (id) {
-      axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`)
-        .then(response => {
-          setBonPlan(response.data);
-          return axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/bonplan/${id}`);
-        })
-        .then(response => {
-          const commentsWithUsernames = response.data.map(comment => {
-            return axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${comment.id_utilisateur}`)
-              .then(userResponse => {
-                comment.username = userResponse.data.nom;
-                return comment;
-              });
-          });
-
-          // Attendre que toutes les requêtes utilisateur soient terminées
-          return Promise.all(commentsWithUsernames);
-        })
-        .then(commentsWithUsernames => {
-          setComments(commentsWithUsernames);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.error("Erreur lors du chargement du bon plan ou des commentaires:", error);
-          setError("Impossible de charger le bon plan ou les commentaires.");
-          setLoading(false);
-        });
+      fetchBonPlanDetails();
     } else {
       setError("ID du bon plan non fourni ou incorrect.");
       setLoading(false);
     }
   }, [id]);
+  
 
   const handleDeleteComment = (commentId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
@@ -77,17 +82,12 @@ const BonPlanDetails = () => {
 
       try {
         const response = await axios.post(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary`, requestBody);
-        console.log('Response status:', response.status);
-        console.log('Response data:', response.data);
         const userResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${user.id}`);
-          const newComment = { ...response.data, username: userResponse.data.nom };
-          setComments(prev => [...prev, newComment]);
+        const newComment = { ...response.data, username: userResponse.data.nom };
         if (response.status === 201 || response.status === 200) {
-
+          setComments(prev => [...prev, newComment]);
           setComment(''); // Réinitialiser le commentaire
         } else {
-          console.error('Unexpected response status:', response.status);
-          console.error('Response message:', response.data.message);
           throw new Error(response.data.message || 'Erreur lors de la publication du commentaire');
         }
       } catch (error) {
@@ -95,6 +95,23 @@ const BonPlanDetails = () => {
       }
     }
   };
+
+  const handleLikeComment = async (commentId) => {
+    try {
+      const response = await axios.post(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/like/${commentId}`);
+      if (response.status === 200) {
+        setComments(prevComments => prevComments.map(comment => {
+          if (comment.id_commentaire === commentId) {
+            return { ...comment, likes: comment.likes + 1 };
+          }
+          return comment;
+        }));
+      }
+    } catch (error) {
+      console.error("Erreur lors du like du commentaire:", error);
+    }
+  };
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       submitComment(event);
@@ -116,6 +133,7 @@ const BonPlanDetails = () => {
         )}
         <div className="p-4">
           <h1 className="text-3xl font-bold mb-2">{bonPlan.titre}</h1>
+          <p>Postée par {authorName}</p>
           <p className="text-gray-700 mb-4">{bonPlan.description}</p>
           {bonPlan.lienaffiliation && (
             <a
@@ -137,14 +155,22 @@ const BonPlanDetails = () => {
                 <div className="text-sm text-gray-600">
                   Posté le: {new Date(comment.datecommentaire).toLocaleDateString()} par <strong>{comment.username || 'Utilisateur inconnu'}</strong>
                 </div>
-                {user?.isadmin && (
+                <div className="flex items-center mt-2">
                   <button
-                    onClick={() => handleDeleteComment(comment.id_commentaire)}
-                    className="text-red-500 hover:text-red-700"
+                    onClick={() => handleLikeComment(comment.id_commentaire)}
+                    className="text-blue-500 hover:text-blue-700 mr-2"
                   >
-                    Supprimer
+                    <FaThumbsUp /> {comment.likes}
                   </button>
-                )}
+                  {user?.isadmin && (
+                    <button
+                      onClick={() => handleDeleteComment(comment.id_commentaire)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Supprimer
+                    </button>
+                  )}
+                </div>
               </div>
             ))
           ) : (

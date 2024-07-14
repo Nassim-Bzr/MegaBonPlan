@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TbClockHour4 } from "react-icons/tb";
 import axios from 'axios';
+import { useAuth } from '../../AuthContext';
 
 function Discussions() {
   const [discussions, setDiscussions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState(null);  // État pour stocker les détails de l'utilisateur
+  const { user } = useAuth()
   const [newDiscussion, setNewDiscussion] = useState({
     titre: '',
     content: '',
@@ -49,12 +50,26 @@ function Discussions() {
     <div className="bg-gray-50 animatedBackground min-h-screen">
       <div className="max-w-4xl mx-auto p-4">
         <h1 className="text-3xl text-white font-bold mb-4">Discussions</h1>
-        <button
-          onClick={handleOpenModal}
-          className="bg-blue-500 mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Ajouter une discussion
-        </button>
+
+        {user && (
+            <button
+            onClick={handleOpenModal}
+            className="bg-blue-500 mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Ajouter une discussion
+          </button>
+          
+        )}
+
+        {!user && (
+          
+          <p className="text-center text-2xl text-gray-600 mb-12">
+            Vous devez vous connecter pour ajouter une discussion.
+            </p>
+            )}
+
+     
+      
         <div className="space-y-4">
           {discussions.map((discussion) => (
             <Link to={`/discussions/${discussion.id_discussion}`} key={discussion.id_discussion}>

@@ -24,9 +24,19 @@ export default function BonPlans() {
   console.log(bonPlans)
   return (
     <div className="py-8 px-4 animatedBackground">
-      <h2 className="text-4xl font-bold text-center text-white mb-10">
+      <h2 className="text-4xl font-bold text-center text-white mb-6">
         Découvrez les Bons Plans
       </h2>
+
+      {!user && (
+        
+        <p className="text-center text-2xl text-gray-600 mb-12">
+          Vous devez vous connecter pour ajouter un bon plan.
+        </p>
+      )
+      
+      
+      }
       <div className="max-w-screen-xl mx-auto bg-white animatedBackground grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {bonPlans.map((bonPlan, index) => (
           <BonPlanCard key={index} bonPlan={bonPlan}  user={user} />

@@ -28,12 +28,16 @@ export default function FavoritesPage() {
 
   return (
     <div className="min-h-screen animatedBackground bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold text-white text-center text-white-800 mb-6">
+      <h1 className="text-3xl font-bold text-white text-center mb-6">
         Mes bon plans favoris
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {favoris.length > 0 ? (
-          favoris.map((item, index) => (
+      {favoris.length === 0 ? (
+        <div className="text-center text-white text-2xl mb-6">
+          Aucun favori enregistré pour l'instant.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {favoris.map((item, index) => (
             <div key={index} className="bg-white rounded-lg shadow p-4">
               <img
                 src={item.imglink}
@@ -57,11 +61,9 @@ export default function FavoritesPage() {
                 Retirer des favoris
               </button>
             </div>
-          ))
-        ) : (
-          <p className="text-center flex justify-center text-white mr-auto text-2xl mt-3">Aucun favori enregistré.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
