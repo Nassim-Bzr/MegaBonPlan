@@ -1,5 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from '../../AuthContext'; // Assurez-vous que le chemin est correct
+import { useAuth } from '../../AuthContext';
+import { FaTag, FaClock, FaStore } from 'react-icons/fa';
+
+// Ajout de faux codes promos
+const fakeCodesPromos = [
+  {
+    id: 1,
+    code: "SUMMER25",
+    description: "25% de réduction sur la collection été",
+    dateexpiration: "2023-08-31",
+    marchand: "FashionStore",
+    imgmarchand: "https://via.placeholder.com/150",
+    reduction: "25%",
+    montant: ""
+  },
+  {
+    id: 2,
+    code: "TECH50",
+    description: "50€ de remise sur les smartphones",
+    dateexpiration: "2023-09-15",
+    marchand: "TechWorld",
+    imgmarchand: "https://via.placeholder.com/150",
+    reduction: "",
+    montant: "50€"
+  },
+  {
+    id: 3,
+    code: "BEAUTY10",
+    description: "10% sur tous les produits de beauté",
+    dateexpiration: "2023-10-01",
+    marchand: "BeautyZone",
+    imgmarchand: "https://via.placeholder.com/150",
+    reduction: "10%",
+    montant: ""
+  },
+  {
+    id: 4,
+    code: "BOOKS5",
+    description: "5€ de réduction sur les livres",
+    dateexpiration: "2023-09-30",
+    marchand: "BookWorm",
+    imgmarchand: "https://via.placeholder.com/150",
+    reduction: "",
+    montant: "5€"
+  },
+  {
+    id: 5,
+    code: "FOOD20",
+    description: "20% sur votre première commande",
+    dateexpiration: "2023-08-20",
+    marchand: "FoodDelivery",
+    imgmarchand: "https://via.placeholder.com/150",
+    reduction: "20%",
+    montant: ""
+  }
+];
 
 export default function CodesPromos() {
   const [codesPromos, setCodesPromos] = useState([]);
@@ -20,12 +75,10 @@ export default function CodesPromos() {
   const { user } = useAuth();
 
   useEffect(() => {
-    fetch("https://megabonplan-f8522b195111.herokuapp.com/api/codepromos")
-      .then((response) => response.json())
-      .then((data) => setCodesPromos(data))
-      .catch((error) =>
-        console.error("Erreur lors de la récupération des codes promos:", error)
-      );
+    // Simuler le chargement des codes promos depuis l'API
+    setTimeout(() => {
+      setCodesPromos([...fakeCodesPromos]);
+    }, 1000);
   }, []);
 
   const handleInputChange = (event) => {
@@ -81,20 +134,16 @@ export default function CodesPromos() {
   };
 
   return (
-    <div className="animatedBackground bg-[url('../../assets/apple-store-badge.png')] p-8">
+    <div className="animatedBackground p-8">
       <h1 className="text-4xl font-semibold text-white text-center mb-6">Les codes promos</h1>
 
       {!user && (
-        
-        <p className="text-center text-2xl text-gray-600 mb-8">
+        <p className="text-center text-2xl text-gray-300 mb-8">
           Vous devez vous connecter pour ajouter un code promo.
         </p>
-      )
-      
-      
-      }
+      )}
 
-      {user  && (
+      {user && (
         <>
           <button
             onClick={handleOpenAddModal}
@@ -184,21 +233,23 @@ export default function CodesPromos() {
           )}
         </>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {codesPromos.map((code, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {codesPromos.map((code) => (
+          <div key={code.id} className="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <div className="p-5 flex flex-col items-center">
-              <img className="w-20 h-20 object-contain mb-4" src={code.imgmarchand} alt="Logo Marchand" />
-              <p className="text-center text-gray-800 font-semibold mb-2">{code.description}</p>
-              <p className="text-center text-gray-500 text-sm mb-4">{code.marchand}</p>
-              {code.dateexpiration && code.dateexpiration !== 'null' && code.dateexpiration !== '' && (
-                <p className="text-gray-500 text-sm mb-4">Expire le: {code.dateexpiration}</p>
-              )}
+              <img className="w-20 h-20 object-contain mb-4" src={code.imgmarchand} alt={`Logo ${code.marchand}`} />
+              <h3 className="text-lg font-semibold text-center text-gray-800 mb-2">{code.marchand}</h3>
+              <p className="text-center text-gray-600 mb-4">{code.description}</p>
+              <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-4">
+                <FaClock />
+                <span>Expire le: {code.dateexpiration}</span>
+              </div>
               <button
-                className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm py-2 px-4"
+                className="flex items-center justify-center space-x-2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm py-2 px-4 transition duration-300"
                 onClick={() => handleOpenViewModal(code)}
               >
-                Voir le code
+                <FaTag />
+                <span>Voir le code</span>
               </button>
             </div>
           </div>
@@ -213,7 +264,7 @@ export default function CodesPromos() {
             </div>
             <div className="text-center">
               <div className="flex justify-center mb-4">
-                <img className="h-24 w-24 object-contain" src={selectedCode.imgmarchand} alt="Logo Marchand" />
+                <img className="h-24 w-24 object-contain" src={selectedCode.imgmarchand} alt={`Logo ${selectedCode.marchand}`} />
               </div>
               <p className="text-xl font-semibold mb-2">{selectedCode.description}</p>
               <div className="bg-gray-100 p-4 rounded-lg mb-4">

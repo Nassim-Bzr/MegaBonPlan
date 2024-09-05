@@ -1,162 +1,119 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { TbClockHour4 } from "react-icons/tb";
-import axios from 'axios';
+import { FaComments, FaTag } from "react-icons/fa";
 import { useAuth } from '../../AuthContext';
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+
+// Données brutes d'exemple
+const exampleDiscussions = [
+  {
+    id_discussion: 1,
+    category: "Électronique",
+    titre: "Meilleur deal PS5 du moment",
+    content: "J'ai trouvé une PS5 à un prix incroyable. Quelqu'un d'autre a vu cette offre ?",
+    id_utilisateur: "GamerPro",
+    timeAgo: "2 heures",
+    comments: 15,
+    likes: 32
+  },
+  {
+    id_discussion: 2,
+    category: "Voyage",
+    titre: "Bon plan vol Paris-Tokyo",
+    content: "Une compagnie propose des vols à -50% pour Tokyo. Qui est partant ?",
+    id_utilisateur: "GlobeTrotter",
+    timeAgo: "5 heures",
+    comments: 28,
+    likes: 45
+  },
+  {
+    id_discussion: 3,
+    category: "Mode",
+    titre: "Promo sur les sneakers",
+    content: "J'ai repéré une promo intéressante sur des sneakers de marque. Ça intéresse quelqu'un ?",
+    id_utilisateur: "FashionLover",
+    timeAgo: "1 jour",
+    comments: 7,
+    likes: 19
+  },
+  {
+    id_discussion: 4,
+    category: "Alimentation",
+    titre: "Réduction sur les produits bio",
+    content: "Un nouveau magasin bio propose 30% de réduction sur tout le magasin cette semaine !",
+    id_utilisateur: "HealthyEater",
+    timeAgo: "3 jours",
+    comments: 22,
+    likes: 38
+  }
+];
 
 function Discussions() {
-  const [discussions, setDiscussions] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user } = useAuth()
-  const [newDiscussion, setNewDiscussion] = useState({
-    titre: '',
-    content: '',
-    id_utilisateur: '',
-    id_category: ''
-  });
-
-  useEffect(() => {
-    axios.get("https://megabonplan-f8522b195111.herokuapp.com/api/discussions")
-      .then((response) => setDiscussions(response.data))
-      .catch((error) => console.error("Erreur lors de la récupération des discussions:", error));
-  }, []);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewDiscussion((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const submitNewDiscussion = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post('https://megabonplan-f8522b195111.herokuapp.com/api/discussions', newDiscussion);
-      setDiscussions([...discussions, response.data]);
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Erreur lors de l'ajout de la discussion:", error);
-      alert("Erreur lors de l'ajout de la discussion. Veuillez réessayer.");
-    }
-  };
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useAuth();
 
   return (
-    <div className="bg-gray-50 animatedBackground min-h-screen">
-      <div className="max-w-4xl mx-auto p-4">
-        <h1 className="text-3xl text-white font-bold mb-4">Discussions</h1>
-
-        {user && (
-            <button
-            onClick={handleOpenModal}
-            className="bg-blue-500 mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
+    <Box bg="gray.50" minH="100vh" p={4}>
+      <Box maxW="4xl" mx="auto">
+        <Box mb={4}>
+          <Button onClick={onOpen} colorScheme="blue">
             Ajouter une discussion
-          </button>
-          
-        )}
+          </Button>
+        </Box>
 
         {!user && (
-          
-          <p className="text-center text-2xl text-gray-600 mb-12">
+          <Box textAlign="center" color="gray.600" fontSize="2xl" mb={12}>
             Vous devez vous connecter pour ajouter une discussion.
-            </p>
-            )}
+          </Box>
+        )}
 
-     
-      
-        <div className="space-y-4">
-          {discussions.map((discussion) => (
+        <Box>
+          {exampleDiscussions.map((discussion) => (
             <Link to={`/discussions/${discussion.id_discussion}`} key={discussion.id_discussion}>
-              <div className="bg-white m-4 p-4 rounded-lg shadow hover:shadow-lg transition">
-                <h2 className="text-gray-600 font-semibold">{discussion.category}</h2>
-                <h3 className="text-gray-800 font-semibold mt-2 text-xl">{discussion.titre}</h3>
+              <Box 
+                bg="white" 
+                m={4} 
+                p={4} 
+                rounded="lg" 
+                shadow="md" 
+                _hover={{ shadow: "lg" }}
+                transition="all 0.3s"
+              >
+                <Box fontSize="lg" fontWeight="semibold" color="blue.600">{discussion.category}</Box>
+                <Box fontSize="xl" fontWeight="semibold" mt={2} color="gray.800">{discussion.titre}</Box>
                 {discussion.content && (
-                  <p className="mt-2 text-sm text-gray-700">{discussion.content}</p>
+                  <Box mt={2} fontSize="sm" color="gray.700" noOfLines={2}>{discussion.content}</Box>
                 )}
-                <div className="flex justify-between items-center text-gray-500 text-sm mt-2">
-                  <span>{discussion.id_utilisateur}</span>
-                  <span className="flex items-center"><TbClockHour4 className="mr-1" /> il y a {discussion.timeAgo}</span>
-                </div>
-                <div className="flex items-center mt-2">
-                  <span className="text-gray-600 mr-2">{discussion.comments} 0 commentaires</span>
-                  <button className="text-blue-500 hover:text-blue-700 transition">
-                    Commenter
-                  </button>
-                </div>
-              </div>
+                <Flex justify="space-between" align="center" mt={4} color="gray.500" fontSize="sm">
+                  <Box>{discussion.id_utilisateur}</Box>
+                  <Box display="flex" alignItems="center"><TbClockHour4 className="mr-1" /> il y a {discussion.timeAgo}</Box>
+                </Flex>
+                <Flex align="center" mt={2} justify="space-between">
+                  <Flex align="center">
+                    <Box color="gray.600" mr={4} display="flex" alignItems="center">
+                      <FaComments className="mr-2" /> {discussion.comments}
+                    </Box>
+                    <Box color="gray.600" display="flex" alignItems="center">
+                      <FaTag className="mr-2" /> {discussion.likes}
+                    </Box>
+                  </Flex>
+                  <Button colorScheme="blue" variant="link">Commenter</Button>
+                </Flex>
+              </Box>
             </Link>
           ))}
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
-            <div className="flex justify-end">
-              <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">&times;</button>
-            </div>
-            <h2 className="text-xl font-semibold mb-4">Ajouter une nouvelle discussion</h2>
-            <form onSubmit={submitNewDiscussion} className="space-y-4">
-              <input
-                type="text"
-                name="category"
-                value={newDiscussion.category}
-                onChange={handleInputChange}
-                placeholder="Catégorie"
-                required
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                name="title"
-                value={newDiscussion.title}
-                onChange={handleInputChange}
-                placeholder="Titre"
-                required
-                className="w-full p-2 border rounded"
-              />
-              <textarea
-                name="content"
-                value={newDiscussion.content}
-                onChange={handleInputChange}
-                placeholder="Contenu"
-                required
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                name="author"
-                value={newDiscussion.author}
-                onChange={handleInputChange}
-                placeholder="Auteur"
-                required
-                className="w-full p-2 border rounded"
-              />
-              <div className="flex justify-between items-center">
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Soumettre
-                </button>
-                <button
-                  onClick={handleCloseModal}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded"
-                >
-                  Fermer
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </div>
+      {/* Ici, vous pouvez ajouter le Modal pour créer une nouvelle discussion si nécessaire */}
+    </Box>
   );
 }
 

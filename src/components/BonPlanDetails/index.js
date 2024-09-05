@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext';
-import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaPen, FaTimes } from 'react-icons/fa';
+import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaPen, FaTimes, FaSmile } from 'react-icons/fa';
+import EmojiPicker from 'emoji-picker-react';
 
 const BonPlanDetails = () => {
   const { id } = useParams();
@@ -13,6 +14,8 @@ const BonPlanDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authorName, setAuthorName] = useState('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const emojiPickerRef = useRef(null);
 
   useEffect(() => {
     const fetchBonPlanDetails = async () => {
@@ -50,7 +53,19 @@ const BonPlanDetails = () => {
       setLoading(false);
     }
   }, [id]);
-  
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+        setShowEmojiPicker(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [emojiPickerRef]);
 
   const handleDeleteComment = (commentId) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
@@ -71,6 +86,14 @@ const BonPlanDetails = () => {
     setComment(event.target.value);
   };
 
+  const handleEmojiClick = (emojiObject) => {
+    setComment(prevComment => prevComment + emojiObject.emoji);
+  };
+
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
   const submitComment = async (event) => {
     event.preventDefault();
     if (comment.trim() && user) {
@@ -87,6 +110,7 @@ const BonPlanDetails = () => {
         if (response.status === 201 || response.status === 200) {
           setComments(prev => [...prev, newComment]);
           setComment(''); // Réinitialiser le commentaire
+          setShowEmojiPicker(false); // Fermer le sélecteur d'emoji après soumission
         } else {
           throw new Error(response.data.message || 'Erreur lors de la publication du commentaire');
         }
@@ -188,15 +212,31 @@ const BonPlanDetails = () => {
             </div>
           )}
           {user && (
-            <form onSubmit={submitComment} className="mt-4">
-              <textarea
-                className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows="3"
-                placeholder="Ajoutez un commentaire..."
-                value={comment}
-                onChange={handleCommentChange}
-                onKeyDown={handleKeyPress}
-              ></textarea>
+            <form onSubmit={submitComment} className="mt-4 relative">
+              <div className="flex items-center">
+                <textarea
+                  className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  rows="3"
+                  placeholder="Ajoutez un commentaire..."
+                  value={comment}
+                  onChange={handleCommentChange}
+                ></textarea>
+                <button
+                  type="button"
+                  onClick={toggleEmojiPicker}
+                  className="ml-2 text-gray-500 hover:text-gray-700"
+                >
+                  <FaSmile className="text-xl" />
+                </button>
+              </div>
+              {showEmojiPicker && (
+                <div 
+                  ref={emojiPickerRef}
+                  className="absolute right-0 bottom-full mb-2 z-10"
+                >
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+              )}
               <button
                 type="submit"
                 className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

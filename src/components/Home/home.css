@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap");
+
 .home {
   position: relative;
   height: 100vh;
@@ -139,4 +141,31 @@
 .dot.active,
 .dot:hover {
   background-color: #717171; /* Couleur du dot actif ou au survol */
+}
+
+.animated-title {
+  font-family: "Roboto Flex", sans-serif;
+  animation: stroke 3s infinite alternate;
+  stroke-width: 2;
+  stroke: #A02D2D;
+  font-size: 80px;
+}
+
+@keyframes stroke {
+  0%   {
+    fill: rgba(72,138,204,0); stroke: rgba(160,45,45,1);
+    stroke-dashoffset: 25%; stroke-dasharray: 0 50%; stroke-width: 2;
+  }
+  70%  {fill: rgba(72,138,204,0); stroke: rgba(160,45,45,1); }
+  80%  {fill: rgba(72,138,204,0); stroke: rgba(160,45,45,1); stroke-width: 3; }
+  100% {
+    fill: rgba(72,138,204,1); stroke: rgba(160,45,45,0);
+    stroke-dashoffset: -25%; stroke-dasharray: 50% 0; stroke-width: 0;
+  }
+}
+
+svg {
+  font-family: "Roboto Flex", sans-serif;
+  width: 100%;
+  height: 100%;
 }

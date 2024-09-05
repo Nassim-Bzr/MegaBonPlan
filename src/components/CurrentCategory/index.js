@@ -4,6 +4,7 @@ import BonPlanCard from '../BonPlanCard/index';
 import { useAuth } from '../../AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaBell, FaBellSlash } from 'react-icons/fa';
 
 export default function CurrentCategory() {
   const { categoryId } = useParams();
@@ -18,6 +19,7 @@ export default function CurrentCategory() {
     prix_initial: '',
     prix_reduit: ''
   });
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const { user } = useAuth();
 
   const [showModal, setShowModal] = useState(false);
@@ -48,6 +50,15 @@ export default function CurrentCategory() {
       })
       .catch((error) => console.error('Erreur lors de la récupération des bons plans pour la catégorie:', error));
   }, [categoryId]);
+
+  useEffect(() => {
+    if (user) {
+      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/notifications/${user.id}/${categoryId}`)
+        .then(response => response.json())
+        .then(data => setIsSubscribed(data.isSubscribed))
+        .catch(error => console.error('Erreur lors de la vérification de l\'abonnement:', error));
+    }
+  }, [user, categoryId]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -96,20 +107,52 @@ export default function CurrentCategory() {
     }
   };
 
+  const handleSubscriptionToggle = () => {
+    const apiEndpoint = isSubscribed
+      ? `https://megabonplan-f8522b195111.herokuapp.com/api/notifications/unsubscribe`
+      : `https://megabonplan-f8522b195111.herokuapp.com/api/notifications/subscribe`;
+
+    fetch(apiEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        categoryId,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setIsSubscribed(!isSubscribed);
+        const message = isSubscribed
+          ? "Notifications désactivées pour cette catégorie."
+          : "Notifications activées pour cette catégorie.";
+        toast.success(message);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la gestion de l\'abonnement aux notifications:', error);
+        toast.error("Erreur lors de la gestion de l'abonnement. Veuillez réessayer.");
+      });
+  };
+
   return (
     <div className="min-h-screen animatedBackground bg-gray-100 p-8">
       <h1 className="text-3xl font-bold text-center text-white mb-6">
         Bons plans pour la catégorie {categoryName || categoryId}
         {!user && (
-        
-        <p className="text-center text-gray-600">
-          Vous devez vous connecter pour ajouter un bon plan.
-        </p>
-      )
-      
-      
-      }
-     
+          <p className="text-center text-gray-600">
+            Vous devez vous connecter pour ajouter un bon plan.
+          </p>
+        )}
+        {user && (
+          <button
+            onClick={handleSubscriptionToggle}
+            className={`ml-4 ${isSubscribed ? 'text-red-600' : 'text-white-600'}`}
+          >
+            {isSubscribed ? <FaBellSlash /> : <FaBell />}
+          </button>
+        )}
       </h1>
   
 
