@@ -1,8 +1,60 @@
 .App {
-  text-align: center;
-  background-color: #ffffff;
-  height: 135vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.light {
+  --bg-primary: #ffffff;
+  --text-primary: #333333;
+  --bg-secondary: #f3f4f6;
+  --text-secondary: #4b5563;
+}
+
+.dark {
+  --bg-primary: #1a202c;
+  --text-primary: #f7fafc;
+  --bg-secondary: #2d3748;
+  --text-secondary: #a0aec0;
+}
+
+/* Ajoutez ces styles pour s'assurer que le mode sombre s'applique à tous les éléments */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+.dark p, .dark span, .dark div {
+  color: var(--text-primary);
+}
+
+.dark button, .dark input, .dark select, .dark textarea {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+.dark nav {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+.dark a {
+  color: #ffffff;
+}
+.animatedBackground {
+  background: linear-gradient(45deg, var(--bg-primary), var(--bg-secondary));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+
+/* Ajoutez d'autres styles spécifiques au mode sombre selon vos besoins */
 body {
   margin: 0;
   padding: 0;

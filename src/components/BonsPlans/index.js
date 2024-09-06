@@ -77,8 +77,9 @@ export default function BonPlans() {
               </option>
             ))}
           </select>
-          <FaFilter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+          
         </div>
+        
 
         <div className="relative">
           <select
@@ -89,7 +90,7 @@ export default function BonPlans() {
             <option value="date">Trier par date</option>
             <option value="price">Trier par prix</option>
           </select>
-          <FaSortAmountDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+          
         </div>
       </div>
 

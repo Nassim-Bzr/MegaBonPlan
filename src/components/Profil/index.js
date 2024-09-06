@@ -77,7 +77,7 @@ export default function Profile() {
         </div>
         <div className="mt-8 flex space-x-4">
           <Link
-            to="/edit-profile"
+            to="/modifier-profil"
             className="text-blue-600 hover:text-blue-800 font-medium"
           >
             Modifier le profil

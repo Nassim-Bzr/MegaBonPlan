@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/Votre texte de paragraphe.png';
 import { useAuth } from '../../AuthContext';
 import SearchBar from '../SearchBar';
+import { ThemeContext } from '../../contexts/ThemContext';
+import { useContext } from 'react';
+
+
 const Header = () => {
   const { user, logout } = useAuth();
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuToggle = () => {
@@ -110,6 +115,9 @@ const Header = () => {
           )}
         </div>
       </div>
+      <button onClick={toggleTheme} className="theme-toggle">
+        {isDarkMode ? '☀️' : '🌙'}
+      </button>
     </nav>
   );
 };

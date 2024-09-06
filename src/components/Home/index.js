@@ -26,37 +26,10 @@ export default function Home() {
 
   return (
     <div className="w-full min-h-screen p-10 animatedBackground flex flex-col items-center justify-center">
-      <svg className="w-full h-80 mb-6">
-        <text x="50%" y="40%" dy=".35em" textAnchor="middle" className="animated-title">
-          Les meilleurs
-        </text>
-        <text x="50%" y="70%" dy=".35em" textAnchor="middle" className="animated-title">
-          bons plans
-        </text>
-      </svg>
-      
-      <p className="text-xl text-gray-200 text-center mb-10 max-w-2xl">
-        Découvrez des offres exclusives, des réductions incroyables et des astuces pour économiser sur vos achats préférés.
-      </p>
-
-      <div className="flex justify-center mb-12">
-        <AvatarComponent />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-        <FeatureCard icon={<FaSearch />} title="Trouvez" description="Recherchez parmi des milliers de bons plans" />
-        <FeatureCard icon={<FaTag />} title="Économisez" description="Profitez de réductions exclusives" />
-        <FeatureCard icon={<FaUsers />} title="Partagez" description="Échangez avec la communauté" />
-      </div>
-
-      <div className="w-full max-w-4xl mt-16">
-        <h2 className="text-3xl font-bold text-white text-center mb-8">Discussions récentes</h2>
-        <div className="grid gap-6">
-          {fakeDiscussions.map((discussion) => (
-            <DiscussionCard key={discussion.id} discussion={discussion} />
-          ))}
-        </div>
-      </div>
+        <h1 className="text-4xl font-bold text-center mb-6">
+          Les meilleurs bons plans
+        </h1>
+    
 
       <Swiper
         effect={'cube'}
@@ -69,14 +42,13 @@ export default function Home() {
         }}
         pagination={true}
         navigation={true}
-        modules={[EffectCube, Pagination, Navigation, Autoplay]} // Ajoutez Autoplay ici
+        modules={[EffectCube, Pagination, Navigation, Autoplay]}
         autoplay={{
-          // Configurez l'option autoplay ici
-          delay: 2500, // Temps en ms avant de passer à la slide suivante (5000 pour 5s, par exemple)
-          disableOnInteraction: false, // Continue l'autoplay même après interaction de l'utilisateur
-          reverseDirection: false, // Fait tourner le cube dans le sens inverse si mis à true
+          delay: 2500,
+          disableOnInteraction: false,
+          reverseDirection: false,
         }}
-        className="w-96 h-96"
+        className="w-96 h-96 mt-12"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
@@ -87,25 +59,53 @@ export default function Home() {
             />
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper>      
+      <p className="text-xl text-gray-200 text-center mb-10 max-w-2xl">
+        Découvrez des offres exclusives, des réductions incroyables et des astuces pour économiser sur vos achats préférés.
+      </p>
 
-      <div
-        className="absolute top-32 inset-0 blur-[118px] max-w-lg h-[220px] mx-auto sm:max-w-3xl sm:h-[200px] pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)',
-        }}
-      ></div>
+      <div className="flex justify-center mb-12">
+        <AvatarComponent />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-2xl w-full">
+        <FeatureCard 
+          icon={<FaSearch className="text-2xl" />} 
+          title="Trouvez" 
+          description="Recherchez parmi des milliers de bons plans" 
+        />
+        <FeatureCard 
+          icon={<FaTag className="text-xl" />} 
+          title="Économisez" 
+          description="Profitez de réductions exclusives" 
+        />
+        <FeatureCard 
+          icon={<FaUsers className="text-2xl" />} 
+          title="Partagez" 
+          description="Échangez avec la communauté" 
+        />
+      </div>
+
+      <div className="w-full max-w-4xl mt-16">
+        <h2 className="text-3xl font-bold text-white text-center mb-8">Discussions récentes</h2>
+        <div className="grid gap-6">
+          {fakeDiscussions.map((discussion) => (
+            <DiscussionCard key={discussion.id} discussion={discussion} />
+          ))}
+        </div>
+      </div>
+
+      
     </div>
   );
 }
 
 function FeatureCard({ icon, title, description }) {
   return (
-    <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-6 text-center">
-      <div className="text-4xl text-white mb-4 flex justify-center">{icon}</div>
-      <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
-      <p className="text-gray-300">{description}</p>
+    <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-xl p-4 text-center">
+      <div className="text-white mb-2 flex justify-center">{icon}</div>
+      <h3 className="text-lg font-semibold text-white mb-1">{title}</h3>
+      <p className="text-sm text-gray-300">{description}</p>
     </div>
   );
 }
@@ -117,10 +117,10 @@ function DiscussionCard({ discussion }) {
         <h3 className="text-xl font-semibold text-white">{discussion.title}</h3>
         <div className="flex items-center space-x-4">
           <span className="text-gray-300 flex items-center">
-            <FaComments className="mr-2" /> {discussion.replies}
+            <FaComments className="mr-2 text-sm" /> {discussion.replies}
           </span>
           <span className="text-gray-300 flex items-center">
-            <FaTag className="mr-2" /> {discussion.likes}
+            <FaTag className="mr-2 text-sm" /> {discussion.likes}
           </span>
         </div>
       </div>

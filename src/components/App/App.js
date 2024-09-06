@@ -22,13 +22,24 @@ import AdminPage from '../AdminPage'
 import BonPlanDetails from '../BonPlanDetails'
 import Favoris from '../FavorisPage'
 import ChangePassword from '../ChangePassword'
+import ModifierProfil from '../ModifierProfil';
+import { ThemeContext } from '../../contexts/ThemContext';
+// import useEffect
+
+
+import { useContext } from 'react';
+
+
+
 import DetailsDiscussion from '../DetailsDiscussion'
 function App() {
+  const { isDarkMode } = useContext(ThemeContext);
   return (
-    <div className="App">
+    <div className={`App ${isDarkMode ? 'dark' : 'light'}`}>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/modifier-profil" element={<ModifierProfil />} />
         <Route path="/bonplans/details/:id" element={<BonPlanDetails />} />
         <Route path="/login-success" element={<LoginSuccess />} />
         <Route path="/inscription" element={<Signup />} />
