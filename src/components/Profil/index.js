@@ -50,7 +50,7 @@ export default function Profile() {
 
   return (
     <div className="bg-gray-100 min-h-screen animatedBackground flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg p-8 md:p-12">
+      <div className="bg-white mx-4 rounded-lg shadow-lg p-8 md:p-12">
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
           <img
             src={userData.imageUrl}

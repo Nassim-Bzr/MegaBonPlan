@@ -96,12 +96,14 @@ export default function CodesPromos() {
 
       {user  && (
         <div className="animatedBackground ">
-          <button
-            onClick={handleOpenAddModal}
-            className="bg-blue-500 mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Ajouter un code promo
-          </button>
+          <div className="flex justify-center mb-4">
+            <button
+              onClick={handleOpenAddModal}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Ajouter un code promo
+            </button>
+          </div>
           {isAddModalOpen && (
             <div className="fixed  inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
               <div className="bg-white p-6 rounded z-50">

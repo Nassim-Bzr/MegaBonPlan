@@ -58,7 +58,7 @@ export default function ChangePassword() {
   
   return (
     <div className="min-h-screen animatedBackground bg-gray-100 flex items-center justify-center">
-      <div className="max-w-md w-full bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
+      <div className="max-w-md mx-2 w-full bg-white p-8 border border-gray-300 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">
           Changer de mot de passe
         </h2>

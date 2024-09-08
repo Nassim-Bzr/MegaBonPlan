@@ -74,7 +74,7 @@ const Header = () => {
             menuOpen ? 'block' : 'hidden'
           } md:flex md:items-center md:justify-between w-full md:w-auto`}
         >
-          <ul className="space-y-4 md:flex md:space-x-8 md:space-y-0">
+          <ul className="space-y-4 md:flex md:space-x-8 md:space-y-0 text-center">
             {navItems.map((item, index) => (
               <li key={index}>
                 <Link
@@ -89,15 +89,15 @@ const Header = () => {
           </ul>
           <SearchBar />
           {user ? (
-            <div className="mt-4 right-2 flex flex-col md:flex-row md:items-center md:space-x-4">
+            <div className="mt-4 right-2 flex flex-col text-center md:flex-row md:items-center md:space-x-4">
               <span className="mr-4">Bonjour, <span className="font-bold">{user.nom}</span></span>
               <Link
                 to="/profil"
-                className="py-2 px-4 text-white  rounded mt-2 md:mt-0 md:ml-4"
+                className="py-2 px-4 text-white flex justify-center rounded mt-2 md:mt-0 md:ml-4"
                 onClick={handleLinkClick}
               >
 
-<div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+<div class="relative w-10 h-10 overflow-hidden flex items-center justify-center bg-gray-100 rounded-full dark:bg-gray-600">
     <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
 </div>
 

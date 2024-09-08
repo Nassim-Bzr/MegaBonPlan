@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import emailjs from 'emailjs-com'
 import Swal from 'sweetalert2'
 import Img from '../../assets/Message sent - 640x479 (1).png'
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     from_name: '',
@@ -49,12 +50,12 @@ export default function Contact() {
   }
 
   return (
-    <div>
-      <main className="relative py-12 bg-gray-900">
-        <img className="relative sm:right-28" src={Img} />
-        <div className="relative z-10 max-w-screen-xl mx-auto text-gray-600 sm:px-4 md:px-8 sm:bottom-[450px]">
-          <div className="max-w-lg space-y-3  sm:mx-auto sm:text-center sm:px-0">
-            <h3 className="text-4xl font-semibold text-white text-center mb-6">
+    <div className="bg-gray-900 min-h-screen py-16">
+      <main className="relative container mx-auto px-4">
+        <img className="mx-auto mb-12 max-w-full h-auto" src={Img} alt="Message sent" />
+        <div className="relative z-10 max-w-screen-xl mx-auto text-gray-600">
+          <div className="max-w-lg space-y-3 mx-auto text-center mb-12">
+            <h3 className="text-4xl font-semibold text-white mb-6">
               Contact
             </h3>
             <p className="text-gray-300">
@@ -62,45 +63,45 @@ export default function Contact() {
               formulaire ci-dessous.
             </p>
           </div>
-          <div className="mt-12 mx-auto px-4 p-8 bg-white sm:max-w-lg sm:px-8 sm:rounded-xl">
-            <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="mt-12 mx-auto p-8 bg-white sm:max-w-lg rounded-xl shadow-lg">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="font-medium">Nom Complet</label>
+                <label className="block font-medium mb-2">Nom Complet</label>
                 <input
                   type="text"
                   name="from_name"
                   required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
+                  className="w-full px-3 py-2 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                   onChange={handleChange}
                   value={formData.from_name}
                 />
               </div>
               <div>
-                <label className="font-medium">Email</label>
+                <label className="block font-medium mb-2">Email</label>
                 <input
                   type="email"
                   name="from_email"
                   required
-                  className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
+                  className="w-full px-3 py-2 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                   onChange={handleChange}
                   value={formData.from_email}
                 />
               </div>
               <div>
-                <label className="font-medium">Message</label>
+                <label className="block font-medium mb-2">Message</label>
                 <textarea
                   name="message"
                   required
-                  className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-gray-800 shadow-sm rounded-lg"
+                  className="w-full px-3 py-2 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-36 resize-none"
                   onChange={handleChange}
                   value={formData.message}
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full px-4 py-2 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-lg duration-150"
+                className="w-full px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded-lg transition duration-150 ease-in-out"
               >
-                Submit
+                Envoyer
               </button>
             </form>
           </div>

@@ -55,7 +55,7 @@ function Discussions() {
       <div style={{ backgroundColor: "gray.50", minHeight: "100vh", padding: "8px" }}>
         <div style={{ maxWidth: "600px", margin: "0 auto" }}>
           <div style={{ marginBottom: "8px" }}>
-            <button style={{ backgroundColor: "blue", color: "white", padding: "4px 8px", borderRadius: "4px", fontSize: "14px" }}>
+            <button   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Ajouter une discussion
             </button>
           </div>
