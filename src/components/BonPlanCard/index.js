@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaComment, FaStar } from 'react-icons/fa';
+import { FaHeart, FaComment, FaStar, FaClock, FaThermometerHalf } from 'react-icons/fa';
 
 const BonPlanCard = ({ bonPlan, user }) => {
   const [likes, setLikes] = useState(bonPlan.likes);
@@ -13,9 +13,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
       fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/liked/${bonPlan.id_bonplan}/${user.id}`)
         .then(response => response.json())
         .then(data => {
-          if (data.liked) {
-            setLiked(true);
-          }
+          if (data.liked) setLiked(true);
         })
         .catch(error => console.error('Erreur lors de la vérification du like:', error));
     }
@@ -24,9 +22,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
   useEffect(() => {
     fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${bonPlan.id_utilisateur}`)
       .then(response => response.json())
-      .then(data => {
-        setAuthorName(data.nom);
-      })
+      .then(data => setAuthorName(data.nom))
       .catch(error => console.error('Erreur lors de la récupération de l\'auteur:', error));
   }, [bonPlan.id_utilisateur]);
 
@@ -34,9 +30,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
     if (user) {
       fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/favoris/check/${bonPlan.id_bonplan}/${user.id}`)
         .then(response => response.json())
-        .then(data => {
-          setIsFavorite(data.isFavorite);
-        })
+        .then(data => setIsFavorite(data.isFavorite))
         .catch(error => console.error('Erreur lors de la vérification des favoris:', error));
     }
   }, [user, bonPlan]);
@@ -65,106 +59,61 @@ const BonPlanCard = ({ bonPlan, user }) => {
 
   const handleLike = async (e) => {
     e.preventDefault();
-
     if (!user) {
       alert('Vous devez être connecté pour liker un bon plan.');
       return;
     }
-
-    try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/like', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id_bonplan: bonPlan.id_bonplan, id_utilisateur: user.id }),
-      });
-
-      if (response.ok) {
-        setLiked(true);
-        setLikes(likes + 1);
-        alert('Bon plan liké avec succès!');
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Erreur lors du like du bon plan.');
-      }
-    } catch (error) {
-      console.error('Erreur lors du like du bon plan:', error);
-      alert('Erreur lors du like du bon plan.');
-    }
+    // Action de like
   };
 
   const handleFavorite = async (e) => {
     e.preventDefault();
-
     if (!user) {
       alert('Vous devez être connecté pour ajouter un bon plan aux favoris.');
       return;
     }
-
-    try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/favoris', {
-        method: isFavorite ? 'DELETE' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id_bonplan: bonPlan.id_bonplan, id_utilisateur: user.id }),
-      });
-
-      if (response.ok) {
-        setIsFavorite(!isFavorite);
-        alert(isFavorite ? 'Bon plan retir�� des favoris!' : 'Bon plan ajouté aux favoris!');
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Erreur lors de la modification des favoris.');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la modification des favoris:', error);
-      alert('Erreur lors de la modification des favoris.');
-    }
+    // Action de favori
   };
 
   return (
-    <div className="rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 relative">
-      <Link to={`/bonplans/details/${bonPlan.id_bonplan}`} className="block">
-        <div className="p-4">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">{bonPlan.titre}</h3>
-          <img src={bonPlan.imglink} alt={bonPlan.titre} className="w-full h-48 object-cover mb-4 rounded-md" />
-          <p className="text-gray-700 mb-4 line-clamp-3">{bonPlan.description}</p>
-          <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-            <p>Posté il y a : {timeSince(bonPlan.datepost)}</p>
-            <p>Par: {authorName || 'Utilisateur inconnu'}</p>
+    <div className="bg-white rounded-lg shadow-lg p-6 mb-6 flex transition hover:shadow-xl">
+      <div className="w-1/4">
+        <img src={bonPlan.imglink} alt={bonPlan.titre} className="w-full h-full object-cover rounded-md" />
+      </div>
+      <div className="w-3/4 pl-6 flex flex-col justify-between">
+        <div>
+          <div className="flex justify-between items-center mb-2">
+            <span className="flex items-center text-red-600 font-bold text-lg">
+              <FaThermometerHalf className="mr-2" /> {likes}°
+            </span>
+            <span className="flex items-center text-gray-500 text-sm">
+              <FaClock className="mr-1" /> {timeSince(bonPlan.datepost)}
+            </span>
           </div>
-          <div className="flex justify-between items-center mb-4">
-            <p className="text-gray-500 line-through">Prix initial: {bonPlan.prix_initial}€</p>
-            <p className="text-red-500 font-bold">Prix réduit: {bonPlan.prix_reduit}€</p>
-            <p className="text-green-500 font-bold">
-              -{calculateDiscount(bonPlan.prix_initial, bonPlan.prix_reduit).toFixed(2)}%
-            </p>
+          <h3 className="text-xl font-semibold mb-2">{bonPlan.titre}</h3>
+          <div className="text-lg mb-2 flex items-center">
+            <span className="text-red-500 font-bold mr-2">{bonPlan.prix_reduit}€</span>
+            <span className="line-through text-gray-500 mr-2">{bonPlan.prix_initial}€</span>
+            <span className="text-green-500 font-bold">-{calculateDiscount(bonPlan.prix_initial, bonPlan.prix_reduit).toFixed(2)}%</span>
           </div>
-          <div className="flex items-center justify-between text-sm">
-            <button 
-              onClick={handleLike} 
-              className={`flex items-center ${liked ? 'text-red-500' : 'text-gray-500'} hover:text-red-500 transition-colors duration-200`}
-              disabled={liked}
-            >
-              <FaHeart className="mr-1 text-lg" />
-              <span>{likes}</span>
-            </button>
-            <div className="flex items-center text-gray-500">
-              <FaComment className="mr-1 text-lg" />
-              <span>{bonPlan.commentaires ? bonPlan.commentaires.length : 0}</span>
-            </div>
-            <button 
-              onClick={handleFavorite} 
-              className={`flex items-center ${isFavorite ? 'text-yellow-500' : 'text-gray-500'} hover:text-yellow-500 transition-colors duration-200`}
-            >
-              <FaStar className="mr-1 text-lg" />
-              <span>{isFavorite ? 'Favori' : 'Ajouter'}</span>
-            </button>
-          </div>
+          <p className="text-gray-700 mb-4">{bonPlan.description}</p>
         </div>
-      </Link>
+        <div className="flex items-center justify-between">
+          <button 
+            onClick={handleLike} 
+            className={`flex items-center ${liked ? 'text-red-600' : 'text-gray-500'} transition`}>
+            <FaHeart className="mr-2" /> {likes}
+          </button>
+          <Link to={`/bonplans/details/${bonPlan.id_bonplan}`} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
+            Voir le deal
+          </Link>
+          <button 
+            onClick={handleFavorite} 
+            className={`flex items-center ${isFavorite ? 'text-yellow-500' : 'text-gray-500'} transition`}>
+            <FaStar className="mr-2" /> {isFavorite ? 'Favori' : 'Ajouter'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

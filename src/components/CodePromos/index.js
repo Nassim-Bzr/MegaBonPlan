@@ -95,7 +95,7 @@ export default function CodesPromos() {
       }
 
       {user  && (
-        <>
+        <div className="animatedBackground ">
           <button
             onClick={handleOpenAddModal}
             className="bg-blue-500 mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -182,7 +182,7 @@ export default function CodesPromos() {
               </div>
             </div>
           )}
-        </>
+        </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {codesPromos.map((code, index) => (

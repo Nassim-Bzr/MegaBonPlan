@@ -41,7 +41,8 @@ const AvatarComponent = () => (
       )
     })}
     <p className="text-sm text-white font-medium translate-x-5">
-      Join 5.000+ users
+      Rejoignez + de 5.000 utilisateurs
+     ! 
     </p>
   </div>
 )

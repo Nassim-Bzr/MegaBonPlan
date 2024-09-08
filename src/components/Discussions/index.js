@@ -3,15 +3,7 @@ import { Link } from 'react-router-dom';
 import { TbClockHour4 } from "react-icons/tb";
 import { FaComments, FaTag } from "react-icons/fa";
 import { useAuth } from '../../AuthContext';
-import {
-  Box,
-  Button,
-  Flex,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
 
-// Données brutes d'exemple
 const exampleDiscussions = [
   {
     id_discussion: 1,
@@ -56,64 +48,64 @@ const exampleDiscussions = [
 ];
 
 function Discussions() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
 
   return (
-    <Box bg="gray.50" minH="100vh" p={4}>
-      <Box maxW="4xl" mx="auto">
-        <Box mb={4}>
-          <Button onClick={onOpen} colorScheme="blue">
-            Ajouter une discussion
-          </Button>
-        </Box>
+    <div className='animatedBackground'>
+      <div style={{ backgroundColor: "gray.50", minHeight: "100vh", padding: "8px" }}>
+        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "8px" }}>
+            <button style={{ backgroundColor: "blue", color: "white", padding: "4px 8px", borderRadius: "4px", fontSize: "14px" }}>
+              Ajouter une discussion
+            </button>
+          </div>
 
-        {!user && (
-          <Box textAlign="center" color="gray.600" fontSize="2xl" mb={12}>
-            Vous devez vous connecter pour ajouter une discussion.
-          </Box>
-        )}
+          {!user && (
+            <div style={{ textAlign: "center", color: "gray", fontSize: "18px", marginBottom: "24px" }}>
+              Vous devez vous connecter pour ajouter une discussion.
+            </div>
+          )}
 
-        <Box>
-          {exampleDiscussions.map((discussion) => (
-            <Link to={`/discussions/${discussion.id_discussion}`} key={discussion.id_discussion}>
-              <Box 
-                bg="white" 
-                m={4} 
-                p={4} 
-                rounded="lg" 
-                shadow="md" 
-                _hover={{ shadow: "lg" }}
-                transition="all 0.3s"
-              >
-                <Box fontSize="lg" fontWeight="semibold" color="blue.600">{discussion.category}</Box>
-                <Box fontSize="xl" fontWeight="semibold" mt={2} color="gray.800">{discussion.titre}</Box>
-                {discussion.content && (
-                  <Box mt={2} fontSize="sm" color="gray.700" noOfLines={2}>{discussion.content}</Box>
-                )}
-                <Flex justify="space-between" align="center" mt={4} color="gray.500" fontSize="sm">
-                  <Box>{discussion.id_utilisateur}</Box>
-                  <Box display="flex" alignItems="center"><TbClockHour4 className="mr-1" /> il y a {discussion.timeAgo}</Box>
-                </Flex>
-                <Flex align="center" mt={2} justify="space-between">
-                  <Flex align="center">
-                    <Box color="gray.600" mr={4} display="flex" alignItems="center">
-                      <FaComments className="mr-2" /> {discussion.comments}
-                    </Box>
-                    <Box color="gray.600" display="flex" alignItems="center">
-                      <FaTag className="mr-2" /> {discussion.likes}
-                    </Box>
-                  </Flex>
-                  <Button colorScheme="blue" variant="link">Commenter</Button>
-                </Flex>
-              </Box>
-            </Link>
-          ))}
-        </Box>
-      </Box>
-
-      {/* Ici, vous pouvez ajouter le Modal pour créer une nouvelle discussion si nécessaire */}
-    </Box>
+          <div>
+            {exampleDiscussions.map((discussion) => (
+              <Link to={`/discussions/${discussion.id_discussion}`} key={discussion.id_discussion}>
+                <div 
+                  style={{ 
+                    backgroundColor: "white", 
+                    margin: "8px", 
+                    padding: "8px", 
+                    borderRadius: "8px", 
+                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", 
+                    transition: "all 0.3s" 
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)"}
+                  onMouseLeave={(e) => e.currentTarget.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)"}
+                >
+                  <div style={{ fontSize: "16px", fontWeight: "600", color: "blue" }}>{discussion.category}</div>
+                  <div style={{ fontSize: "18px", fontWeight: "600", marginTop: "4px", color: "gray" }}>{discussion.titre}</div>
+                  {discussion.content && (
+                    <div style={{ marginTop: "4px", fontSize: "12px", color: "gray" }} noOfLines={2}>{discussion.content}</div>
+                  )}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "8px", color: "gray", fontSize: "12px" }}>
+                    <div>{discussion.id_utilisateur}</div>
+                    <div style={{ display: "flex", alignItems: "center" }}><TbClockHour4 style={{ marginRight: "4px" }} /> il y a {discussion.timeAgo}</div>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", marginTop: "4px", justifyContent: "space-between" }}>
+                    <div style={{ color: "gray", display: "flex", alignItems: "center" }}>
+                      <FaComments style={{ marginRight: "4px" }} /> {discussion.comments}
+                    </div>
+                    <div style={{ color: "gray", display: "flex", alignItems: "center" }}>
+                      <FaTag style={{ marginRight: "4px" }} /> {discussion.likes}
+                    </div>
+                    <button style={{ color: "blue", background: "none", border: "none", cursor: "pointer", fontSize: "12px" }}>Commenter</button>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

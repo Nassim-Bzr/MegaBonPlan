@@ -49,9 +49,9 @@ export default function FavoritesPage() {
           Mes Bons Plans Favoris
         </h1>
         {favoris.length === 0 ? (
-          <div className="text-center text-white bg-gray-800 bg-opacity-50 rounded-lg p-8 max-w-md mx-auto">
-            <FaRegSadTear className="mx-auto text-4xl mb-4" />
-            <p className="text-xl font-semibold mb-2">Aucun favori enregistré pour l'instant.</p>
+          <div className="text-center text-white bg-gray-800 bg-opacity-50 rounded-lg p-4 max-w-sm mx-auto"> {/* Changer max-w-md à max-w-sm */}
+            <FaRegSadTear className="mx-auto text-s mb-4" />
+            <p className="text-lg font-semibold mb-2">Aucun favori enregistré pour l'instant.</p> {/* Changer text-xl à text-lg */}
             <p className="text-gray-300">Explorez nos bons plans et ajoutez-en à vos favoris !</p>
             <Link to="/bonsplans" className="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
               Découvrir les bons plans

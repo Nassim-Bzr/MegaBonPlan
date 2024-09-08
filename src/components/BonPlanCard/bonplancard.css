@@ -60,3 +60,110 @@
     transform: scale(0.95);
     transition-duration: .3s;
   }
+  
+  .bonplan-card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px 0;
+    padding: 15px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    overflow: hidden; /* Ajout pour éviter le débordement */
+  }
+  
+  .bonplan-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px); /* Légère élévation au survol */
+  }
+  
+  .bonplan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eaeaea; /* Ligne de séparation */
+    padding-bottom: 10px; /* Espacement en bas */
+  }
+  
+  .badge-temp {
+    background-color: #ff3b30;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  
+  .bonplan-time {
+    display: flex;
+    align-items: center;
+    color: #888;
+    font-size: 0.85em;
+  }
+  
+  .bonplan-content {
+    display: flex;
+  }
+  
+  .bonplan-image {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 15px;
+    transition: transform 0.3s ease; /* Ajout d'une transition pour l'image */
+  }
+  
+  .bonplan-image:hover {
+    transform: scale(1.05); /* Légère augmentation de la taille de l'image au survol */
+  }
+  
+  .bonplan-details {
+    flex: 1;
+  }
+  
+  .bonplan-details h3 {
+    font-size: 1.25em;
+    margin-bottom: 10px;
+    color: #333; /* Couleur de texte améliorée */
+    transition: color 0.3s ease; /* Transition pour le changement de couleur */
+  }
+  
+  .bonplan-details h3:hover {
+    color: #007bff; /* Changement de couleur au survol */
+  }
+  
+  .bonplan-price-reduction {
+    display: flex;
+    align-items: center;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease; /* Ajout d'une transition pour le prix */
+  }
+  
+  .bonplan-price-reduction:hover {
+    transform: scale(1.05); /* Légère augmentation de la taille au survol */
+  }
+  
+  .price-discount {
+    color: #ff3b30;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .initial-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+  }
+  
+  .discount-rate {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .bonplan-description {
+    color: #555;
+    line-height: 1.5; /* Amélioration de l'espacement des lignes */
+  }

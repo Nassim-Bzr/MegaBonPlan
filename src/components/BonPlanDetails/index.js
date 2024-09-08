@@ -146,106 +146,111 @@ const BonPlanDetails = () => {
   if (error) return <div className="text-center">Erreur : {error}</div>;
 
   return (
-    <div className="animatedBackground mx-auto p-4">
-      <div className="max-w-4xl mr-auto ml-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        {bonPlan.imglink && (
-          <img
-            src={bonPlan.imglink}
-            alt={bonPlan.titre}
-            className="w-full h-64 m-2 rounded-2xl object-cover"
-          />
-        )}
-        <div className="p-4">
-          <h1 className="text-3xl font-bold mb-2">{bonPlan.titre}</h1>
-          <p>Postée par {authorName}</p>
-          <p className="text-gray-700 mb-4">{bonPlan.description}</p>
-          {bonPlan.lienaffiliation && (
-            <a
-              href={bonPlan.lienaffiliation}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Visitez le lien
-            </a>
+    <div className="container mx-auto p-4">
+      <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+        <div className="flex">
+          {bonPlan.imglink && (
+            <img
+              src={bonPlan.imglink}
+              alt={bonPlan.titre}
+              className="w-24 h-24 object-cover rounded-lg mr-4"
+            />
           )}
+          <div className="flex-1">
+            <h2 className="text-xl font-bold">{bonPlan.titre}</h2>
+            <p className="text-red-500 text-lg">{bonPlan.prix} <span className="line-through text-gray-500">{bonPlan.prix_original}</span> -{bonPlan.reduction}%</p>
+            <p className="text-gray-700">{bonPlan.description}</p>
+            <p className="text-blue-500">{bonPlan.store}</p>
+          </div>
         </div>
-        <div className="p-4">
-          <h2 className="text-xl font-semibold">Commentaires</h2>
-          {comments.length > 0 ? (
-            comments.map((comment) => (
-              <div key={comment.id_commentaire} className="bg-gray-100 p-2 rounded-lg mt-2">
-                <p>{comment.contenu}</p>
-                <div className="text-sm text-gray-600">
-                  Posté le: {new Date(comment.datecommentaire).toLocaleDateString()} par <strong>{comment.username || 'Utilisateur inconnu'}</strong>
-                </div>
-                <div className="flex items-center mt-2">
+        <div className="flex justify-between items-center mt-4">
+          <div className="text-gray-500">
+            <span>{bonPlan.time}</span> • <span>{authorName}</span>
+          </div>
+          <div className="flex space-x-2">
+            <button className="text-gray-500 hover:text-gray-700"><FaRegBookmark /></button>
+            <button className="text-gray-500 hover:text-gray-700"><FaCommentDots /> {comments.length}</button>
+            <a href={bonPlan.lienaffiliation} target="_blank" rel="noopener noreferrer" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Voir le deal
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="bg-white rounded-lg shadow-md p-4">
+        <h2 className="text-xl font-semibold">Commentaires</h2>
+        {comments.length > 0 ? (
+          comments.map((comment) => (
+            <div key={comment.id_commentaire} className="bg-gray-100 p-2 rounded-lg mt-2">
+              <p>{comment.contenu}</p>
+              <div className="text-sm text-gray-600">
+                Posté le: {new Date(comment.datecommentaire).toLocaleDateString()} par <strong>{comment.username || 'Utilisateur inconnu'}</strong>
+              </div>
+              <div className="flex items-center mt-2">
+                <button
+                  onClick={() => handleLikeComment(comment.id_commentaire)}
+                  className="text-blue-500 hover:text-blue-700 mr-2"
+                >
+                  <FaThumbsUp /> {comment.likes}
+                </button>
+                {user?.isadmin && (
                   <button
-                    onClick={() => handleLikeComment(comment.id_commentaire)}
-                    className="text-blue-500 hover:text-blue-700 mr-2"
+                    onClick={() => handleDeleteComment(comment.id_commentaire)}
+                    className="text-red-500 hover:text-red-700"
                   >
-                    <FaThumbsUp /> {comment.likes}
+                    Supprimer
                   </button>
-                  {user?.isadmin && (
-                    <button
-                      onClick={() => handleDeleteComment(comment.id_commentaire)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      Supprimer
-                    </button>
-                  )}
-                </div>
+                )}
               </div>
-            ))
-          ) : (
-            <div className="text-center py-8">
-              <div className="flex justify-center items-center mb-4">
-                <FaCommentDots className="text-5xl text-blue-500" />
-              </div>
-              <p className="text-gray-600 text-lg">Une question, un avis ou une suggestion ?</p>
+            </div>
+          ))
+        ) : (
+          <div className="text-center py-8">
+            <div className="flex justify-center items-center mb-2">
+              <FaCommentDots className="text-blue-500" style={{ width: '32px', height: '32px' }} />
+            </div>
+            <p className="text-gray-600 text-lg">Une question, un avis ou une suggestion ?</p>
+            <button
+              onClick={() => document.getElementById('comment-form').scrollIntoView()}
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+            >
+              <FaPen className="inline-block mr-1" style={{ width: '22px', height: '22px' }} /> Postez le premier commentaire
+            </button>
+          </div>
+        )}
+        {user && (
+          <form onSubmit={submitComment} className="mt-4 relative">
+            <div className="flex items-center">
+              <textarea
+                className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="3"
+                placeholder="Ajoutez un commentaire..."
+                value={comment}
+                onChange={handleCommentChange}
+              ></textarea>
               <button
-                onClick={() => document.getElementById('comment-form').scrollIntoView()}
-                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+                type="button"
+                onClick={toggleEmojiPicker}
+                className="ml-2 text-gray-500 hover:text-gray-700"
               >
-                <FaPen className="mx-auto w-12" /> Postez le premier commentaire
+                <FaSmile className="text-xl" />
               </button>
             </div>
-          )}
-          {user && (
-            <form onSubmit={submitComment} className="mt-4 relative">
-              <div className="flex items-center">
-                <textarea
-                  className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  rows="3"
-                  placeholder="Ajoutez un commentaire..."
-                  value={comment}
-                  onChange={handleCommentChange}
-                ></textarea>
-                <button
-                  type="button"
-                  onClick={toggleEmojiPicker}
-                  className="ml-2 text-gray-500 hover:text-gray-700"
-                >
-                  <FaSmile className="text-xl" />
-                </button>
-              </div>
-              {showEmojiPicker && (
-                <div 
-                  ref={emojiPickerRef}
-                  className="absolute right-0 bottom-full mb-2 z-10"
-                >
-                  <EmojiPicker onEmojiClick={handleEmojiClick} />
-                </div>
-              )}
-              <button
-                type="submit"
-                className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            {showEmojiPicker && (
+              <div 
+                ref={emojiPickerRef}
+                className="absolute right-0 bottom-full mb-2 z-10"
               >
-                Poster
-              </button>
-            </form>
-          )}
-        </div>
+                <EmojiPicker onEmojiClick={handleEmojiClick} />
+              </div>
+            )}
+            <button
+              type="submit"
+              className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-auto block rounded"
+            >
+              Poster
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

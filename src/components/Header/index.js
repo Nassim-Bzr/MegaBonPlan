@@ -89,14 +89,18 @@ const Header = () => {
           </ul>
           <SearchBar />
           {user ? (
-            <div className="mt-4 ml-4 flex flex-col md:flex-row md:items-center md:space-x-4">
+            <div className="mt-4 right-2 flex flex-col md:flex-row md:items-center md:space-x-4">
               <span className="mr-4">Bonjour, <span className="font-bold">{user.nom}</span></span>
               <Link
                 to="/profil"
-                className="py-2 px-4 text-white bg-blue-500 hover:bg-blue-700 rounded mt-2 md:mt-0 md:ml-4"
+                className="py-2 px-4 text-white  rounded mt-2 md:mt-0 md:ml-4"
                 onClick={handleLinkClick}
               >
-                Profil
+
+<div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+    <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+</div>
+
               </Link>
             </div>
           ) : (
