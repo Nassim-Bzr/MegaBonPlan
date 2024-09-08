@@ -31,35 +31,37 @@ export default function Home() {
         </h1>
     
 
-      <Swiper
-        effect={'cube'}
-        grabCursor={true}
-        cubeEffect={{
-          shadow: true,
-          slideShadows: true,
-          shadowOffset: 20,
-          shadowScale: 0.94,
-        }}
-        pagination={true}
-        navigation={true}
-        modules={[EffectCube, Pagination, Navigation, Autoplay]}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-          reverseDirection: false,
-        }}
-        className="w-96 h-96 mt-12 mb-12"
-      >
-        {images.map((image, index) => (
-          <SwiperSlide key={index}>
-            <img
-              src={image}
-              alt={`Slide ${index}`}
-              className="object-cover w-full h-full"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>      
+      <div className="flex justify-center">
+        <Swiper
+          effect={'cube'}
+          grabCursor={true}
+          cubeEffect={{
+            shadow: true,
+            slideShadows: true,
+            shadowOffset: 20,
+            shadowScale: 0.94,
+          }}
+          pagination={true}
+          navigation={true}
+          modules={[EffectCube, Pagination, Navigation, Autoplay]}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+            reverseDirection: false,
+          }}
+          className="w-96 h-96 mt-12 mb-12"
+        >
+          {images.map((image, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={image}
+                alt={`Slide ${index}`}
+                className="object-cover w-full h-full"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
       <p className="text-xl text-gray-200 text-center mb-10 max-w-2xl">
         Découvrez des offres exclusives, des réductions incroyables et des astuces pour économiser sur vos achats préférés.
       </p>
