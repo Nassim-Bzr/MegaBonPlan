@@ -6,10 +6,10 @@ import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark } from 'react-icon
 import { CommentSection } from 'react-comments-section';
 import 'react-comments-section/dist/index.css';
 
-const BonPlanDetails = () => {
+const BonPlanDetails = ({ user }) => {
   const { id } = useParams();
   const [bonPlan, setBonPlan] = useState(null);
-  const { user } = useAuth();
+  const { user: authUser } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authorName, setAuthorName] = useState('');
@@ -48,6 +48,11 @@ const BonPlanDetails = () => {
   }, [id]);
 
   const handleCommentSubmit = async (data) => {
+    if (!user) {
+      console.error("Utilisateur non connecté");
+      return;
+    }
+
     const requestBody = {
       contenu: data.text,
       id_bonplan: id,
@@ -106,10 +111,10 @@ const BonPlanDetails = () => {
         <h2 className="text-xl font-semibold">Commentaires</h2>
         <CommentSection
           currentUser={{
-            currentUserId: user.id,
-            currentUserImg: user.imageUrl || 'https://ui-avatars.com/api/?name=' + user.nom,
-            currentUserProfile: user.profileUrl || '#',
-            currentUserFullName: user.nom,
+            currentUserId: user ? user.id : null,
+            currentUserImg: user ? user.imageUrl || 'https://ui-avatars.com/api/?name=' + user.nom : null,
+            currentUserProfile: user ? user.profileUrl || '#' : null,
+            currentUserFullName: user ? user.nom : 'Anonyme',
           }}
           logIn={{
             loginLink: '/connexion',
