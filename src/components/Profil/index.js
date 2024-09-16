@@ -40,13 +40,15 @@ export default function Profile() {
     return <div>Loading...</div>;
   }
 
-  // Utilisez les données réelles de votre utilisateur provenant du Context
+
   const userData = {
     nom: user.nom || "Nom d'utilisateur",
     email: user.email || 'email@exemple.com',
     dateinscription: user.dateinscription || "Date d'inscription",
     imageUrl: user.imageUrl || 'https://via.placeholder.com/150',
   };
+
+
 
   return (
     <div className="bg-gray-100 min-h-screen animatedBackground flex items-center justify-center">

@@ -26,6 +26,7 @@ export default function BonPlans() {
       console.error('Erreur lors de la récupération des données:', error);
     });
   }, []);
+  console.log(bonPlans)
 
   useEffect(() => {
     let result = [...bonPlans];
@@ -60,7 +61,7 @@ export default function BonPlans() {
         </p>
       )}
 
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-evenly items-center mb-8">
         <div className="relative">
           <select
             className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 text-gray-700 focus:outline-none focus:ring focus:border-blue-300"
@@ -88,7 +89,7 @@ export default function BonPlans() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-screen-xl mx-auto">
+      <div className=" grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-screen-xl mx-auto">
         {filteredBonPlans.map((bonPlan) => (
           <BonPlanCard key={bonPlan.id_bonplan} bonPlan={bonPlan} user={user} />
         ))}

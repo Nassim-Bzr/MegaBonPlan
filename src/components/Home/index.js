@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCube, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { useAuth } from '../../AuthContext';
@@ -13,6 +13,7 @@ import './home.css';
 import image1 from '../../assets/slider-consoles-ps5-slim-standard-et-digital-multi.jpeg';
 import image2 from '../../assets/avatar-4k-collector-visuel-slider-v2-_1_.jpeg';
 import image3 from '../../assets/SLIDER-gta-6-ps5-visuel-provisoire-v2.jpeg';
+import NewsletterForm from '../NewsletterForm';
 
 const fakeDiscussions = [
   { id: 1, title: "Meilleur deal PS5", author: "GamerPro", replies: 23, likes: 45 },
@@ -23,6 +24,32 @@ const fakeDiscussions = [
 export default function Home() {
   const images = [image1, image2, image3]
   const { user } = useAuth()
+  const [showCookies, setShowCookies] = useState(false);
+  const [cookiesChecked, setCookiesChecked] = useState(false);
+
+  useEffect(() => {
+    const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+    if (cookiesAccepted) {
+      setShowCookies(false);
+    } else {
+      setShowCookies(true);
+    }
+    setCookiesChecked(true);
+  }, []);
+
+  const handleAcceptAll = () => {
+    localStorage.setItem('cookiesAccepted', 'true');
+    setShowCookies(false);
+  };
+
+  const handleClose = () => {
+    setShowCookies(false);
+  };
+
+  const resetCookies = () => {
+    localStorage.removeItem('cookiesAccepted');
+    setShowCookies(true);
+  };
 
   return (
     <div className="w-full min-h-screen p-10 animatedBackground flex flex-col items-center justify-center">
@@ -97,7 +124,42 @@ export default function Home() {
         </div>
       </div>
 
-      
+      <div className="mt-12">
+        <NewsletterForm />
+      </div>
+
+      {/* New Cookies Section */}
+      {cookiesChecked && showCookies && (
+        <section className="fixed max-w-md p-4 mx-auto bg-white border border-gray-200 left-12 bottom-16 rounded-2xl shadow-lg">
+          <h2 className="font-semibold text-gray-800">🍪 Nous utilisons des cookies !</h2>
+
+          <p className="mt-4 text-sm text-gray-600">
+            Bonjour, ce site utilise des cookies essentiels pour assurer son bon fonctionnement et des cookies de suivi pour comprendre comment vous interagissez avec lui. Ces derniers ne seront installés qu'après consentement. <a href="#" className="font-medium text-gray-700 underline transition-colors duration-300 hover:text-blue-500">Laissez-moi choisir</a>.
+          </p>
+          
+          <p className="mt-3 text-sm text-gray-600">
+            La fermeture de cette fenêtre enregistrera les paramètres par défaut.
+          </p>
+          
+          <div className="grid grid-cols-2 gap-4 mt-4 shrink-0">
+            <button onClick={handleAcceptAll} className="text-xs bg-gray-900 font-medium rounded-lg hover:bg-gray-700 text-white px-4 py-2.5 duration-300 transition-colors focus:outline-none">
+              Tout accepter
+            </button>
+
+            <button className="text-xs border text-gray-800 hover:bg-gray-100 font-medium rounded-lg px-4 py-2.5 duration-300 transition-colors focus:outline-none">
+              Tout rejeter
+            </button>
+
+            <button className="text-xs border text-gray-800 hover:bg-gray-100 font-medium rounded-lg px-4 py-2.5 duration-300 transition-colors focus:outline-none">
+              Préférences
+            </button>
+
+            <button onClick={handleClose} className="text-xs border text-gray-800 hover:bg-gray-100 font-medium rounded-lg px-4 py-2.5 duration-300 transition-colors focus:outline-none">
+              Fermer
+            </button>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

@@ -23,6 +23,7 @@
     "jquery": "^3.7.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
+    "react-comments-section": "^3.0.1",
     "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",
     "react-hook-form": "^7.52.1",

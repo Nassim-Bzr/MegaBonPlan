@@ -4,8 +4,7 @@ import Footer from '../Footer/index'
 import Header from '../Header/index'
 import Home from '../Home/index'
 import Signin from '../Signin/index'
-import Signup from '../SignUp/index' // Assurez-vous d'avoir un composant pour la page 'À propos'
-// Autres imports de pages si nécessaire
+import Signup from '../SignUp/index'
 import { Routes, Route } from 'react-router-dom'
 import Category from '../Category/Category'
 import VerifyAccount from '../VerifyAccount/index'
@@ -23,19 +22,15 @@ import BonPlanDetails from '../BonPlanDetails'
 import Favoris from '../FavorisPage'
 import ChangePassword from '../ChangePassword'
 import ModifierProfil from '../ModifierProfil';
+import UserProfilePage from '../UserProfilePage'; // Importer le nouveau composant
 import { ThemeContext } from '../../contexts/ThemContext';
-// import useEffect
-
-
 import { useContext } from 'react';
-
-
-
 import DetailsDiscussion from '../DetailsDiscussion'
+
 function App() {
   const { isDarkMode } = useContext(ThemeContext);
   return (
-    <div className={`App ${isDarkMode ? 'dark' : 'light'}`}>
+    <div className={`App ${isDarkMode ? 'dark' : 'light'} `}>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -65,11 +60,9 @@ function App() {
         <Route path="/discussions" element={<Discussions />} />
         <Route path="/discussions/:id" element={<DetailsDiscussion />} />
         <Route path="/contact" element={<Contact />} />
-        <Route
-          path="/somewhere-after-success"
-          element={<VerificationSuccess />}
-        />
+        <Route path="/somewhere-after-success" element={<VerificationSuccess />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/user/:userId" element={<UserProfilePage />} /> {/* Nouvelle route */}
       </Routes>
       <Footer />
     </div>

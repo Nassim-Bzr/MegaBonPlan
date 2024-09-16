@@ -6,6 +6,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaBell, FaBellSlash } from 'react-icons/fa';
 
+// Import the NewsletterForm component
+import NewsletterForm from '../NewsletterForm';
+
 export default function CurrentCategory() {
   const { categoryId } = useParams();
   const navigate = useNavigate();
@@ -159,12 +162,14 @@ export default function CurrentCategory() {
       <ToastContainer />
       {user && (
         <>
-          <button
-            onClick={openModal}
-            className="bg-blue-500 mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Ajouter un bon plan
-          </button>
+          <div className="flex justify-center mb-8">
+            <button
+              onClick={openModal}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            >
+              Ajouter un bon plan
+            </button>
+          </div>
           {showModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
               <div className="bg-white p-6 rounded z-50">
@@ -251,6 +256,11 @@ export default function CurrentCategory() {
             Aucun bon plan disponible pour cette catégorie.
           </p>
         )}
+      </div>
+
+      {/* Add the NewsletterForm component */}
+      <div className="mt-12">
+        <NewsletterForm />
       </div>
     </div>
   );
