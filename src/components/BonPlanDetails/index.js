@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../AuthContext';
-import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark } from 'react-icons/fa';
+import { FaThumbsUp, FaCommentDots, FaShareAlt, FaRegBookmark, FaTrash, FaEdit } from 'react-icons/fa';
 import { CommentSection } from 'react-comments-section';
 import 'react-comments-section/dist/index.css';
 
@@ -14,6 +14,8 @@ const BonPlanDetails = ({ user }) => {
   const [error, setError] = useState(null);
   const [authorName, setAuthorName] = useState('');
   const [comments, setComments] = useState([]);
+  const [isEditingComment, setIsEditingComment] = useState(false);
+  const [editingComment, setEditingComment] = useState(null);
 
   useEffect(() => {
     const fetchBonPlanDetails = async () => {
@@ -48,7 +50,7 @@ const BonPlanDetails = ({ user }) => {
   }, [id]);
 
   const handleCommentSubmit = async (data) => {
-    if (!user) {
+    if (!authUser) {
       console.error("Utilisateur non connecté");
       return;
     }
@@ -56,12 +58,12 @@ const BonPlanDetails = ({ user }) => {
     const requestBody = {
       contenu: data.text,
       id_bonplan: id,
-      id_utilisateur: user.id,
+      id_utilisateur: authUser.id,
     };
 
     try {
       const response = await axios.post(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary`, requestBody);
-      const userResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${user.id}`);
+      const userResponse = await axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${authUser.id}`);
       const newComment = { ...response.data, username: userResponse.data.nom };
       if (response.status === 201 || response.status === 200) {
         setComments(prev => [...prev, newComment]);
@@ -70,6 +72,64 @@ const BonPlanDetails = ({ user }) => {
       }
     } catch (error) {
       console.error("Erreur lors de l'ajout du commentaire:", error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    if (!authUser?.isadmin) return;
+    
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
+      try {
+        const response = await axios.delete(
+          `https://megabonplan-f8522b195111.herokuapp.com/api/commentary/${commentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authUser.token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setComments(comments.filter(comment => comment.id_commentaire !== commentId));
+        }
+      } catch (error) {
+        console.error('Erreur lors de la suppression du commentaire:', error);
+      }
+    }
+  };
+
+  const handleEditComment = (comment) => {
+    if (!authUser?.isadmin) return;
+    setEditingComment(comment);
+    setIsEditingComment(true);
+  };
+
+  const handleUpdateComment = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `https://megabonplan-f8522b195111.herokuapp.com/api/commentary/${editingComment.id_commentaire}`,
+        {
+          contenu: editingComment.contenu,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authUser.token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setComments(comments.map(comment =>
+          comment.id_commentaire === editingComment.id_commentaire
+            ? { ...comment, contenu: editingComment.contenu }
+            : comment
+        ));
+        setIsEditingComment(false);
+        setEditingComment(null);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du commentaire:', error);
     }
   };
 
@@ -107,28 +167,77 @@ const BonPlanDetails = ({ user }) => {
           </div>
         </div>
       </div>
+      {isEditingComment && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+            <h2 className="text-2xl font-bold mb-4">Modifier le commentaire</h2>
+            <form onSubmit={handleUpdateComment} className="space-y-4">
+              <textarea
+                value={editingComment.contenu}
+                onChange={(e) => setEditingComment({...editingComment, contenu: e.target.value})}
+                className="w-full p-2 border rounded"
+                rows="4"
+              />
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsEditingComment(false)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                >
+                  Mettre à jour
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       <div className="bg-white rounded-lg shadow-md p-4">
         <h2 className="text-xl font-semibold">Commentaires</h2>
+        {comments.map(comment => (
+          <div key={comment.id_commentaire} className="border-b p-4 relative">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="font-semibold">{comment.username || 'Anonyme'}</p>
+                <p className="text-gray-700">{comment.contenu}</p>
+              </div>
+              {authUser?.isadmin && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEditComment(comment)}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteComment(comment.id_commentaire)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+        
         <CommentSection
           currentUser={{
-            currentUserId: user ? user.id : null,
-            currentUserImg: user ? user.imageUrl || 'https://ui-avatars.com/api/?name=' + user.nom : null,
-            currentUserProfile: user ? user.profileUrl || '#' : null,
-            currentUserFullName: user ? user.nom : 'Anonyme',
+            currentUserId: authUser ? authUser.id : null,
+            currentUserImg: authUser ? `https://ui-avatars.com/api/?name=${authUser.nom}` : null,
+            currentUserProfile: authUser ? '#' : null,
+            currentUserFullName: authUser ? authUser.nom : 'Anonyme',
           }}
           logIn={{
             loginLink: '/connexion',
             signupLink: '/inscription'
           }}
-          commentData={comments.map(comment => ({
-            userId: comment.id_utilisateur,
-            comId: comment.id_commentaire,
-            fullName: comment.username,
-            userProfile: '#',
-            text: comment.contenu,
-            avatarUrl: 'https://ui-avatars.com/api/?name=' + comment.username,
-            replies: []
-          }))}
+          commentData={[]}
           onSubmitAction={handleCommentSubmit}
         />
       </div>

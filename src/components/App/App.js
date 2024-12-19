@@ -30,7 +30,7 @@ import DetailsDiscussion from '../DetailsDiscussion'
 function App() {
   const { isDarkMode } = useContext(ThemeContext);
   return (
-    <div className={`App ${isDarkMode ? 'dark' : 'light'} `}>
+    <div className={`App ${isDarkMode ? 'dark' : 'light'} `} data-testid="app-container">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

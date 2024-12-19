@@ -25,7 +25,7 @@ const Header = () => {
     { title: 'Catégories', path: '/category' },
     { title: 'Bon Plans', path: '/bonsplans' },
     { title: 'Codes Promos', path: '/codespromos' },
-    { title: 'Discussions', path: '/discussions' },
+    
     { title: 'Contact', path: '/contact' },
     { title: 'FAQ', path: '/faq' },
   ];
