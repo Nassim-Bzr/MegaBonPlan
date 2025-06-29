@@ -30,21 +30,21 @@ export default function CurrentCategory() {
   const closeModal = () => setShowModal(false);
 
   useEffect(() => {
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/categories/${categoryId}`)
+    fetch(`http://localhost:8080/api/categories/${categoryId}`)
       .then((response) => response.json())
       .then((data) => {
         setCategoryName(data.nomcategorie);
       })
       .catch((error) => console.error('Erreur lors de la récupération du nom de la catégorie:', error));
 
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/category/${categoryId}`)
+    fetch(`http://localhost:8080/api/bonplans/category/${categoryId}`)
       .then((response) => response.json())
       .then(async (data) => {
         const filteredPlans = data.filter((bonPlan) => bonPlan.approuvéparadmin);
         
         // Fetch comments for each bon plan
         const bonPlansWithComments = await Promise.all(filteredPlans.map(async (bonPlan) => {
-          const commentsResponse = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/commentary/bonplan/${bonPlan.id_bonplan}`);
+          const commentsResponse = await fetch(`http://localhost:8080/api/commentary/bonplan/${bonPlan.id_bonplan}`);
           const comments = await commentsResponse.json();
           return { ...bonPlan, commentaires: comments };
         }));
@@ -56,7 +56,7 @@ export default function CurrentCategory() {
 
   useEffect(() => {
     if (user) {
-      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/notifications/${user.id}/${categoryId}`)
+      fetch(`http://localhost:8080/api/notifications/${user.id}/${categoryId}`)
         .then(response => response.json())
         .then(data => setIsSubscribed(data.isSubscribed))
         .catch(error => console.error('Erreur lors de la vérification de l\'abonnement:', error));
@@ -89,7 +89,7 @@ export default function CurrentCategory() {
     };
 
     try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans', {
+      const response = await fetch('http://localhost:8080/api/bonplans', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,8 +112,8 @@ export default function CurrentCategory() {
 
   const handleSubscriptionToggle = () => {
     const apiEndpoint = isSubscribed
-      ? `https://megabonplan-f8522b195111.herokuapp.com/api/notifications/unsubscribe`
-      : `https://megabonplan-f8522b195111.herokuapp.com/api/notifications/subscribe`;
+      ? `http://localhost:8080/api/notifications/unsubscribe`
+      : `http://localhost:8080/api/notifications/subscribe`;
 
     fetch(apiEndpoint, {
       method: 'POST',

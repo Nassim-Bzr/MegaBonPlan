@@ -9,8 +9,8 @@ const NewsletterForm = () => {
     e.preventDefault();
 
     const endpoint = isSubscribed
-      ? 'https://megabonplan-f8522b195111.herokuapp.com/api/subscriptions/unsubscribe'
-      : 'https://megabonplan-f8522b195111.herokuapp.com/api/subscriptions/subscribe';
+      ? 'http://localhost:8080/api/subscriptions/unsubscribe'
+      : 'http://localhost:8080/api/subscriptions/subscribe';
 
     try {
       const response = await fetch(endpoint, {

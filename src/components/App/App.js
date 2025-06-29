@@ -23,6 +23,7 @@ import Favoris from '../FavorisPage'
 import ChangePassword from '../ChangePassword'
 import ModifierProfil from '../ModifierProfil';
 import UserProfilePage from '../UserProfilePage'; // Importer le nouveau composant
+import SubscriptionManager from '../SubscriptionManager'; // Import de la page d'abonnement
 import { ThemeContext } from '../../contexts/ThemContext';
 import { useContext } from 'react';
 import DetailsDiscussion from '../DetailsDiscussion'
@@ -48,6 +49,7 @@ function App() {
         <Route path="/verify" element={<VerifyAccount />} />
         <Route path="/bonsplans" element={<BonPlans />} />
         <Route path="/codespromos" element={<CodesPromos />} />
+        <Route path="/subscription" element={<SubscriptionManager />} />
         <Route path="/discussions" element={<Discussions />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/category/:categoryId" element={<CurrentCategory />} />

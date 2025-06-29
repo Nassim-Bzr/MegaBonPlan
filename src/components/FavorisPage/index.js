@@ -11,7 +11,7 @@ export default function FavoritesPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://megabonplan-f8522b195111.herokuapp.com/api/favoris')
+    fetch('http://localhost:8080/api/favoris')
       .then((response) => response.json())
       .then((data) => {
         setFavoris(data);
@@ -29,7 +29,7 @@ export default function FavoritesPage() {
       for (const favori of favoris) {
         if (favori.id_utilisateur) {
           try {
-            const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${favori.id_utilisateur}`);
+            const response = await fetch(`http://localhost:8080/api/utilisateur/${favori.id_utilisateur}`);
             const data = await response.json();
             names[favori.id_utilisateur] = data.nom;
           } catch (error) {
@@ -46,7 +46,7 @@ export default function FavoritesPage() {
   }, [favoris]);
 
   const removeFavori = (idFavori) => {
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/favoris/${idFavori}`, {
+    fetch(`http://localhost:8080/api/favoris/${idFavori}`, {
       method: 'DELETE',
     })
     .then(response => {

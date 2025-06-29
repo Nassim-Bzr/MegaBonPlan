@@ -11,7 +11,7 @@ export default function Profile() {
   console.log("test", user);
 
   const DeleteAccount = () => {
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${user.id}`, {
+    fetch(`http://localhost:8080/api/utilisateur/${user.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

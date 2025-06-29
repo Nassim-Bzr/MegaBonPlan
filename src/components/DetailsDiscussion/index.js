@@ -13,10 +13,10 @@ function DetailsDiscussion() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/discussions/${id}`)
+      axios.get(`http://localhost:8080/api/discussions/${id}`)
         .then(response => {
           setDiscussion(response.data);
-          return axios.get(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${response.data.id_utilisateur}`);
+          return axios.get(`http://localhost:8080/api/utilisateur/${response.data.id_utilisateur}`);
         })
         .then(response => {
           setUser(response.data);

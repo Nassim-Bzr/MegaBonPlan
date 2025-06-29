@@ -3,260 +3,360 @@ import './bonplans.css';
 import { Link } from 'react-router-dom';
 import BonPlanCard from '../BonPlanCard/index';
 import { useAuth } from '../../AuthContext';
-import { FaFilter, FaSortAmountDown, FaTrash, FaEdit } from 'react-icons/fa';
+import { FaFilter, FaSortAmountDown, FaTrash, FaEdit, FaPlus, FaSearch, FaFire, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-export default function BonPlans() {
+const BonsPlans = () => {
   const [bonPlans, setBonPlans] = useState([]);
   const [filteredBonPlans, setFilteredBonPlans] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [sortBy, setSortBy] = useState('date');
+  const [hotDeals, setHotDeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('tous');
+  const [currentHotSlide, setCurrentHotSlide] = useState(0);
   const { user } = useAuth();
   const [selectedBonPlans, setSelectedBonPlans] = useState(new Set());
   const [isEditing, setIsEditing] = useState(false);
   const [editingBonPlan, setEditingBonPlan] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [sortBy, setSortBy] = useState('hot');
 
   useEffect(() => {
-    Promise.all([
-      fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans').then(res => res.json()),
-      fetch('https://megabonplan-f8522b195111.herokuapp.com/api/categories').then(res => res.json())
-    ]).then(([bonPlansData, categoriesData]) => {
-      const filteredPlans = bonPlansData.filter((bonPlan) => bonPlan.approuvéparadmin);
-      setBonPlans(filteredPlans);
-      setFilteredBonPlans(filteredPlans);
-      setCategories(categoriesData);
-    }).catch(error => {
-      console.error('Erreur lors de la récupération des données:', error);
-    });
+    fetchBonPlans();
+    fetchHotDeals();
   }, []);
-  console.log(bonPlans)
 
   useEffect(() => {
-    let result = [...bonPlans];
-    if (selectedCategory) {
-      result = result.filter(plan => plan.id_categorie === parseInt(selectedCategory));
-    }
-    if (sortBy === 'price') {
-      result.sort((a, b) => a.prix_reduit - b.prix_reduit);
-    } else if (sortBy === 'date') {
-      result.sort((a, b) => new Date(b.datepost) - new Date(a.datepost));
-    }
-    setFilteredBonPlans(result);
-  }, [selectedCategory, sortBy, bonPlans]);
+    filterBonPlans();
+  }, [bonPlans, activeTab]);
 
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
-
-  const handleSortChange = (e) => {
-    setSortBy(e.target.value);
-  };
-
-  const handleDelete = async (id) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce bon plan ?')) {
-      try {
-        const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${user.token}` // Assurez-vous d'avoir le token dans user
-          }
-        });
-
-        if (response.ok) {
-          setBonPlans(bonPlans.filter(plan => plan.id_bonplan !== id));
-          setFilteredBonPlans(filteredBonPlans.filter(plan => plan.id_bonplan !== id));
-        }
-      } catch (error) {
-        console.error('Erreur lors de la suppression:', error);
-      }
-    }
-  };
-
-  const handleEdit = async (bonPlan) => {
-    setEditingBonPlan(bonPlan);
-    setIsEditing(true);
-  };
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  const fetchBonPlans = async () => {
     try {
-      const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${editingBonPlan.id_bonplan}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`
-        },
-        body: JSON.stringify(editingBonPlan)
-      });
-
+      const response = await fetch('http://localhost:8080/api/bonplans');
       if (response.ok) {
-        const updatedBonPlans = bonPlans.map(plan => 
-          plan.id_bonplan === editingBonPlan.id_bonplan ? editingBonPlan : plan
-        );
-        setBonPlans(updatedBonPlans);
-        setFilteredBonPlans(updatedBonPlans);
-        setIsEditing(false);
-        setEditingBonPlan(null);
+        const data = await response.json();
+        setBonPlans(data);
+      } else {
+        // Données factices si l'API ne fonctionne pas
+        setBonPlans(mockBonPlans);
       }
     } catch (error) {
-      console.error('Erreur lors de la mise à jour:', error);
+      console.error('Erreur lors de la récupération des bons plans:', error);
+      setBonPlans(mockBonPlans);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleMultipleDelete = async () => {
-    if (window.confirm(`Êtes-vous sûr de vouloir supprimer ${selectedBonPlans.size} bons plans ?`)) {
-      try {
-        const deletePromises = Array.from(selectedBonPlans).map(id =>
-          fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`, {
-            method: 'DELETE',
-            headers: {
-              'Authorization': `Bearer ${user.token}`
-            }
-          })
-        );
-
-        await Promise.all(deletePromises);
-        
-        const newBonPlans = bonPlans.filter(plan => !selectedBonPlans.has(plan.id_bonplan));
-        setBonPlans(newBonPlans);
-        setFilteredBonPlans(newBonPlans);
-        setSelectedBonPlans(new Set());
-      } catch (error) {
-        console.error('Erreur lors de la suppression multiple:', error);
+  const fetchHotDeals = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/bonplans/hot');
+      if (response.ok) {
+        const data = await response.json();
+        setHotDeals(data.slice(0, 6));
+      } else {
+        setHotDeals(mockHotDeals);
       }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des hot deals:', error);
+      setHotDeals(mockHotDeals);
     }
   };
 
-  return (
-    <div className="py-8 px-4 bg-gray-100 animatedBackground ">
-      <h1 className="text-4xl font-bold text-center text-white mb-6">
-        Découvrez les Bons Plans
-      </h1>
+  const mockBonPlans = [
+    {
+      id_bonplan: 1,
+      titre: "Pied à coulisse Facom 2520.00PB intérieur/extérieur/profondeur",
+      prix_reduit: "38.94",
+      prix_initial: "64.92",
+      temperature_score: 100,
+      imglink: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=300&h=200&fit=crop",
+      description: "Performance et polyvalence : le pied à coulisse intérieur/extérieur/profondeur SC.2520.00 FACOM donne à l'utilisateur la possibilité de mesurer efficacement le diamètre interne, le diamètre...",
+      merchant: "Amazon",
+      date_creation: "2025-01-15T10:30:00Z",
+      gratuit: false,
+      likes: 46
+    },
+    {
+      id_bonplan: 2,
+      titre: "Lot de 4 Kiwi jaune origine France soit 0.55€ l'unité",
+      prix_reduit: "2.20",
+      prix_initial: "2.76",
+      temperature_score: 117,
+      imglink: "https://images.unsplash.com/photo-1555072956-7758afb4d469?w=300&h=200&fit=crop",
+      description: "-0.56€ sur le quatrième kiwi jaune ce qui ramène l'unité à 0.55€ si acheté par 4.",
+      merchant: "Auchan",
+      date_creation: "2025-01-15T09:15:00Z",
+      gratuit: false,
+      likes: 1
+    }
+  ];
 
-      {!user && (
-        <p className="text-center text-2xl text-gray-600 mb-12">
-          Vous devez vous connecter pour ajouter un bon plan.
-        </p>
-      )}
+  const mockHotDeals = [
+    {
+      id: 1,
+      titre: "[Lidl] Livraison gratuite sans minimum d'achat (locker, relais et à domicile)",
+      prix_reduit: "0€",
+      prix_initial: null,
+      temperature_score: 3198,
+      imglink: "https://images.unsplash.com/photo-1556740749-887f6717d7e4?w=80&h=80&fit=crop",
+      merchant: "Lidl",
+      deal_type: "gratuit"
+    },
+    {
+      id: 2,
+      titre: "Récupérateur d'eau 650 litres Belli - Brico Dépôt Canne-Écluses",
+      prix_reduit: "34.80€",
+      prix_initial: "69.60€",
+      temperature_score: 621,
+      imglink: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=80&fit=crop",
+      merchant: "Brico Dépôt"
+    },
+    {
+      id: 3,
+      titre: 'TV 65" TCL 65C89B - Mini-LED, 4K UHD, 144Hz, HDR10+, Dolby Vision IQ, FreeSync Premium',
+      prix_reduit: "720.62€",
+      prix_initial: "999.99€",
+      temperature_score: 551,
+      imglink: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=80&h=80&fit=crop",
+      merchant: "Amazon"
+    }
+  ];
 
-      <div className="flex justify-evenly items-center mb-8">
-        <div className="relative">
-          <select
-            className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 text-gray-700 focus:outline-none focus:ring focus:border-blue-300"
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-          >
-            <option value="">Toutes les catégories</option>
-            {categories.map((category) => (
-              <option key={category.id_categorie} value={category.id_categorie}>
-                {category.nomcategorie}
-              </option>
-            ))}
-          </select>
-        </div>
+  const filterBonPlans = () => {
+    let filtered = [...bonPlans];
 
-        <div className="relative">
-          <select
-            className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-10 text-gray-700 focus:outline-none focus:ring focus:border-blue-300"
-            value={sortBy}
-            onChange={handleSortChange}
-          >
-            <option value="date">Trier par date</option>
-            <option value="price">Trier par prix</option>
-          </select>
+    switch (activeTab) {
+      case 'tendance':
+        filtered = filtered.filter(plan => (plan.temperature_score || 0) >= 50);
+        filtered.sort((a, b) => (b.temperature_score || 0) - (a.temperature_score || 0));
+        break;
+      case 'tous99':
+        filtered = filtered.filter(plan => (plan.temperature_score || 0) >= 99);
+        filtered.sort((a, b) => (b.temperature_score || 0) - (a.temperature_score || 0));
+        break;
+      case 'commentes':
+        filtered = filtered.filter(plan => (plan.likes || 0) > 0);
+        filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        break;
+      default:
+        filtered.sort((a, b) => new Date(b.date_creation) - new Date(a.date_creation));
+    }
+
+    setFilteredBonPlans(filtered);
+  };
+
+  const getTemperatureColor = (temp) => {
+    if (temp >= 1000) return '#ff4444';
+    if (temp >= 500) return '#ff6600';
+    if (temp >= 200) return '#ff9900';
+    if (temp >= 100) return '#ffcc00';
+    return '#00b4d8';
+  };
+
+  const getTemperatureIcon = (temp) => {
+    if (temp >= 1000) return '🔥🔥🔥';
+    if (temp >= 500) return '🔥🔥';
+    if (temp >= 200) return '🔥';
+    return '💧';
+  };
+
+  const nextHotSlide = () => {
+    setCurrentHotSlide((prev) => (prev + 1) % Math.ceil(hotDeals.length / 3));
+  };
+
+  const prevHotSlide = () => {
+    setCurrentHotSlide((prev) => 
+      prev === 0 ? Math.ceil(hotDeals.length / 3) - 1 : prev - 1
+    );
+  };
+
+  const tabs = [
+    { id: 'tous', label: 'Tous les deals', count: bonPlans.length },
+    { id: 'tendance', label: 'Tendance', count: bonPlans.filter(p => (p.temperature_score || 0) >= 50).length },
+    { id: 'tous99', label: 'Tous', badge: '99+', count: bonPlans.filter(p => (p.temperature_score || 0) >= 99).length },
+    { id: 'commentes', label: 'Commentés', count: bonPlans.filter(p => (p.likes || 0) > 0).length }
+  ];
+
+  if (loading) {
+    return (
+      <div className="dealabs-page">
+        <div className="deals-loading">
+          <div className="loading-spinner"></div>
+          <p>Chargement des bons plans...</p>
         </div>
       </div>
+    );
+  }
 
-      {user?.isadmin && selectedBonPlans.size > 0 && (
-        <div className="mb-4 flex justify-end">
-          <button
-            onClick={handleMultipleDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-          >
-            Supprimer la sélection ({selectedBonPlans.size})
+  const visibleHotDeals = hotDeals.slice(currentHotSlide * 3, (currentHotSlide + 1) * 3);
+
+  return (
+    <div className="dealabs-page">
+      {/* Summer Banner */}
+      <div className="summer-banner">
+        <div className="banner-content">
+          <h1 className="banner-title">Soldes d'été 2025</h1>
+          <p className="banner-subtitle">Profitez de nos offres estivales</p>
+        </div>
+        <div className="banner-decoration">☀️🏖️</div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <nav className="deals-navigation">
+        <div className="nav-tabs-container">
+          <ul className="nav-tabs">
+            {tabs.map((tab) => (
+              <li key={tab.id} className="nav-tab">
+                <button
+                  className={`nav-tab-link ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.label}
+                  {tab.badge && <span className="nav-badge">{tab.badge}</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+          
+          <button className="filter-button">
+            <FaFilter />
+            Filter
+            <span className="filter-badge">1</span>
           </button>
         </div>
-      )}
+      </nav>
 
-      {isEditing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center z-[9999] justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
-            <h2 className="text-2xl font-bold mb-4">Modifier le bon plan</h2>
-            <form onSubmit={handleUpdate}>
-              <div className="mb-4">
-                <label className="block mb-2">Titre</label>
-                <input
-                  type="text"
-                  value={editingBonPlan.titre}
-                  onChange={e => setEditingBonPlan({...editingBonPlan, titre: e.target.value})}
-                  className="w-full border rounded-md p-2"
+      {/* Main Content */}
+      <div className="deals-main-content">
+        {/* Deals Content */}
+        <div className="deals-content">
+          {filteredBonPlans.length > 0 ? (
+            <div className="deals-list">
+              {filteredBonPlans.map((bonPlan) => (
+                <BonPlanCard
+                  key={bonPlan.id_bonplan}
+                  bonPlan={bonPlan}
+                  currentUser={user}
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2">Description</label>
-                <textarea
-                  value={editingBonPlan.description}
-                  onChange={e => setEditingBonPlan({...editingBonPlan, description: e.target.value})}
-                  className="w-full border rounded-md p-2"
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(false)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                >
-                  Annuler
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                >
-                  Mettre à jour
-                </button>
-              </div>
-            </form>
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="deals-empty">
+              <div className="empty-icon">😔</div>
+              <h3 className="empty-title">Aucun bon plan trouvé</h3>
+              <p className="empty-message">
+                Essayez de changer de catégorie ou revenez plus tard pour de nouvelles offres !
+              </p>
+            </div>
+          )}
         </div>
-      )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-screen-xl mx-auto">
-        {filteredBonPlans.map((bonPlan) => (
-          <div key={bonPlan.id_bonplan} className="relative">
-            {user?.isadmin && (
-              <div className="absolute top-2 right-2 z-10 flex gap-2">
-                <input
-                  type="checkbox"
-                  checked={selectedBonPlans.has(bonPlan.id_bonplan)}
-                  onChange={(e) => {
-                    const newSelected = new Set(selectedBonPlans);
-                    if (e.target.checked) {
-                      newSelected.add(bonPlan.id_bonplan);
-                    } else {
-                      newSelected.delete(bonPlan.id_bonplan);
-                    }
-                    setSelectedBonPlans(newSelected);
-                  }}
-                  className="w-4 h-4"
-                />
-                <button
-                  onClick={() => handleEdit(bonPlan)}
-                  className="bg-blue-500 p-2 rounded-full text-white hover:bg-blue-600"
+        {/* Hot Deals Sidebar */}
+        <div className="hot-deals-sidebar">
+          <div className="hot-deals-header">
+            <h3>
+              <FaFire className="hot-icon" />
+              Les + hot
+            </h3>
+            <span className="hot-deals-subtitle">Jour ▼</span>
+          </div>
+
+          <div className="hot-deals-content">
+            <div className="hot-deals-list">
+              {visibleHotDeals.map((deal, index) => (
+                <Link 
+                  key={deal.id} 
+                  to={`/bonplans/details/${deal.id}`} 
+                  className="hot-deal-item"
                 >
-                  <FaEdit />
+                  <div className="hot-deal-image">
+                    <img 
+                      src={deal.imglink || 'https://via.placeholder.com/80x80'} 
+                      alt={deal.titre}
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/80x80?text=Deal';
+                      }}
+                    />
+                    {deal.deal_type === 'gratuit' && (
+                      <div className="gratuit-badge">Gratuit</div>
+                    )}
+                  </div>
+                  
+                  <div className="hot-deal-content-inner">
+                    <div className="hot-deal-temperature">
+                      <span 
+                        className="temperature-value"
+                        style={{ color: getTemperatureColor(deal.temperature_score) }}
+                      >
+                        {deal.temperature_score}°
+                      </span>
+                      <span className="temperature-icon">
+                        {getTemperatureIcon(deal.temperature_score)}
+                      </span>
+                    </div>
+                    
+                    <h4 className="hot-deal-title">
+                      {deal.titre.length > 50 
+                        ? `${deal.titre.substring(0, 50)}...` 
+                        : deal.titre
+                      }
+                    </h4>
+                    
+                    <div className="hot-deal-price">
+                      <span className="current-price">{deal.prix_reduit}</span>
+                      {deal.prix_initial && (
+                        <span className="original-price">{deal.prix_initial}</span>
+                      )}
+                    </div>
+                    
+                    <div className="hot-deal-merchant">
+                      <span className="merchant-name">{deal.merchant}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {hotDeals.length > 3 && (
+              <div className="hot-deals-navigation">
+                <button 
+                  className="nav-button prev-button" 
+                  onClick={prevHotSlide}
+                  disabled={currentHotSlide === 0}
+                >
+                  <FaChevronLeft />
                 </button>
-                <button
-                  onClick={() => handleDelete(bonPlan.id_bonplan)}
-                  className="bg-red-500 p-2 rounded-full text-white hover:bg-red-600"
+                
+                <div className="slide-indicators">
+                  {Array.from({ length: Math.ceil(hotDeals.length / 3) }).map((_, index) => (
+                    <button
+                      key={index}
+                      className={`slide-indicator ${index === currentHotSlide ? 'active' : ''}`}
+                      onClick={() => setCurrentHotSlide(index)}
+                    />
+                  ))}
+                </div>
+                
+                <button 
+                  className="nav-button next-button" 
+                  onClick={nextHotSlide}
+                  disabled={currentHotSlide === Math.ceil(hotDeals.length / 3) - 1}
                 >
-                  <FaTrash />
+                  <FaChevronRight />
                 </button>
               </div>
             )}
-            <BonPlanCard bonPlan={bonPlan} user={user} />
           </div>
-        ))}
+
+          <div className="hot-deals-footer">
+            <Link to="/bonsplans?sort=hot" className="view-all-link">
+              Voir tous les hot deals →
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default BonsPlans;

@@ -10,7 +10,7 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     // Remplacez cette URL par l'URL de votre API pour récupérer les données utilisateur
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${userId}`)
+    fetch(`http://localhost:8080/api/utilisateur/${userId}`)
       .then(response => response.json())
       .then(data => {
         setUserData(data);
@@ -24,7 +24,7 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     // Remplacez cette URL par l'URL de votre API pour récupérer les commentaires de l'utilisateur
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/commentaires/user/${userId}`)
+    fetch(`http://localhost:8080/api/commentaires/user/${userId}`)
       .then(response => response.json())
       .then(data => {
         setUserComments(data);

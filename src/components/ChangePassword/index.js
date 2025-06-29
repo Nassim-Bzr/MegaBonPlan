@@ -36,7 +36,7 @@ export default function ChangePassword() {
   
     try {
       const response = await axios.put(
-         `https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/password/${user.id}`,
+         `http://localhost:8080/api/utilisateur/password/${user.id}`,
         
         {
           oldPassword: passwords.oldPassword,

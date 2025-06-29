@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaComment, FaStar } from 'react-icons/fa';
+import { FaHeart, FaComment, FaPlus, FaMinus, FaExternalLinkAlt, FaBookmark, FaClock, FaFire, FaThermometerHalf } from 'react-icons/fa';
+import TemperatureBadge from '../TemperatureBadge';
 import './bonplancard.css'
 
 const BonPlanCard = ({ bonPlan, user }) => {
-  const [likes, setLikes] = useState(bonPlan.likes);
-  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(bonPlan.likes || 0);
+  const [userVote, setUserVote] = useState(0); // -1, 0, +1
   const [authorName, setAuthorName] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (user && bonPlan.likes) {
-      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/liked/${bonPlan.id_bonplan}/${user.id}`)
+      fetch(`http://localhost:8080/api/bonplans/liked/${bonPlan.id_bonplan}/${user.id}`)
         .then(response => response.json())
         .then(data => {
           if (data.liked) {
-            setLiked(true);
+            setUserVote(1);
           }
         })
         .catch(error => console.error('Erreur lors de la vérification du like:', error));
@@ -23,7 +25,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
   }, [user, bonPlan]);
 
   useEffect(() => {
-    fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/utilisateur/${bonPlan.id_utilisateur}`)
+    fetch(`http://localhost:8080/api/utilisateur/${bonPlan.id_utilisateur}`)
       .then(response => response.json())
       .then(data => {
         setAuthorName(data.nom);
@@ -33,7 +35,7 @@ const BonPlanCard = ({ bonPlan, user }) => {
 
   useEffect(() => {
     if (user) {
-      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/favoris/check/${bonPlan.id_bonplan}/${user.id}`)
+      fetch(`http://localhost:8080/api/favoris/check/${bonPlan.id_bonplan}/${user.id}`)
         .then(response => response.json())
         .then(data => {
           setIsFavorite(data.isFavorite);
@@ -64,47 +66,48 @@ const BonPlanCard = ({ bonPlan, user }) => {
     return `${Math.floor(seconds)} secondes`;
   };
 
-  const handleLike = async (e) => {
-    e.preventDefault();
-
+  const handleVote = async (voteType) => {
     if (!user) {
-      alert('Vous devez être connecté pour liker un bon plan.');
+      alert('Vous devez être connecté pour voter.');
       return;
     }
 
+    const newVote = userVote === voteType ? 0 : voteType;
+    const voteDiff = newVote - userVote;
+    
     try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/like', {
+      const response = await fetch('http://localhost:8080/api/bonplans/like', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_bonplan: bonPlan.id_bonplan, id_utilisateur: user.id }),
+        body: JSON.stringify({ 
+          id_bonplan: bonPlan.id_bonplan, 
+          id_utilisateur: user.id,
+          voteType: newVote
+        }),
       });
 
       if (response.ok) {
-        setLiked(true);
-        setLikes(likes + 1);
-        alert('Bon plan liké avec succès!');
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Erreur lors du like du bon plan.');
+        setUserVote(newVote);
+        setLikes(likes + voteDiff);
       }
     } catch (error) {
-      console.error('Erreur lors du like du bon plan:', error);
-      alert('Erreur lors du like du bon plan.');
+      console.error('Erreur lors du vote:', error);
     }
   };
 
   const handleFavorite = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
 
     if (!user) {
-      alert('Vous devez être connecté pour ajouter un bon plan aux favoris.');
+      alert('Vous devez être connecté pour ajouter aux favoris.');
       return;
     }
 
     try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/favoris', {
+      const response = await fetch('http://localhost:8080/api/favoris', {
         method: isFavorite ? 'DELETE' : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,66 +117,135 @@ const BonPlanCard = ({ bonPlan, user }) => {
 
       if (response.ok) {
         setIsFavorite(!isFavorite);
-        alert(isFavorite ? 'Bon plan retiré des favoris!' : 'Bon plan ajouté aux favoris!');
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Erreur lors de la modification des favoris.');
       }
     } catch (error) {
       console.error('Erreur lors de la modification des favoris:', error);
-      alert('Erreur lors de la modification des favoris.');
     }
   };
 
+  const getTemperatureColor = (temp) => {
+    switch(temp) {
+      case 'BURNING': return '#ff4444';
+      case 'HOT': return '#ff6600';
+      case 'WARM': return '#ff8800';
+      case 'COOL': return '#4a90e2';
+      case 'COLD': return '#74b9ff';
+      default: return '#ddd';
+    }
+  };
+
+  const temperature = bonPlan.temperature || 'COOL';
+  const tempColor = getTemperatureColor(temperature);
+
   return (
-    <div className="flex flex-col md:flex-row rounded-xl shadow-lg p-3 bg-white w-full max-w-4xl mx-auto mb-8">
-      <div className="w-full md:w-2/5 flex-shrink-0">
-        <div className="h-64 md:h-full w-full relative overflow-hidden rounded-xl">
-          <img 
-            src={bonPlan.imglink} 
-            alt={bonPlan.titre} 
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
-        </div>
-      </div>
-      <div className="w-full md:w-3/5 flex flex-col space-y-2 p-3">
-        <div className="flex justify-between items-center">
-          <p className="text-gray-500 font-medium hidden md:block">{bonPlan.categorie}</p>
-          <div className="flex items-center">
-            <FaStar className="h-5 w-5 text-yellow-500" />
-            <p className="text-gray-600 font-bold text-sm ml-1">
-              {likes} <span className="text-gray-500 font-normal">({bonPlan.commentaires ? bonPlan.commentaires.length : 0} avis)</span>
-            </p>
+    <div 
+      className="dealabs-card"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Header avec badges et favoris */}
+      <div className="deal-header">
+        <div className="deal-badges">
+          <span className="category-badge">{bonPlan.categorie}</span>
+          <div className="temperature-indicator" style={{ backgroundColor: tempColor }}>
+            <FaThermometerHalf className="temp-icon" />
+            <span className="temp-score">{likes}°</span>
           </div>
+        </div>
+        <button 
+          onClick={handleFavorite}
+          className={`favorite-btn ${isFavorite ? 'favorited' : ''}`}
+        >
+          <FaBookmark />
+        </button>
+      </div>
+
+      {/* Contenu principal */}
+      <div className="deal-content">
+        {/* Système de vote */}
+        <div className="vote-system">
           <button 
-            onClick={handleFavorite}
-            className={`${isFavorite ? 'text-pink-500' : 'text-gray-300'} hover:text-pink-500 transition-colors duration-200`}
+            className={`vote-btn vote-up ${userVote === 1 ? 'active' : ''}`}
+            onClick={() => handleVote(1)}
+            disabled={!user}
           >
-            <FaHeart className="h-5 w-5" />
+            <FaPlus />
+          </button>
+          <div className="vote-score">{likes}</div>
+          <button 
+            className={`vote-btn vote-down ${userVote === -1 ? 'active' : ''}`}
+            onClick={() => handleVote(-1)}
+            disabled={!user}
+          >
+            <FaMinus />
           </button>
         </div>
-        <h3 className="font-black text-gray-800 md:text-xl text-xl truncate">{bonPlan.titre}</h3>
-        <p className="md:text-sm text-gray-500 text-base line-clamp-2">{bonPlan.description}</p>
-        <div className="flex justify-between items-center">
-          <p className="text-xl font-black text-gray-800">
-            {bonPlan.prix_reduit}€
-            <span className="font-normal text-gray-600 text-base line-through ml-2">{bonPlan.prix_initial}€</span>
-          </p>
-          <div className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+
+        {/* Image du produit */}
+        <div className="deal-image-container">
+          <img 
+            src={bonPlan.imglink} 
+            alt={bonPlan.titre}
+            className="deal-image"
+          />
+          <div className="discount-badge">
             -{calculateDiscount(bonPlan.prix_initial, bonPlan.prix_reduit)}%
           </div>
         </div>
-        <div className="flex justify-between items-center mt-3">
-          <p className="text-sm text-gray-500">Posté par: {authorName || 'Utilisateur inconnu'}</p>
-          <p className="text-sm text-gray-500">Il y a {timeSince(bonPlan.datepost)}</p>
+
+        {/* Informations du deal */}
+        <div className="deal-info">
+          <h3 className="deal-title">{bonPlan.titre}</h3>
+          <p className="deal-description">{bonPlan.description}</p>
+          
+          <div className="deal-pricing">
+            <div className="price-container">
+              <span className="current-price">{bonPlan.prix_reduit}€</span>
+              <span className="original-price">{bonPlan.prix_initial}€</span>
+            </div>
+            <div className="savings">
+              Économies : {(bonPlan.prix_initial - bonPlan.prix_reduit).toFixed(2)}€
+            </div>
+          </div>
+
+          <div className="deal-meta">
+            <div className="deal-author">
+              <span className="author-name">Par {authorName}</span>
+              <span className="deal-time">
+                <FaClock className="time-icon" />
+                Il y a {timeSince(bonPlan.datepost)}
+              </span>
+            </div>
+          </div>
+
+          <div className="deal-actions">
+            <Link 
+              to={`/bonplans/details/${bonPlan.id_bonplan}`}
+              className="btn-secondary"
+            >
+              <FaComment className="btn-icon" />
+              Voir les détails
+            </Link>
+            <a 
+              href={bonPlan.lienaffiliation}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
+              <FaExternalLinkAlt className="btn-icon" />
+              Voir le deal
+            </a>
+          </div>
         </div>
-        <Link 
-          to={`/bonplans/details/${bonPlan.id_bonplan}`} 
-          className="mt-2 px-4 py-2 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300"
-        >
-          Voir les détails
-        </Link>
       </div>
+
+      {/* Overlay pour les deals très chauds */}
+      {(temperature === 'BURNING' || temperature === 'HOT') && (
+        <div className="hot-deal-overlay">
+          <FaFire className="fire-icon" />
+          <span>DEAL CHAUD !</span>
+        </div>
+      )}
     </div>
   );
 };

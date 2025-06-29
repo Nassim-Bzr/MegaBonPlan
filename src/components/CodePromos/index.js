@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from '../../AuthContext'; // Assurez-vous que le chemin est correct
-import { FaTrash, FaEdit } from 'react-icons/fa';
+import { FaTrash, FaEdit, FaPlus, FaSearch, FaCopy, FaGift, FaFilter, FaCalendarAlt, FaPercent } from 'react-icons/fa';
+import './CodesPromos.css';
 
 export default function CodesPromos() {
   const [codesPromos, setCodesPromos] = useState([]);
+  const [filteredCodes, setFilteredCodes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterBy, setFilterBy] = useState('all');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedCode, setSelectedCode] = useState(null);
@@ -24,13 +30,59 @@ export default function CodesPromos() {
   const { user } = useAuth();
 
   useEffect(() => {
-    fetch("https://megabonplan-f8522b195111.herokuapp.com/api/codepromos")
-      .then((response) => response.json())
-      .then((data) => setCodesPromos(data))
-      .catch((error) =>
-        console.error("Erreur lors de la récupération des codes promos:", error)
-      );
+    setLoading(true);
+    fetch("http://localhost:8080/api/codepromos")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setCodesPromos(data);
+          setFilteredCodes(data);
+        } else {
+          console.error("La réponse de l'API n'est pas un tableau:", data);
+          setCodesPromos([]);
+          setFilteredCodes([]);
+          setError("Format de données invalide");
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des codes promos:", error);
+        setError("Erreur lors du chargement des codes promos");
+        setCodesPromos([]);
+        setFilteredCodes([]);
+        setLoading(false);
+      });
   }, []);
+
+  // Filter and search effect
+  useEffect(() => {
+    let result = [...codesPromos];
+    
+    // Apply search filter
+    if (searchTerm) {
+      result = result.filter(code =>
+        code.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        code.marchand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        code.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    // Apply status filter
+    if (filterBy === 'active') {
+      result = result.filter(code => new Date(code.dateexpiration) > new Date());
+    } else if (filterBy === 'expired') {
+      result = result.filter(code => new Date(code.dateexpiration) <= new Date());
+    } else if (filterBy === 'approved') {
+      result = result.filter(code => code.approuvéparadmin);
+    }
+    
+    setFilteredCodes(result);
+  }, [searchTerm, filterBy, codesPromos]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -40,7 +92,7 @@ export default function CodesPromos() {
   const submitNewCodePromo = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/codepromos', {
+      const response = await fetch('http://localhost:8080/api/codepromos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,6 +104,16 @@ export default function CodesPromos() {
       if (response.ok) {
         setCodesPromos([...codesPromos, responseData]);
         setIsAddModalOpen(false);
+        setNewCodePromo({
+          code: '',
+          description: '',
+          dateexpiration: '',
+          approuvéparadmin: false,
+          marchand: '',
+          imgmarchand: '',
+          reduction: '',
+          montant: ''
+        });
       } else {
         console.error('Failed to upload the code promo:', responseData.message);
         throw new Error(responseData.message || 'Failed to upload the code promo.');
@@ -81,13 +143,21 @@ export default function CodesPromos() {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    alert("Code copié dans le presse-papiers !");
+    // Simple notification
+    const btn = event.target.closest('.copy-button');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa fa-check"></i> Copié !';
+    btn.style.background = '#28a745';
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+    }, 2000);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce code promo ?')) {
       try {
-        const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/codepromos/${id}`, {
+        const response = await fetch(`http://localhost:8080/api/codepromos/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${user.token}`
@@ -111,7 +181,7 @@ export default function CodesPromos() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/codepromos/${editingPromo.id_codepromo}`, {
+      const response = await fetch(`http://localhost:8080/api/codepromos/${editingPromo.id_codepromo}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +206,7 @@ export default function CodesPromos() {
     if (window.confirm(`Êtes-vous sûr de vouloir supprimer ${selectedPromos.size} codes promo ?`)) {
       try {
         const deletePromises = Array.from(selectedPromos).map(id =>
-          fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/codepromos/${id}`, {
+          fetch(`http://localhost:8080/api/codepromos/${id}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${user.token}`
@@ -154,255 +224,289 @@ export default function CodesPromos() {
     }
   };
 
+  const isExpired = (date) => {
+    return new Date(date) <= new Date();
+  };
+
+  // Affichage de chargement
+  if (loading) {
+    return (
+      <div className="promo-page-container">
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Chargement des codes promos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Affichage d'erreur
+  if (error) {
+    return (
+      <div className="promo-page-container">
+        <div className="error-state">
+          <div className="error-icon">⚠️</div>
+          <h3>Erreur de chargement</h3>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="animatedBackground bg-[url('../../assets/apple-store-badge.png')] p-8">
-      <h1 className="text-4xl font-semibold text-white text-center mb-6">Les codes promos</h1>
-
-      {!user && (
-        
-        <p className="text-center text-2xl text-gray-600 mb-8">
-          Vous devez vous connecter pour ajouter un code promo.
-        </p>
-      )
-      
-      
-      }
-
-      {user  && (
-        <div className="animatedBackground ">
-          <div className="flex justify-center mb-4">
-            <button
-              onClick={handleOpenAddModal}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Ajouter un code promo
-            </button>
+    <div className="promo-page-container">
+      {/* Header moderne */}
+      <div className="promo-header">
+        <div className="header-content">
+          <div className="title-section">
+            <h1 className="main-title">
+              <FaGift className="title-icon" />
+              Codes Promos
+              <span className="subtitle">Économisez encore plus !</span>
+            </h1>
           </div>
-          {isAddModalOpen && (
-            <div className="fixed  inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-              <div className="bg-white p-6 rounded z-50">
-                <form onSubmit={submitNewCodePromo} className="space-y-4">
-                  <input
-                    type="text"
-                    name="code"
-                    value={newCodePromo.code}
-                    onChange={handleInputChange}
-                    placeholder="Code"
-                    required
-                    className="w-full p-2 border rounded"
+          
+          {user && (
+            <button 
+              onClick={() => setIsAddModalOpen(true)}
+              className="btn-add-promo"
+            >
+              <FaPlus />
+              Ajouter un code
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Barre de recherche et filtres */}
+      <div className="search-filters-bar">
+        <div className="search-container">
+          <div className="search-input-wrapper">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Rechercher un code, marchand..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+        </div>
+        
+        <div className="filters-container">
+          <select
+            className="filter-select"
+            value={filterBy}
+            onChange={(e) => setFilterBy(e.target.value)}
+          >
+            <option value="all">Tous les codes</option>
+            <option value="active">Codes actifs</option>
+            <option value="expired">Codes expirés</option>
+            <option value="approved">Codes approuvés</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Statistiques */}
+      <div className="stats-bar">
+        <div className="stat-item">
+          <span className="stat-number">{filteredCodes.length}</span>
+          <span className="stat-label">Codes disponibles</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-number">
+            {filteredCodes.filter(code => !isExpired(code.dateexpiration)).length}
+          </span>
+          <span className="stat-label">Codes actifs</span>
+        </div>
+        <div className="stat-item">
+          <FaPercent className="stat-icon" />
+          <span className="stat-label">Réductions</span>
+        </div>
+      </div>
+
+      {/* Grille des codes promos */}
+      <div className="promo-grid">
+        {filteredCodes.length > 0 ? (
+          filteredCodes.map((promo) => (
+            <div 
+              key={promo.id_codepromo} 
+              className={`promo-card ${isExpired(promo.dateexpiration) ? 'expired' : ''}`}
+            >
+              {/* Badge statut */}
+              <div className="card-badges">
+                {!isExpired(promo.dateexpiration) && (
+                  <span className="badge active">Actif</span>
+                )}
+                {isExpired(promo.dateexpiration) && (
+                  <span className="badge expired">Expiré</span>
+                )}
+                {promo.approuvéparadmin && (
+                  <span className="badge approved">Vérifié</span>
+                )}
+              </div>
+
+              {/* Image marchand */}
+              {promo.imgmarchand && (
+                <div className="merchant-image-container">
+                  <img 
+                    src={promo.imgmarchand} 
+                    alt={promo.marchand}
+                    className="merchant-image"
                   />
-                  <textarea
-                    name="description"
-                    value={newCodePromo.description}
-                    onChange={handleInputChange}
-                    placeholder="Description"
-                    required
-                    className="w-full p-2 border rounded"
-                  />
-                  <input
-                    type="date"
-                    name="dateexpiration"
-                    value={newCodePromo.dateexpiration}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 border rounded"
-                  />
-                  <input
-                    type="text"
-                    name="marchand"
-                    value={newCodePromo.marchand}
-                    onChange={handleInputChange}
-                    placeholder="Marchand"
-                    required
-                    className="w-full p-2 border rounded"
-                  />
-                  <input
-                    type="url"
-                    name="imgmarchand"
-                    value={newCodePromo.imgmarchand}
-                    onChange={handleInputChange}
-                    placeholder="URL de l'image du marchand"
-                    className="w-full p-2 border rounded"
-                  />
+                </div>
+              )}
+
+              {/* Contenu principal */}
+              <div className="card-content">
+                <div className="merchant-name">{promo.marchand}</div>
+                <div className="promo-description">{promo.description}</div>
+                
+                {/* Réduction */}
+                {promo.reduction && (
+                  <div className="reduction-badge">
+                    -{promo.reduction}
+                  </div>
+                )}
+                
+                {/* Code */}
+                <div className="code-container">
+                  <span className="code-label">Code :</span>
+                  <div className="code-display">
+                    <span className="code-text">{promo.code}</span>
+                    <button 
+                      onClick={() => copyToClipboard(promo.code)}
+                      className="copy-button"
+                      title="Copier le code"
+                    >
+                      <FaCopy />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Date d'expiration */}
+                <div className="expiry-info">
+                  <FaCalendarAlt className="calendar-icon" />
+                  <span>Expire le {new Date(promo.dateexpiration).toLocaleDateString('fr-FR')}</span>
+                </div>
+              </div>
+
+              {/* Actions admin */}
+              {user?.isadmin && (
+                <div className="card-actions">
+                  <button 
+                    onClick={() => handleEdit(promo)}
+                    className="btn-edit"
+                    title="Modifier"
+                  >
+                    <FaEdit />
+                  </button>
+                  <button 
+                    onClick={() => handleDelete(promo.id_codepromo)}
+                    className="btn-delete"
+                    title="Supprimer"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              )}
+
+              <div className="card-glow"></div>
+            </div>
+          ))
+        ) : (
+          <div className="empty-state">
+            <div className="empty-icon">🎯</div>
+            <h3>Aucun code promo trouvé</h3>
+            <p>
+              {searchTerm || filterBy !== 'all' 
+                ? 'Modifiez votre recherche ou vos filtres.'
+                : 'Soyez le premier à partager un code promo !'}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Modal d'ajout (simplifié pour l'exemple) */}
+      {isAddModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsAddModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Ajouter un code promo</h2>
+              <button 
+                onClick={() => setIsAddModalOpen(false)}
+                className="btn-close"
+              >
+                ×
+              </button>
+            </div>
+            <form onSubmit={submitNewCodePromo} className="modal-form">
+              <div className="form-row">
+                <label>Code promo</label>
+                <input
+                  type="text"
+                  name="code"
+                  value={newCodePromo.code}
+                  onChange={handleInputChange}
+                  className="form-input-compact"
+                  required
+                />
+              </div>
+              <div className="form-row">
+                <label>Marchand</label>
+                <input
+                  type="text"
+                  name="marchand"
+                  value={newCodePromo.marchand}
+                  onChange={handleInputChange}
+                  className="form-input-compact"
+                  required
+                />
+              </div>
+              <div className="form-row">
+                <label>Description</label>
+                <textarea
+                  name="description"
+                  value={newCodePromo.description}
+                  onChange={handleInputChange}
+                  className="form-textarea-compact"
+                  rows="3"
+                  required
+                />
+              </div>
+              <div className="form-row-group">
+                <div className="form-row">
+                  <label>Réduction</label>
                   <input
                     type="text"
                     name="reduction"
                     value={newCodePromo.reduction}
                     onChange={handleInputChange}
-                    placeholder="Réduction"
-                    className="w-full p-2 border rounded"
+                    className="form-input-compact"
+                    placeholder="ex: 20%"
                   />
+                </div>
+                <div className="form-row">
+                  <label>Date d'expiration</label>
                   <input
-                    type="text"
-                    name="montant"
-                    value={newCodePromo.montant}
+                    type="date"
+                    name="dateexpiration"
+                    value={newCodePromo.dateexpiration}
                     onChange={handleInputChange}
-                    placeholder="Montant"
-                    className="w-full p-2 border rounded"
+                    className="form-input-compact"
+                    required
                   />
-                  <div className="flex justify-between items-center">
-                    <button
-                      type="submit"
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                      Soumettre
-                    </button>
-                    <button
-                      onClick={handleCloseAddModal}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded"
-                    >
-                      Fermer
-                    </button>
-                  </div>
-                </form>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {user?.isadmin && selectedPromos.size > 0 && (
-        <div className="mb-4 flex justify-end">
-          <button
-            onClick={handleMultipleDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-          >
-            Supprimer la sélection ({selectedPromos.size})
-          </button>
-        </div>
-      )}
-
-      {isEditing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
-            <h2 className="text-2xl font-bold mb-4">Modifier le code promo</h2>
-            <form onSubmit={handleUpdate} className="space-y-4">
-              <input
-                type="text"
-                value={editingPromo.code}
-                onChange={e => setEditingPromo({...editingPromo, code: e.target.value})}
-                className="w-full p-2 border rounded"
-                placeholder="Code"
-              />
-              <textarea
-                value={editingPromo.description}
-                onChange={e => setEditingPromo({...editingPromo, description: e.target.value})}
-                className="w-full p-2 border rounded"
-                placeholder="Description"
-              />
-              <input
-                type="date"
-                value={editingPromo.dateexpiration}
-                onChange={e => setEditingPromo({...editingPromo, dateexpiration: e.target.value})}
-                className="w-full p-2 border rounded"
-              />
-              <input
-                type="text"
-                value={editingPromo.marchand}
-                onChange={e => setEditingPromo({...editingPromo, marchand: e.target.value})}
-                className="w-full p-2 border rounded"
-                placeholder="Marchand"
-              />
-              <input
-                type="text"
-                value={editingPromo.reduction}
-                onChange={e => setEditingPromo({...editingPromo, reduction: e.target.value})}
-                className="w-full p-2 border rounded"
-                placeholder="Réduction"
-              />
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(false)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                >
+              <div className="modal-actions">
+                <button type="button" onClick={() => setIsAddModalOpen(false)} className="btn-cancel-compact">
                   Annuler
                 </button>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                >
-                  Mettre à jour
+                <button type="submit" className="btn-save-compact">
+                  Ajouter
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {codesPromos.map((code) => (
-          <div key={code.id_codepromo} className="relative bg-white rounded-lg shadow-lg overflow-hidden">
-            {user?.isadmin && (
-              <div className="absolute top-2 right-2 z-10 flex gap-2">
-                <input
-                  type="checkbox"
-                  checked={selectedPromos.has(code.id_codepromo)}
-                  onChange={(e) => {
-                    const newSelected = new Set(selectedPromos);
-                    if (e.target.checked) {
-                      newSelected.add(code.id_codepromo);
-                    } else {
-                      newSelected.delete(code.id_codepromo);
-                    }
-                    setSelectedPromos(newSelected);
-                  }}
-                  className="w-4 h-4"
-                />
-                <button
-                  onClick={() => handleEdit(code)}
-                  className="bg-blue-500 p-2 rounded-full text-white hover:bg-blue-600"
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  onClick={() => handleDelete(code.id_codepromo)}
-                  className="bg-red-500 p-2 rounded-full text-white hover:bg-red-600"
-                >
-                  <FaTrash />
-                </button>
-              </div>
-            )}
-            <div className="p-5 flex flex-col items-center">
-              <img className="w-20 h-20 object-contain mb-4" src={code.imgmarchand} alt="Logo Marchand" />
-              <p className="text-center text-gray-800 font-semibold mb-2">{code.description}</p>
-              <p className="text-center text-gray-500 text-sm mb-4">{code.marchand}</p>
-              {code.dateexpiration && code.dateexpiration !== 'null' && code.dateexpiration !== '' && (
-                <p className="text-gray-500 text-sm mb-4">Expire le: {code.dateexpiration}</p>
-              )}
-              <button
-                className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm py-2 px-4"
-                onClick={() => handleOpenViewModal(code)}
-              >
-                Voir le code
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {isViewModalOpen && selectedCode && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
-            <div className="flex justify-end">
-              <button onClick={handleCloseViewModal} className="text-gray-500 hover:text-gray-700">&times;</button>
-            </div>
-            <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <img className="h-24 w-24 object-contain" src={selectedCode.imgmarchand} alt="Logo Marchand" />
-              </div>
-              <p className="text-xl font-semibold mb-2">{selectedCode.description}</p>
-              <div className="bg-gray-100 p-4 rounded-lg mb-4">
-                <p className="text-lg font-bold">{selectedCode.code}</p>
-                <button
-                  className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm py-2 px-4 mt-2"
-                  onClick={() => copyToClipboard(selectedCode.code)}
-                >
-                  Copier le code
-                </button>
-              </div>
-              <a href="#" className="text-blue-500 hover:underline">Voir le site du marchand</a>
-            </div>
           </div>
         </div>
       )}

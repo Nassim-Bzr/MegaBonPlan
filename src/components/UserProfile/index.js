@@ -8,7 +8,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (user) {
-      fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/user/${user.id}`)
+      fetch(`http://localhost:8080/api/bonplans/user/${user.id}`)
         .then(res => res.json())
         .then(data => {
           setUserBonPlans(data);

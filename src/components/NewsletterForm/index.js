@@ -7,7 +7,7 @@ const NewsletterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://megabonplan-f8522b195111.herokuapp.com/api/subscriptions/subscribe', {
+      const response = await fetch('http://localhost:8080/api/subscriptions/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

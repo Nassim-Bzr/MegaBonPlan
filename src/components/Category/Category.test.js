@@ -53,7 +53,7 @@ describe('Category Component', () => {
 
     // Vérifie que l'API a été appelée
     expect(fetch).toHaveBeenCalledWith(
-      'https://megabonplan-f8522b195111.herokuapp.com/api/categories'
+      'http://localhost:8080/api/categories'
     );
 
     // Vérifie que les catégories sont affichées

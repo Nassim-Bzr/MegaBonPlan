@@ -1,53 +1,796 @@
-.codespromos-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: auto;
-  justify-content: center;
-  MARGIN-LEFT: AUTO;
-  WIDTH: 80%;
-  gap: 20px;
+/* ===== DEALABS UNIFIED COLOR SCHEME ===== */
+
+.codepromos-container {
+  min-height: 100vh;
+  background: #f5f6fa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #495057;
   padding: 20px;
 }
 
-@keyframes animatedBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+/* ===== HEADER DEALABS STYLE ===== */
 
-.animatedBackground {
-  background: linear-gradient(to bottom, #2c3e50, #1f2937);
-  animation: animatedBackground 15s ease infinite;
-  background-size: 400% 400%;
-  background-image: url("");
-}
-.codepromo {
-  border: 1px solid #ddd;
+.codepromos-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 0;
+  background: white;
   border-radius: 8px;
-  padding: 15px;
-  width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.title-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #495057;
+}
+
+.title-icon {
+  font-size: 2rem;
+  color: #0066cc;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #6c757d;
+  margin-top: 10px;
+}
+
+/* ===== CONTROLS DEALABS STYLE ===== */
+
+.controls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.add-new-section {
+  display: flex;
+  justify-content: center;
+}
+
+.add-new-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0066cc;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 102, 204, 0.2);
+}
+
+.add-new-button:hover {
+  background: #004999;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+.add-icon {
+  font-size: 1rem;
+}
+
+/* ===== SEARCH AND FILTERS DEALABS STYLE ===== */
+
+.search-filters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.search-container {
+  position: relative;
+  background: white;
+  border: 2px solid #e6e8eb;
+  border-radius: 25px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
 }
 
-.codepromo-title {
-  color: #007bff;
-  margin-bottom: 10px;
+.search-container:hover {
+  border-color: #0066cc;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
 }
 
-.codepromo-description {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 10px;
+.search-container:focus-within {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
-.codepromo-expiration {
-  color: #333;
-  font-weight: bold;
+.search-icon {
+  color: #6c757d;
+  font-size: 16px;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  color: #495057;
+  font-size: 16px;
+  width: 100%;
+  outline: none;
+  font-weight: 500;
+}
+
+.search-input::placeholder {
+  color: #6c757d;
+  font-weight: 400;
+}
+
+/* ===== FILTER TABS DEALABS STYLE ===== */
+
+.filters-container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 8px 16px;
+  border: 2px solid #e6e8eb;
+  background: white;
+  color: #495057;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-button:hover {
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+.filter-button.active {
+  background: #0066cc;
+  color: white;
+  border-color: #0066cc;
+}
+
+/* ===== STATS BAR DEALABS STYLE ===== */
+
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #e6e8eb;
+  border-radius: 8px;
+  padding: 20px 30px;
+  min-width: 120px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stat-item:hover {
+  border-color: #0066cc;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+  transform: translateY(-2px);
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0066cc;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.stat-icon {
+  font-size: 1.2rem;
+  color: #ff6600;
+  margin-bottom: 5px;
+}
+
+/* ===== CODES GRID DEALABS STYLE ===== */
+
+.codes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== CODE CARDS DEALABS STYLE ===== */
+
+.code-card {
+  background: white;
+  border: 1px solid #e6e8eb;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.code-card:hover {
+  border-color: #0066cc;
+  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.15);
+  transform: translateY(-3px);
+}
+
+.card-header {
+  position: relative;
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e6e8eb;
+}
+
+.merchant-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.merchant-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #e6e8eb;
+}
+
+.merchant-details h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  color: #495057;
+}
+
+.merchant-details p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ff6600;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.code-description {
+  font-size: 1rem;
+  color: #495057;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.code-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e6e8eb;
+}
+
+.code-value {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #495057;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #e6e8eb;
+  flex: 1;
+  text-align: center;
+}
+
+.copy-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background: #004999;
+}
+
+.copy-button.copied {
+  background: #28a745;
+  pointer-events: none;
+}
+
+.card-footer {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #e6e8eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.active {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-badge.expired {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.status-badge.verified {
+  background: #cce7ff;
+  color: #0066cc;
+  border: 1px solid #99d3ff;
+}
+
+.expiry-date {
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* ===== EMPTY STATE ===== */
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border: 1px solid #e6e8eb;
+  border-radius: 8px;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+  color: #6c757d;
+}
+
+.empty-state h3 {
+  font-size: 1.3rem;
+  margin: 0 0 10px 0;
+  color: #495057;
+}
+
+.empty-state p {
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* ===== LOADING STATE ===== */
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: #495057;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #e6e8eb;
+  border-radius: 50%;
+  border-top-color: #0066cc;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-state p {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* ===== MODAL DEALABS STYLE ===== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #e6e8eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #495057;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e6e8eb;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #495057;
+  background: white;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 1px solid #e6e8eb;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.submit-button {
+  background: #0066cc;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.submit-button:hover {
+  background: #004999;
+}
+
+.cancel-button {
+  background: #f8f9fa;
+  color: #495057;
+  padding: 12px 24px;
+  border: 2px solid #e6e8eb;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cancel-button:hover {
+  background: #e6e8eb;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .codepromos-container {
+    padding: 15px;
+  }
+  
+  .main-title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .title-icon {
+    font-size: 1.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .controls-section {
+    gap: 15px;
+  }
+  
+  .search-container {
+    padding: 10px 15px;
+  }
+  
+  .filters-container {
+    gap: 6px;
+  }
+  
+  .filter-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .stats-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .stat-item {
+    padding: 15px 25px;
+    min-width: 100px;
+  }
+  
+  .codes-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+  }
+  
+  .code-card {
+    margin: 0;
+  }
+  
+  .card-header,
+  .card-body {
+    padding: 15px;
+  }
+  
+  .merchant-info {
+    gap: 12px;
+  }
+  
+  .merchant-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .merchant-details h3 {
+    font-size: 1.1rem;
+  }
+  
+  .code-section {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .copy-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .card-footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-title {
+    font-size: 1.8rem;
+  }
+  
+  .codepromos-header {
+    padding: 20px 0;
+    margin-bottom: 25px;
+  }
+  
+  .header-content {
+    gap: 20px;
+  }
+  
+  .search-container {
+    padding: 8px 12px;
+  }
+  
+  .search-input {
+    font-size: 14px;
+  }
+  
+  .add-new-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+  }
+  
+  .modal-content {
+    margin: 10px;
+    max-width: calc(100vw - 20px);
+  }
+  
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 15px;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+  }
+  
+  .submit-button,
+  .cancel-button {
+    width: 100%;
+  }
+}
+
+/* ===== SMOOTH ANIMATIONS ===== */
+
+.code-card {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.codepromos-container {
+  scroll-behavior: smooth;
 }

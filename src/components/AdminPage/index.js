@@ -11,7 +11,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (user?.isadmin) {
       setLoading(true);
-      fetch('https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/pending')
+      fetch('http://localhost:8080/api/bonplans/pending')
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
@@ -30,7 +30,7 @@ export default function AdminPage() {
 
   const handleApprove = async (id) => {
     try {
-      const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`, {
+      const response = await fetch(`http://localhost:8080/api/bonplans/${id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function AdminPage() {
   const handleReject = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir rejeter ce bon plan ?')) {
       try {
-        const response = await fetch(`https://megabonplan-f8522b195111.herokuapp.com/api/bonplans/${id}`, {
+        const response = await fetch(`http://localhost:8080/api/bonplans/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${user.token}`

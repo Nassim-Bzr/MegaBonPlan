@@ -1,169 +1,988 @@
-.bookmarkBtn {
-    width: 130px;
+/* ===== DEALABS EXACT REPLICA DESIGN ===== */
+
+.dealabs-card {
+  background: #ffffff;
+  border: 1px solid #e6e8eb;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dealabs-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #d4d7db;
+}
+
+/* ===== HEADER MINIMALISTE ===== */
+
+.deal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f7f8fa;
+  border-bottom: 1px solid #e6e8eb;
+  font-size: 11px;
+  color: #6c757d;
+}
+
+.deal-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-badge {
+  background: #0066cc;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.temperature-indicator {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+  font-size: 10px;
+  min-width: 40px;
+  justify-content: center;
+}
+
+.temp-icon {
+  font-size: 8px;
+}
+
+.temp-score {
+  font-weight: 800;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  color: #bbb;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 4px;
+}
+
+.favorite-btn:hover {
+  color: #ff6b6b;
+}
+
+.favorite-btn.favorited {
+  color: #ff6b6b;
+}
+
+/* ===== CONTENU PRINCIPAL - LAYOUT DEALABS ===== */
+
+.deal-content {
+  display: flex;
+  padding: 16px;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* ===== SYSTÈME DE VOTE COMPACT ===== */
+
+.vote-system {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 44px;
+  padding-right: 12px;
+  border-right: 1px solid #e6e8eb;
+  margin-right: 4px;
+}
+
+.vote-btn {
+  width: 32px;
+  height: 24px;
+  border: 1px solid #d4d7db;
+  border-radius: 2px;
+  background: #f7f8fa;
+  color: #6c757d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  transition: all 0.15s ease;
+}
+
+.vote-btn:hover:not(:disabled) {
+  background: #e9ecef;
+  border-color: #6c757d;
+}
+
+.vote-btn.vote-up.active {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.vote-btn.vote-down.active {
+  background: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+.vote-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.vote-score {
+  font-size: 16px;
+  font-weight: 800;
+  color: #212529;
+  text-align: center;
+  margin: 4px 0;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* ===== IMAGE COMPACTE ===== */
+
+.deal-image-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+
+.deal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid #e6e8eb;
+}
+
+.discount-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #dc3545;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ===== INFORMATIONS DEAL ===== */
+
+.deal-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0; /* Pour permettre text-overflow */
+}
+
+.deal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #212529;
+  line-height: 1.3;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.deal-title:hover {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.deal-description {
+  color: #6c757d;
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== PRIX STYLE DEALABS ===== */
+
+.deal-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.price-container {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.current-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #dc3545;
+}
+
+.original-price {
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.savings {
+  font-size: 11px;
+  color: #28a745;
+  font-weight: 600;
+  background: #d4edda;
+  padding: 2px 6px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* ===== MÉTADONNÉES COMPACTES ===== */
+
+.deal-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f2f5;
+}
+
+.deal-author {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.author-name {
+  font-size: 11px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.deal-time {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: #999;
+}
+
+.time-icon {
+  font-size: 9px;
+}
+
+/* ===== ACTIONS MINIMALISTES ===== */
+
+.deal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-primary, .btn-secondary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: 1px solid;
+  text-align: center;
+}
+
+.btn-primary {
+  background: #0066cc;
+  color: white;
+  border-color: #0066cc;
+  flex: 1;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+  text-decoration: none;
+  color: white;
+}
+
+.btn-secondary {
+  background: white;
+  color: #6c757d;
+  border-color: #d4d7db;
+  flex: none;
+}
+
+.btn-secondary:hover {
+  background: #f7f8fa;
+  color: #495057;
+  text-decoration: none;
+}
+
+.btn-icon {
+  font-size: 10px;
+}
+
+/* ===== OVERLAY DEAL CHAUD ===== */
+
+.hot-deal-overlay {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: linear-gradient(45deg, #ff6b6b, #ff5252);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  z-index: 10;
+  animation: hotPulse 2s infinite;
+}
+
+.fire-icon {
+  font-size: 8px;
+  animation: flicker 1s infinite alternate;
+}
+
+@keyframes hotPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+/* ===== RESPONSIVE COMPACT ===== */
+
+@media (max-width: 768px) {
+  .deal-content {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .vote-system {
+    flex-direction: row;
+    justify-content: center;
+    order: 3;
+    border-right: none;
+    border-top: 1px solid #e6e8eb;
+    padding-top: 12px;
+    padding-right: 0;
+    margin-right: 0;
+    min-width: auto;
+  }
+  
+  .deal-image-container {
+    width: 100%;
+    height: 120px;
+    order: 1;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  
+  .deal-info {
+    order: 2;
+  }
+  
+  .deal-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .dealabs-card {
+    margin: 0 8px 12px;
+    border-radius: 3px;
+  }
+  
+  .deal-content {
+    padding: 10px;
+  }
+  
+  .deal-header {
+    padding: 6px 10px;
+  }
+  
+  .deal-title {
+    font-size: 15px;
+  }
+  
+  .current-price {
+    font-size: 18px;
+  }
+}
+
+/* ===== AMÉLIORATIONS MICRO-INTERACTIONS ===== */
+
+.dealabs-card * {
+  transition: all 0.15s ease;
+}
+
+.dealabs-card:hover .deal-title {
+  color: #0066cc;
+}
+
+.dealabs-card:hover .vote-score {
+  transform: scale(1.05);
+}
+
+.dealabs-card:hover .deal-image {
+  transform: scale(1.02);
+}
+
+/* ===== ÉTATS SPÉCIAUX ===== */
+
+.dealabs-card.featured {
+  border-color: #ffc107;
+  background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+}
+
+.dealabs-card.expired {
+  opacity: 0.6;
+  filter: grayscale(30%);
+}
+
+.dealabs-card.new::after {
+  content: "NOUVEAU";
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #28a745;
+  color: white;
+  padding: 2px 8px;
+  font-size: 9px;
+  font-weight: 700;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
+}
+
+/* ===== MEGABONPLAN CARD UNIQUE DESIGN ===== */
+
+.bon-plan-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bon-plan-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.bon-plan-card:hover::before {
+  left: 100%;
+}
+
+.bon-plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  border-color: #1e40af;
+}
+
+.hot-deal-overlay {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(135deg, #FF6B35, #8B5CF6);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.5);
+  animation: megaPulse 2s infinite;
+  z-index: 10;
+}
+
+@keyframes megaPulse {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.5);
+  }
+  50% { 
+    transform: scale(1.1) rotate(2deg); 
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.7);
+  }
+}
+
+/* ===== CARD HEADER ===== */
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.card-content {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+}
+
+.card-merchant {
+  display: inline-block;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  color: #374151;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  transition: all 0.3s ease;
+}
+
+.card-merchant:hover {
+  background: linear-gradient(135deg, #FF6B35, #8B5CF6);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* ===== PRICING SECTION ===== */
+
+.pricing-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.current-price {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(45deg, #10B981, #34D399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.original-price {
+  font-size: 18px;
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.discount-badge {
+  background: linear-gradient(135deg, #FF6B35, #8B5CF6);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+  60% { transform: translateY(-2px); }
+}
+
+.gratuit-badge {
+  background: linear-gradient(135deg, #10B981, #34D399);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.5);
+  animation: megaPulse 3s infinite;
+}
+
+/* ===== TEMPERATURE SYSTEM ===== */
+
+.temperature-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.temperature-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.temperature-badge:hover {
+  transform: scale(1.1);
+}
+
+.temperature-badge.burning {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  animation: megaPulse 1s infinite;
+}
+
+.temperature-badge.hot {
+  background: linear-gradient(135deg, #ea580c, #c2410c);
+  color: white;
+}
+
+.temperature-badge.warm {
+  background: linear-gradient(135deg, #1e40af, #1d4ed8);
+  color: white;
+}
+
+.temperature-badge.cool {
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+}
+
+.temperature-badge.cold {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: white;
+}
+
+.temperature-badge.frozen {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  color: white;
+}
+
+.temperature-value {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* ===== VOTING SYSTEM ===== */
+
+.voting-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 80px;
+}
+
+.vote-button {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  color: #6b7280;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.vote-button:hover {
+  border-color: #1e40af;
+  color: #1e40af;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+}
+
+.vote-button.upvoted {
+  background: #059669;
+  color: white;
+  border-color: #059669;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.vote-button.downvoted {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.vote-count {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e40af;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ===== CARD IMAGE ===== */
+
+.card-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.card-image:hover {
+  transform: scale(1.02);
+  border-color: #1e40af;
+  box-shadow: 0 4px 15px rgba(30, 64, 175, 0.2);
+}
+
+/* ===== CARD FOOTER ===== */
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-button {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #6b7280;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
+.action-button:hover {
+  background: #1e40af;
+  color: white;
+  border-color: #1e40af;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+}
+
+.action-button.primary {
+  background: #1e40af;
+  color: white;
+  border-color: #1e40af;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);
+}
+
+.action-button.primary:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.meta-icon {
+  color: #FF6B35;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .bon-plan-card {
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .card-content {
+    margin-right: 0;
+  }
+  
+  .card-title {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  
+  .current-price {
+    font-size: 28px;
+  }
+  
+  .original-price {
+    font-size: 16px;
+  }
+  
+  .voting-section {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .vote-button {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+  
+  .card-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .card-footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .card-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .bon-plan-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+  }
+  
+  .current-price {
+    font-size: 24px;
+  }
+  
+  .pricing-section {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .hot-deal-overlay {
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+  
+  .temperature-badge {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  
+  .vote-button {
+    width: 40px;
     height: 40px;
-    border-radius: 40px;
-    border: none;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition-duration: .3s;
-    overflow: hidden;
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.062);
+    font-size: 16px;
   }
   
-  .IconContainer {
-    width: 30px;
-    height: 30px;
-    background-color: rgb(103, 74, 228);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    z-index: 2;
-    transition-duration: .3s;
+  .card-image {
+    width: 80px;
+    height: 80px;
   }
   
-  .icon {
-    border-radius: 1px;
+  .action-button {
+    font-size: 12px;
+    padding: 6px 12px;
   }
-  
-  .text {
-    height: 100%;
-    width: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgb(26, 26, 26);
-    z-index: 1;
-    transition-duration: .3s;
-    font-size: 1.04em;
-    font-weight: 600;
-  }
-  
-  .bookmarkBtn:hover .IconContainer {
-    width: 120px;
-    border-radius: 40px;
-    transition-duration: .3s;
-  }
-  
-  .bookmarkBtn:hover .text {
-    transform: translate(10px);
-    width: 0;
-    font-size: 0;
-    transition-duration: .3s;
-  }
-  
-  .bookmarkBtn:active {
-    transform: scale(0.95);
-    transition-duration: .3s;
-  }
-  
-  .bonplan-card {
-    display: flex;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 15px 0;
-    padding: 15px;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    overflow: hidden; /* Ajout pour éviter le débordement */
-  }
-  
-  .bonplan-card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px); /* Légère élévation au survol */
-  }
-  
-  .bonplan-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #eaeaea; /* Ligne de séparation */
-    padding-bottom: 10px; /* Espacement en bas */
-  }
-  
-  .badge-temp {
-    background-color: #ff3b30;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-  }
-  
-  .bonplan-time {
-    display: flex;
-    align-items: center;
-    color: #888;
-    font-size: 0.85em;
-  }
-  
-  .bonplan-content {
-    display: flex;
-  }
-  
-  .bonplan-image {
-    width: 150px;
-    height: auto;
-    border-radius: 8px;
-    margin-right: 15px;
-    transition: transform 0.3s ease; /* Ajout d'une transition pour l'image */
-  }
-  
-  .bonplan-image:hover {
-    transform: scale(1.05); /* Légère augmentation de la taille de l'image au survol */
-  }
-  
-  .bonplan-details {
-    flex: 1;
-  }
-  
-  .bonplan-details h3 {
-    font-size: 1.25em;
-    margin-bottom: 10px;
-    color: #333; /* Couleur de texte améliorée */
-    transition: color 0.3s ease; /* Transition pour le changement de couleur */
-  }
-  
-  .bonplan-details h3:hover {
-    color: #007bff; /* Changement de couleur au survol */
-  }
-  
-  .bonplan-price-reduction {
-    display: flex;
-    align-items: center;
-    font-size: 1.1em;
-    margin-bottom: 10px;
-    transition: transform 0.3s ease; /* Ajout d'une transition pour le prix */
-  }
-  
-  .bonplan-price-reduction:hover {
-    transform: scale(1.05); /* Légère augmentation de la taille au survol */
-  }
-  
-  .price-discount {
-    color: #ff3b30;
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .initial-price {
-    text-decoration: line-through;
-    color: #999;
-    margin-right: 10px;
-  }
-  
-  .discount-rate {
-    color: #28a745;
-    font-weight: bold;
-  }
-  
-  .bonplan-description {
-    color: #555;
-    line-height: 1.5; /* Amélioration de l'espacement des lignes */
-  }
+}
